@@ -27,3 +27,10 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Date: 2026-08-24. Slurm state `COMPLETED`, elapsed `00:00:43`, exit code `0:0`, requested nodes `1`, requested CPUs `4`, MI210 GPU count `0`, and MI210 node-hours `0`.
 - Output versions: NumPy `2.5.2`, pandas `3.0.5`, SciPy `1.18.1`, scikit-learn `1.9.0`.
 - Evidence: `slurm/setup_l0_env.sbatch`; inputs `slurm/setup_l0_env.sbatch` and the public Python package index; commands `sbatch slurm/setup_l0_env.sbatch` and `sacct -j 384355 --format=JobID,State,Elapsed,ExitCode -n -P`; raw output `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/setup_l0_env-384355.out`.
+
+## BUDGET-CORRECTION-001
+
+- Date: 2026-08-24. This entry supersedes only the budget action in `REVIEW-CALIBRATION`; it does not alter that historical entry or the completed review.
+- The user raised the total token budget from `500000` to `50000000`. The generation-and-review pool is therefore `20000000` tokens (`50000000 * 0.4`), while the captured cumulative use was `477562`; the conservative cutoff check returns `forced_relative_selection=false`.
+- Consequence: absolute review resumes for new candidates. The already completed relative-selection result for H002/H003/H006 remains recorded and may be tested because it was valid under the budget in force when issued.
+- Evidence: `scripts/check_budget.py`; inputs `protocol.json`, `artifacts/budget_snapshot_20260824_after_raise.json`; command `python scripts/check_budget.py --protocol protocol.json --snapshot artifacts/budget_snapshot_20260824_after_raise.json`; output `artifacts/budget_status_20260824_after_raise.json`.
