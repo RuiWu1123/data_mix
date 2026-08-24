@@ -1,0 +1,49 @@
+{
+  "command": "python scripts/check_final.py --root /work1/ruixiangtang/rw761/awesome-pretraining/data_mix --summary /work1/ruixiangtang/rw761/awesome-pretraining/data_mix/artifacts/final_summary.json --output /work1/ruixiangtang/rw761/awesome-pretraining/data_mix/artifacts/final_check.json",
+  "completed_record_count": 9,
+  "errors": [],
+  "inputs": [
+    "/work1/ruixiangtang/rw761/awesome-pretraining/data_mix/artifacts/final_summary.json",
+    "protocol.json",
+    "PLAN.md",
+    "ASSUMPTIONS.md",
+    "EXPERIMENTS.md",
+    "PROPOSALS.md",
+    "RESULT.md",
+    "BLOCKED.md",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H002/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H004/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H006/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H007/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H011/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H013/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H014/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H015/result.json"
+  ],
+  "literature_addition_cap": 15,
+  "literature_addition_count": 10,
+  "passed": true,
+  "quota_snapshot": {
+    "audit_count": 5,
+    "audit_fraction": 0.5555555555555556,
+    "completed_count": 9,
+    "gpu_budget_mi210_node_hours": 200,
+    "gpu_mi210_node_hours": 0,
+    "l0_count": 9,
+    "maximum_audit_fraction": 0.6,
+    "minimum_completed": 6,
+    "minimum_l0": 4,
+    "minimum_non_audit": 2,
+    "non_audit_count": 4,
+    "passed": true
+  },
+  "required_document_count": 6,
+  "supported_count": 4,
+  "supported_ids": [
+    "H003",
+    "H006",
+    "H011",
+    "H015"
+  ]
+}
