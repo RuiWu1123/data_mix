@@ -1,0 +1,27 @@
+{
+  "reference_list": [
+    "olmix_2602.12237.pdf",
+    "regmix_2407.01492.pdf",
+    "doge_2310.15393.pdf",
+    "doremi_2305.10429.pdf",
+    "data_mixture_optimization_multifidelity_2503.21023.pdf",
+    "izenman_modern_multivariate_2008.pdf",
+    "sparse_rrr_cv_1812.11555.pdf",
+    "vector_dimension_reduction_1801.07922.pdf"
+  ],
+  "pages": [
+    {
+      "id": "H019",
+      "title": "RankShareMix trades shared response rank for one-third fewer proxy runs",
+      "statement": "For six-domain pretraining mixture optimization, RankShareMix, a rank-two multi-output reduced-rank regression of domain-validation losses on positive Helmert-ilr mixture coordinates, uses K=2(m+1)=14 proxy runs to select a mixture whose independently seeded final proxy loss is noninferior to Olmix's per-output log-linear selector using K=3(m+1)=21 runs, while outperforming both a same-budget independent affine selector and uniform sampling. This is a compute-quality Pareto claim, not a claim that two directions identify the full response or that proxy choices transfer to a larger model.",
+      "attacks": ["A-007", "A-012"],
+      "original_tested": "No. Olmix recommends at least 3(m+1) runs for independently fitted per-task log-linear laws and reports that per-task fitting outperforms per-family and aggregate fitting. It does not impose or test shared response rank. Classical reduced-rank regression supplies the estimator but has not been prospectively tested as an LLM pretraining mixture selector. RegMix and multi-fidelity Bayesian optimization use scalar regressors rather than a shared low-rank vector response.",
+      "why_new": "H015/H016 motivate, but do not validate, response sharing. RankShareMix converts that measurement into a prospective method claim: it must preserve final selected-mixture quality at one-third lower swarm cost on newly trained models. The estimator is intentionally classical; the proposed contribution is the data-mixing formulation, the compute-quality prediction, and a matched prospective falsification against Olmix's published run-count prescription.",
+      "falsification": "Stage L0 is a kill gate only. On official Olmix m=6/12 tables, run 1000 SHA256 subset trials. Fit rank-two prediction-loss-optimal RRR to K=2(m+1) rows after replacing exact zeros by 1e-6 and closing the composition; compare outer-heldout task-standardized RMSE with the official per-task log-linear law fitted to a nested K=3(m+1) subset and an independent full-rank affine model at K=2(m+1). RankShareMix must have median RMSE no more than 0.01 above Olmix and at least 0.02 below same-budget full-rank affine in both tables, with paired mixture-row bootstrap bounds preserving both margins; otherwise falsify without GPU use. If L0 passes, run L1 on six fixed SlimPajama domains: CommonCrawl, C4, GitHub, Wikipedia, Books, and ArXiv. Train one 20M-parameter decoder for 20M tokens on each of 21 deterministic positive Dirichlet(1) swarm mixtures; the first 14 rows are the frozen RankShareMix subset. Record the six per-domain validation cross-entropies. RankShareMix fits rank-two RRR on 14 rows; Olmix fits its published per-domain Huber log-linear law on all 21; the same-budget baseline fits six independent affine laws on 14. Each method minimizes uniform mean predicted domain loss over the same 65536 deterministic positive Dirichlet(1) candidates. Train the three selected mixtures and uniform for 5 fresh seeds each, deduplicating identical selected mixtures. Let sigma be the pooled within-mixture standard deviation of final uniform-mean domain loss. Support requires the one-sided 95% upper bound of RankShareMix-minus-Olmix loss <=0.25 sigma, the lower bound of uniform-minus-RankShareMix >=1.0 sigma, and the lower bound of same-budget-independent-minus-RankShareMix >=0.5 sigma. Any failed L1 conjunction falsifies; fewer than 4 valid final seeds per unique mixture, training-token mismatch above 0.1%, or validation-token mismatch above 0.1% is inconclusive.",
+      "minimum_detectable_effect": "At L0, 0.01 RMSE noninferiority and 0.02 RMSE superiority. At L1, noninferiority within 0.25 pooled sigma versus 21-run Olmix, at least 1.0 sigma gain over uniform, and at least 0.5 sigma gain over the same-budget independent selector, while reducing swarm runs by 7/21=0.3333333333333333.",
+      "design": "The 21 L1 swarm outcomes are generated before any selector is fit; the 14-run set is a frozen prefix, so RankShareMix and its same-budget baseline see identical runs. Candidate mixtures, data order seeds, tokenizer, architecture, optimizer, token count, and validation corpora are shared. Swarm runs use one seed each; confirmation uses five disjoint seeds per unique selected or uniform mixture and never reuses swarm checkpoints. Domain losses are the fixed output vector and uniform mean is the sole target. RRR is fit by truncating the SVD of the OLS fitted response, not the coefficient SVD. Exact-zero handling is frozen only for the public L0 sparse swarms; prospective L1 mixtures are positive. L0 discovery cannot support the method without L1 confirmation.",
+      "cost": "L0: one Slurm CPU job, zero GPU. Conditional L1: one MI210 per training job, at most two concurrent jobs, at most two hours per job, and at most 60 MI210 node-hours for the entire H015-derived line, including failed jobs. Data and the ROCm venv live under $WORK.",
+      "type": "constructive"
+    }
+  ]
+}
