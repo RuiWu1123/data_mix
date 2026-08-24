@@ -1,0 +1,39 @@
+{
+  "reviewer_scope": "context-free oral-level calibration with independent web search",
+  "reviews": [
+    {
+      "id": "CAL-RM",
+      "nearest_prior_work": [
+        "Data Mixing Laws, arXiv:2403.16952: earlier fitted mixture-response laws; RegMix differs through a broad ultra-small nonparametric swarm and rank transfer.",
+        "DoReMi, arXiv:2305.10429: one reference-plus-DRO proxy; RegMix uses parallel fixed-mixture proxies without a reference.",
+        "DoGE, arXiv:2310.15393: one gradient-influence proxy; RegMix learns a black-box response surface."
+      ],
+      "strongest_objections": [
+        "Predictive mixture fitting is partly preempted by Data Mixing Laws.",
+        "Global rank correlation does not establish top-region selection validity.",
+        "Automatic baselines were transported across objectives and domain sets."
+      ],
+      "scores": {"novelty": 6, "falsifiability": 9, "impact": 8},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": false,
+      "raw_verdict": "REJECT"
+    },
+    {
+      "id": "CAL-DG",
+      "nearest_prior_work": [
+        "DoReMi, arXiv:2305.10429: same proxy-to-target template with excess-loss DRO rather than gradient geometry.",
+        "Skill-It, arXiv:2307.14430: learned cross-skill influence and mirror descent from auxiliary interventions.",
+        "Learning to Reweight Examples, arXiv:1803.09050: one-step validation-gradient reweighting at example level."
+      ],
+      "strongest_objections": [
+        "One-step score validation does not establish long-horizon causal utility.",
+        "Raw gradient inner products confound alignment, norm, and optimizer geometry.",
+        "The method composes known ingredients and has narrow target-scale evidence."
+      ],
+      "scores": {"novelty": 6, "falsifiability": 8, "impact": 7},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": false,
+      "raw_verdict": "REJECT"
+    }
+  ]
+}

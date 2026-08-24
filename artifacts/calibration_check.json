@@ -1,0 +1,32 @@
+{
+  "results": [
+    {
+      "calibrated_scores": {
+        "falsifiability": 9,
+        "impact": 8,
+        "novelty": 7
+      },
+      "id": "CAL-RM",
+      "passed": true,
+      "raw_scores": {
+        "falsifiability": 9,
+        "impact": 8,
+        "novelty": 6
+      }
+    },
+    {
+      "calibrated_scores": {
+        "falsifiability": 8,
+        "impact": 7,
+        "novelty": 7
+      },
+      "id": "CAL-DG",
+      "passed": true,
+      "raw_scores": {
+        "falsifiability": 8,
+        "impact": 7,
+        "novelty": 6
+      }
+    }
+  ]
+}
