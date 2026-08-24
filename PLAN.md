@@ -26,3 +26,16 @@ The next round is constrained by four lessons:
 - Prefer constructive or measurement hypotheses with a predeclared intervention and an effect threshold, because a literal theorem typo can be crisp yet remain below oral-level impact.
 
 Evidence for all round sizes and scores in this reflection: `scripts/check_review.py`; input `reviews/candidate_round1.json`; command `python scripts/check_review.py reviews/candidate_round1.json --threshold 7 --novelty-offset 1`; output `artifacts/candidate_round1_check.json`.
+
+## Reflection after rejection streak 2
+
+Round 2 again produced `0` absolute passes among `6` candidates, bringing the cumulative total to `12` REJECTs and triggering relative selection. The scores show two distinct failure modes: H012's exact artifact audit reached falsifiability `9` but novelty/impact only `3/4`; H010's broadly useful bootstrap idea received a substantial-overlap veto because simulator-input uncertainty is an established field. H008 similarly confused target-side label auditing with a deployable proxy-side decision rule.
+
+Generation after this reflection is restricted as follows:
+
+- No additional single-paper clerical audit is eligible; the next measurement must estimate a quantity across at least three independent mixing methods or datasets.
+- No generic confidence interval, abstention, bootstrap-world, or regressor swap is eligible as the novelty claim.
+- A construction must follow from a numbered mixing assumption and define an intervention absent from the nearest methods, with discovery and confirmation on method-disjoint public artifacts.
+- Because the current six fallback admissions would contain four audits, at least one additional completed entry must be measurement or constructive so that the final audit fraction is at most `0.60`.
+
+Evidence for every count and score: `scripts/check_review.py`; input `reviews/candidate_round2.json`; command `python scripts/check_review.py reviews/candidate_round2.json --threshold 7 --novelty-offset 0`; output `artifacts/candidate_round2_check.json`.
