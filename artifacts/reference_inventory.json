@@ -1,6 +1,11 @@
 {
   "papers": [
     {
+      "pages": 24,
+      "path": "references/active_subspace_monte_carlo_1408.0545.pdf",
+      "sha256": "86911e8ac0bde22a16bbf874962b6121f81fabd0f02cc1a723a51481a5b7b34f"
+    },
+    {
       "pages": 25,
       "path": "references/admire_bayesopt_2508.11551.pdf",
       "sha256": "e7935322dc3b01d4f0bbcd0169f4caa71bebef3a1a8bb71949801666e3fa0f07"
@@ -19,6 +24,11 @@
       "pages": 37,
       "path": "references/data_constrained_2606.06888.pdf",
       "sha256": "cecba3430d891fbd904593013a10e02086ebdb17544cc4734133f18cf0220542"
+    },
+    {
+      "pages": 27,
+      "path": "references/data_mixing_laws_2403.16952.pdf",
+      "sha256": "46a139c329669b7acac83b601e8fed5a31c800d610ecfeb7e4dd5848a66fee9b"
     },
     {
       "pages": 21,

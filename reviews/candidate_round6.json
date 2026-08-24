@@ -1,0 +1,156 @@
+{
+  "calibration": [
+    {
+      "work": "RegMix",
+      "publication": "ICLR 2025, Spotlight",
+      "rewritten_core_hypothesis": "Rankings of data mixtures are sufficiently invariant across model size and token budget that a regressor trained on hundreds of short, very small proxy runs can identify a mixture that remains strong for 1B-to-7B models trained for 25B-to-100B tokens.",
+      "scores": {
+        "novelty": 8,
+        "falsifiability": 9,
+        "impact": 9
+      },
+      "rationale": "The regression machinery is standard, but the cross-scale rank-invariance hypothesis, 512-run proxy study, hundreds of held-out mixtures, 64 target-scale runs, and 7B confirmation form a broad and directly testable contribution.",
+      "source": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/5f67d864aae6115374fed7beddd119e0-Abstract-Conference.html"
+    },
+    {
+      "work": "DoGE",
+      "publication": "ICML 2024 Poster",
+      "rewritten_core_hypothesis": "A source domain should be upweighted when its training gradient aligns with the aggregate target-domain gradient; mirror-descent updates computed while training one proxy and then averaged into a fixed mixture should improve both universal and held-out-domain generalization.",
+      "scores": {
+        "novelty": 8,
+        "falsifiability": 8,
+        "impact": 7
+      },
+      "rationale": "DoGE derives a distinct one-proxy update, compares against uniform and compute-matched or stronger DoReMi variants, and tests in-domain, reasoning, multilingual, and leave-one-domain-out outcomes, although its largest model is 684M and some confirmation uses only two seeds.",
+      "source": "https://icml.cc/virtual/2024/poster/34869"
+    }
+  ],
+  "candidate": {
+    "id": "H019",
+    "title": "RankShareMix trades shared response rank for one-third fewer proxy runs",
+    "nearest_prior_work": [
+      {
+        "work": "Olmix",
+        "closeness": "closest data-mixing protocol",
+        "exact_difference": "Olmix fits a separate nonlinear log-linear law per output and recommends at least 3(m+1) proxy runs. H019 replaces those laws with one rank-two multivariate affine RRR on Helmert-ilr coordinates and claims adequacy at 2(m+1). However, H019 does not use OlmixBase's natural-prior swarm, exact constrained optimization, KL penalty 0.05, or repetition constraints, so its named Olmix comparator is only a law-level ablation.",
+        "source": "references/olmix_2602.12237.pdf"
+      },
+      {
+        "work": "Data Mixing Laws",
+        "closeness": "closest multi-output mixture law",
+        "exact_difference": "Data Mixing Laws predicts each validation-domain loss as c_i + k_i exp(sum_j t_ij p_j) and aggregates those outputs. H019 uses the same vector-of-domain-loss formulation but imposes rank two on a linear coefficient matrix after ilr transformation. It adds shared low-rank regularization and a run-saving claim, but removes the established positive nonlinear loss form and any scale-transfer claim.",
+        "source": "https://arxiv.org/abs/2403.16952"
+      },
+      {
+        "work": "Classical reduced-rank regression",
+        "closeness": "identical statistical estimator",
+        "exact_difference": "Classical RRR already solves multivariate Y=XB+E under rank(B)<=r by truncating the OLS fitted response in the prediction-loss metric. H019's estimator is therefore not new; only the compositional covariates, LLM data-mixing application, fixed rank two, and prospective 14-versus-21 claim are new.",
+        "source": "references/izenman_modern_multivariate_2008.pdf"
+      },
+      {
+        "work": "Data Mixture Optimization: A Multi-fidelity Multi-scale Bayesian Framework",
+        "closeness": "closest SlimPajama shared-output surrogate study",
+        "exact_difference": "This work trains 472 models from 20M to 1B parameters and describes an MLP predictor producing eleven losses and downstream metrics, followed by scalar-objective Gaussian-process optimization. H019 uses an explicitly rank-constrained linear multi-output surrogate with only 14 observations and no scale transfer. The prior work therefore already uses shared nonlinear prediction across multiple metrics, though not RRR or the claimed sample reduction.",
+        "source": "https://openreview.net/forum?id=Kvsa8ZXd0W"
+      },
+      {
+        "work": "RegMix",
+        "closeness": "closest regression-based offline selector",
+        "exact_difference": "RegMix fits scalar ridge or LightGBM predictors, validates cross-scale rank invariance, and uses much larger swarms. H019 shares six outputs through a classical low-rank coefficient matrix, targets same-scale final proxy loss, and makes no larger-model transfer claim.",
+        "source": "references/regmix_2407.01492.pdf"
+      }
+    ],
+    "strongest_objections": [
+      {
+        "rank": 1,
+        "severity": "fatal",
+        "objection": "The L1 optimizer is mathematically ill-posed for the proposed surrogate. Uniform-mean predicted loss has the form c+v^T ilr(p). Because ilr maps the open simplex bijectively to R^5, this objective has infimum minus infinity whenever v is nonzero. Searching 65,536 Dirichlet(1) candidates therefore selects an extreme boundary order statistic rather than an interior surrogate optimum. The candidate pool will contain coordinates around 1e-6, while 14 training mixtures typically cover nothing comparably extreme. Positive weights do not cure this extrapolation, and some predicted cross-entropies can become negative. A component floor, convex-hull restriction, or explicit KL/trust-region penalty is required before the selector is scientifically interpretable."
+      },
+      {
+        "rank": 2,
+        "severity": "fatal",
+        "objection": "Five independent confirmation seeds cannot support the stated 0.25-sigma noninferiority claim with useful power. With five seeds per method, the known-variance standard error of an unpaired difference is sqrt(2/5)=0.632 sigma. At equal true means, a one-sided 95% upper bound is about 1.04 sigma even before small-sample t and sigma-estimation penalties, not 0.25 sigma. Passing would require RankShareMix to look roughly 0.8-to-0.9 sigma better than Olmix, so this is not a powered noninferiority design. Roughly 198 independent seeds per arm would be needed for 80% power at equality under the simplest normal known-variance calculation. The three quantities called minimum detectable effects are decision margins, not MDEs, and the confidence procedure for an estimated pooled sigma is unspecified."
+      },
+      {
+        "rank": 3,
+        "severity": "major",
+        "objection": "The experiment cannot attribute a win to shared response rank or fairly claim parity with Olmix. The same-budget baseline is unregularized full-rank affine regression, so a rank-two win may be generic shrinkage. Missing matched baselines include ridge multivariate regression, scalar regression directly on uniform-mean loss, rank 1 through 5 RRR, nuclear-norm RRR, and the Olmix log-linear law at 14 runs. The 21-run comparator also omits Olmix's natural-prior design and KL-regularized exact optimizer. Given that RRR itself is classical, these attribution gaps leave only an incremental application claim."
+      }
+    ],
+    "audit": {
+      "l0_kill_gate": {
+        "status": "partially_executable_but_not_validated",
+        "positive": "The official Olmix release contains 125 six-topic rows and 130 twelve-topic rows with ratios and task BPBs, so nested 2(m+1) and 3(m+1) fits are feasible.",
+        "problems": [
+          "The public swarms are sparse because weights below 0.05 were clipped to zero. Replacing structural zeros by 1e-6 creates very large, arbitrary ilr coordinates and does not match the positive L1 design; zero-replacement sensitivity is required.",
+          "RRR must specify split-local response scaling, centering, and whether the intercept is excluded from the rank constraint. Truncating an uncentered fitted response is not the same estimator.",
+          "Task-standardized RMSE is not defined precisely enough to exclude test-set leakage.",
+          "The paired mixture-row bootstrap must resample original rows and refit the full nested procedure; treating 1000 overlapping subset trials as independent pseudo-replicates would be invalid.",
+          "Held-out RMSE is only an indirect screen for selected-mixture regret. It is acceptable as a kill gate but cannot support the method."
+        ],
+        "public_data_source": "https://huggingface.co/datasets/allenai/olmix"
+      },
+      "l1_method_distinctness": {
+        "status": "distinct_combination_but_low_methodological_novelty",
+        "assessment": "Rank-constraining the cross-output coefficient matrix is distinct from fitting separate Data Mixing Laws or Olmix laws, but it is exactly classical RRR applied to a new covariate/response pair. Multi-output shared predictors also already appear in the multi-fidelity SlimPajama work. Rank two has no prospective rank-stability analysis or matched rank-selection baseline."
+      },
+      "fourteen_vs_twenty_one": {
+        "status": "counterfactual_budget_comparison_only",
+        "assessment": "A frozen 14-row prefix makes the informational comparison valid, but all 21 runs are actually trained before fitting. Thus the study can establish that the algorithm could have stopped at 14, not realized experimental savings. A 14-run log-linear comparator and repeated independent swarm orderings are needed to separate model class from one favorable prefix."
+      },
+      "candidate_optimization": {
+        "status": "fatal",
+        "assessment": "Affine prediction in unconstrained ilr space has no finite minimum. The fixed Dirichlet candidate pool merely hides that fact and makes the answer depend on candidate-pool size and its most extreme draw."
+      },
+      "training_and_noise": {
+        "status": "undercontrolled",
+        "assessment": "Generating all swarm outcomes before fitting and using fresh confirmation checkpoints are good controls. However, one seed per swarm mixture allows seed noise to drive selection, only one swarm realization is tested, confirmation seeds are described as disjoint rather than paired, and architecture, batch size, sequence length, learning-rate schedule, validation-set sizes, checkpoint rule, and confidence-interval construction are not frozen."
+      },
+      "data_and_domain_feasibility": {
+        "status": "conditionally_feasible",
+        "assessment": "The six SlimPajama sources are public and large enough for these token totals. The extreme selected weights create a different problem: a positive probability can correspond to only tens of tokens at 20M total tokens. The protocol lacks a per-domain token floor, deterministic rounding/sampling rule, shard-availability check, and per-domain mixture-fidelity criterion; the aggregate 0.1% token tolerance does not protect the intended composition."
+      },
+      "thresholds_and_power": {
+        "status": "fatal",
+        "assessment": "The margins are explicit but not power-calibrated. Five unpaired seeds provide very low probability of proving 0.25-sigma noninferiority when methods are truly equal, and uncertainty in the pooled sigma is ignored. The superiority tests similarly have only type-I-level power when the true effect equals the stated boundary."
+      },
+      "compute_cap": {
+        "status": "not_budget_closed",
+        "assessment": "At maximum distinct selections, L1 requires 21 swarm jobs plus 20 confirmation jobs, or 41 successful jobs. At the stated two-hour per-job ceiling this is 82 MI210 node-hours, before failures, exceeding the 60-node-hour cap. Completion requires average successful runtime below 60/41=1.46 hours and additional failure reserve, but no measured pilot is given. Two-job concurrency changes wall time, not node-hours. A 20M model fits comfortably in the MI210's 64 GB memory, so hardware capacity is not the concern.",
+        "hardware_source": "https://www.amd.com/en/products/accelerators/instinct/mi200/mi210.html"
+      }
+    },
+    "scores": {
+      "novelty": 5,
+      "falsifiability": 5,
+      "impact": 4
+    },
+    "score_rationale": {
+      "novelty": "The data-mixing formulation and explicit run-count prediction are new, but the estimator is classical and shared multi-output surrogates are not unprecedented.",
+      "falsifiability": "There are unusually explicit gates and margins, but the selector is ill-posed, the inference is underpowered, and several estimator/CI details are not executable as written.",
+      "impact": "The claim is confined to one six-domain, 20M-parameter, 20M-token proxy setting and explicitly disclaims transfer to larger models, unlike the calibration anchors."
+    },
+    "unresolved_fatal_objection": {
+      "flag": true,
+      "reasons": [
+        "Unbounded affine optimization in ilr space",
+        "Five-seed noninferiority design lacks usable power",
+        "Worst-case successful-job budget exceeds the hard node-hour cap"
+      ]
+    },
+    "substantial_overlap_veto": {
+      "flag": false,
+      "reason": "No inspected work prospectively tests rank-two RRR as a 14-run LLM mixture selector. The proposal is highly incremental, but not an exact duplicate."
+    },
+    "acceptance_rule_satisfied": false
+  },
+  "relative_eligibility": {
+    "eligible": false,
+    "reason": "The only candidate fails all three score thresholds and has unresolved fatal objections."
+  },
+  "fallback_eligibility": {
+    "eligible": false,
+    "reason": "Repair requires changing the optimizer, comparator suite, inference design, and budget, not merely narrowing the wording."
+  },
+  "decision": "REJECT"
+}
