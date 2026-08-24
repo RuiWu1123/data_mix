@@ -1,0 +1,26 @@
+{
+  "reference_list": [
+    "olmix_2602.12237.pdf",
+    "regmix_2407.01492.pdf",
+    "data_mixing_laws_2403.16952.pdf",
+    "explaining_dmsl_2606.08167.pdf",
+    "data_mixture_optimization_multifidelity_2503.21023.pdf",
+    "scaling_optimal_mixtures_2507.09404.pdf"
+  ],
+  "pages": [
+    {
+      "id": "H015",
+      "title": "Olmix task-response dimension grows sublinearly with domain count",
+      "statement": "In Olmix's official nested top-m RQ2 swarms, the stable rank of the affine ilr-mixture to downstream-task-BPB response operator grows sublinearly in m and remains below half of the nominal m-1 simplex dimension. The sample-complexity axis m therefore overstates the number of linearly distinguishable downstream-response directions in this benchmark.",
+      "attacks": ["A-012"],
+      "original_tested": "No. Olmix Section 3.3.2 and Figures 4/18 regress average task BPB and vary m in {6,12,18,24}, but report error versus K rather than the singular spectrum or stable rank of the released task-response operator.",
+      "why_new": "This is a measurement of a released LLM-pretraining mixing benchmark, not a regressor swap or a claim about training-domain loss. Vector-valued active-subspace work establishes the mathematical object but does not report this quantity for Olmix's nested domain-count experiment.",
+      "falsification": "Use only metric columns common to all four official RQ2 releases. Replace zero ratios by 1e-6 followed by closure, map ratios to a Helmert ilr basis, center mixture and raw BPB columns, and fit unregularized affine OLS. Define stable rank as ||J||_F^2/||J||_2^2. Discovery is m=6/12; untouched confirmation is m=18/24. With 10000 mixture-block bootstraps, support requires at every m: median stable-rank fraction <=0.50, percentile 95% upper bound <=0.60, and nominal-rank deficit >2 bootstrap sigma. It additionally requires the OLS log-log slope of stable rank versus m-1 to be <=0.50 with bootstrap 95% upper bound <=0.75. Any failed conjunction falsifies; fewer than 100 common finite task columns or design rank below m-1 is inconclusive.",
+      "minimum_detectable_effect": "At least a 40% rank deficit at the upper confidence bound, a sublinear slope no larger than 0.50 with upper bound 0.75, and 2 bootstrap sigma.",
+      "design": "The response is explicitly downstream-task BPB in identical raw units; no cross-method/domain-loss interpretation is made. The script emits common task names, rows, design rank, condition number, singular spectrum, replacement count, bootstrap intervals, and separate discovery/confirmation decisions. No outcome cells have been summarized before preregistration.",
+      "cost": "L0, one Slurm CPU job, zero GPU.",
+      "type": "measurement",
+      "repair_count": 1
+    }
+  ]
+}
