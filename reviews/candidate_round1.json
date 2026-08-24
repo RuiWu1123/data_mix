@@ -1,0 +1,134 @@
+{
+  "reviewer_scope": "context-free oral-level review with independent web search",
+  "calibration": "novelty plus one, capped at ten; other dimensions unchanged",
+  "reviews": [
+    {
+      "id": "H001",
+      "title": "Pareto-region proxy rank failure",
+      "nearest_prior_work": [
+        "RegMix (arXiv:2407.01492) reports global proxy-target Spearman on the same Pile swarm; H001 instead tests top-quartile overlap and selected target regret on fixed halves of the 64-mixture grid.",
+        "DataDecide (arXiv:2504.11393) measures pairwise decision accuracy across 25 recipes, 14 sizes, and three seeds; H001 targets the extreme top region and RegMix argmin regret.",
+        "Can Small Training Runs Reliably Guide Data Curation? (arXiv:2512.24503) already centers top-k decision regret; H001 mainly changes the public grid, overlap statistic, and ID split.",
+        "ADMIRE-BayesOpt (arXiv:2508.11551) models scale-transfer uncertainty prospectively; H001 is a retrospective failure audit."
+      ],
+      "strongest_objections": [
+        "The statement requires high global correlation but the support criterion has no global-Spearman threshold, a fatal statement-to-test mismatch.",
+        "Domain bootstrap variation is not target-training seed noise and can make the two-sigma regret misleading.",
+        "The two ID halves are not shown exchangeable; top-quartile overlap changes in 0.125 increments and objectives differ under raw versus standardized means."
+      ],
+      "scores": {"novelty": 5, "falsifiability": 6, "impact": 7},
+      "substantial_overlap": true,
+      "unresolved_fatal_objection": true,
+      "raw_verdict": "REJECT",
+      "fallback_eligible": false
+    },
+    {
+      "id": "H002",
+      "title": "Data-mixing-law optimum non-identifiability",
+      "nearest_prior_work": [
+        "Scaling Laws for Optimal Data Mixtures (arXiv:2507.09404) fits the attacked laws and reports point optima; H002 estimates sampling uncertainty of the frozen law's argmin.",
+        "Data Mixing Laws (arXiv:2403.16952) fits response surfaces and selected mixtures but not bootstrap set-identification of the optimum.",
+        "Data Mixture Optimization (arXiv:2503.21023) uses posterior uncertainty prospectively for acquisition; H002 diagnoses deterministic-law instability retrospectively.",
+        "Explaining Data Mixing Scaling Laws (arXiv:2606.08167) reports lower-parameter extrapolated optima without confidence regions for the argmin."
+      ],
+      "strongest_objections": [
+        "The loss-equivalence margin lacks a common held-out evaluation distribution; evaluating each optimum under its own fit is partly tautological.",
+        "Optimizer instability is not statistical non-identifiability without multistart convergence, KKT residuals, and separation of numerical failures.",
+        "The scale split, fixed target N and D, mixture-block availability, and bootstrap validity are underspecified."
+      ],
+      "scores": {"novelty": 7, "falsifiability": 6, "impact": 7},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": true,
+      "raw_verdict": "REJECT",
+      "fallback_eligible": true,
+      "fallback_rank": 3,
+      "fallback_status": "admitted-by-fallback"
+    },
+    {
+      "id": "H003",
+      "title": "OP-MIX pretraining coordinate inconsistency",
+      "nearest_prior_work": [
+        "OP-Mix (arXiv:2605.15220) is the audited source; H003 tests the contract from 90/10 probe coefficients to final data ratios rather than empirical quality.",
+        "MergeMix (arXiv:2601.17858) also proxies data weights with merge weights; H003 uniquely derives and traces the affine coordinate map.",
+        "OLMix (arXiv:2602.12237) uses proxy-mixture coordinates intended directly as data ratios and does not create the same adapter-basis ambiguity.",
+        "RegMix regresses actual training ratios rather than weights over probes containing shared mixture mass."
+      ],
+      "strongest_objections": [
+        "The universal statement is inconsistent with max and median error because error can be zero at the embedded old mixture.",
+        "The proposed old/new expression may not match five pretraining probes, whose natural map is q=0.9a+0.1u.",
+        "A coefficient difference is a defect only if the fitted optimum reaches the final sampler without expansion or inversion; source tracing is decisive."
+      ],
+      "scores": {"novelty": 8, "falsifiability": 6, "impact": 7},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": true,
+      "raw_verdict": "REJECT",
+      "fallback_eligible": true,
+      "fallback_rank": 1,
+      "fallback_status": "admitted-by-fallback"
+    },
+    {
+      "id": "H004",
+      "title": "ADMIRE multi-fidelity evaluation contamination",
+      "nearest_prior_work": [
+        "ADMIRE-BayesOpt (arXiv:2508.11551) optimizes over a finite training pool; H004 interprets designated target rows as held-out evaluation and traces their lineage.",
+        "Data Mixture Optimization (arXiv:2503.21023) uses a separate 422/50 simulator split; H004 audits ADMIRE finite-pool lineage instead.",
+        "RegMix (arXiv:2407.01492) separates regression-training and target-mixture sets; H004 asks whether ADMIRE preserves an analogous separation.",
+        "Standard multi-fidelity BO permits paid acquisition of target-fidelity candidates; H004 alleges those candidates are also used as ostensibly out-of-sample evaluation labels."
+      ],
+      "strongest_objections": [
+        "The page may conflate legitimate finite-pool acquisition with supervised test leakage and must identify an actual held-out-MSE estimand.",
+        "ID overlap alone is insufficient; a temporal trace must show a label entered fitting or metric construction before evaluation.",
+        "Changing either MSE or regret cannot establish both headline claims, and the IFT path repeats the same code rather than independently confirming it."
+      ],
+      "scores": {"novelty": 7, "falsifiability": 5, "impact": 8},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": true,
+      "raw_verdict": "REJECT",
+      "fallback_eligible": true,
+      "fallback_rank": 4,
+      "fallback_status": "not-admitted"
+    },
+    {
+      "id": "H005",
+      "title": "Point-prediction quality fails to certify mixture decisions",
+      "nearest_prior_work": [
+        "Data Mixture Optimization (arXiv:2503.21023) reports scale-varying optima and R-squared before GP decisions; H005 conditions on high held-out R-squared and measures argmin regret.",
+        "RegMix (arXiv:2407.01492) uses global Spearman and a selected target mixture; H005 studies grouped scale holdout.",
+        "DataDecide (arXiv:2504.11393) already replaces predictive fit with pairwise decision accuracy.",
+        "Can Small Training Runs Reliably Guide Data Curation? (arXiv:2512.24503) already defines top-k decision regret."
+      ],
+      "strongest_objections": [
+        "Leave-one-scale-out changes the published protocol, which trained with half of target-scale runs, so it does not audit the claimed frozen mapping.",
+        "Selecting at least one scale after inspection creates multiplicity; discovery must choose the confirmation scale.",
+        "Domain hash halves reuse models, mixtures, and scale noise; mixture bootstrap does not replace target-model seeds and must nest selection."
+      ],
+      "scores": {"novelty": 5, "falsifiability": 6, "impact": 7},
+      "substantial_overlap": true,
+      "unresolved_fatal_objection": true,
+      "raw_verdict": "REJECT",
+      "fallback_eligible": false
+    },
+    {
+      "id": "H006",
+      "title": "GRAPE convergence theorem admits a stationary counterexample",
+      "nearest_prior_work": [
+        "GRAPE (arXiv:2505.20380) is the audited theorem; H006 gives a literal zero-source-gradient counterexample.",
+        "DoGE (arXiv:2310.15393) uses source-target gradient alignment but does not claim arbitrary smooth target objectives reach global epsilon optimality.",
+        "Group DRO (Sagawa et al., ICLR 2020) optimizes group losses that form the robust objective and does not bridge an unrelated target through vanishing source gradients.",
+        "Standard smooth nonconvex results guarantee stationarity rather than global optimality absent convexity or a progress condition."
+      ],
+      "strongest_objections": [
+        "The sentence preceding the theorem invokes strong convexity, so the displayed omission may be typographical and the audit must target the literal statement only.",
+        "The proposed target is not strongly convex; conclusions cannot be extended to the intended strongly convex version or empirical algorithm.",
+        "Constant source losses work only if no incorporated source-target alignment or positive-progress assumption exists; every referenced assumption must be enumerated."
+      ],
+      "scores": {"novelty": 6, "falsifiability": 9, "impact": 6},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": false,
+      "raw_verdict": "REJECT",
+      "fallback_eligible": true,
+      "fallback_rank": 2,
+      "fallback_status": "admitted-by-fallback"
+    }
+  ]
+}

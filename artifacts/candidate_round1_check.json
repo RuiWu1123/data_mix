@@ -1,0 +1,10 @@
+{
+  "results": [
+    {"id": "H001", "raw_scores": {"novelty": 5, "falsifiability": 6, "impact": 7}, "calibrated_scores": {"novelty": 6, "falsifiability": 6, "impact": 7}, "passed": false},
+    {"id": "H002", "raw_scores": {"novelty": 7, "falsifiability": 6, "impact": 7}, "calibrated_scores": {"novelty": 8, "falsifiability": 6, "impact": 7}, "passed": false},
+    {"id": "H003", "raw_scores": {"novelty": 8, "falsifiability": 6, "impact": 7}, "calibrated_scores": {"novelty": 9, "falsifiability": 6, "impact": 7}, "passed": false},
+    {"id": "H004", "raw_scores": {"novelty": 7, "falsifiability": 5, "impact": 8}, "calibrated_scores": {"novelty": 8, "falsifiability": 5, "impact": 8}, "passed": false},
+    {"id": "H005", "raw_scores": {"novelty": 5, "falsifiability": 6, "impact": 7}, "calibrated_scores": {"novelty": 6, "falsifiability": 6, "impact": 7}, "passed": false},
+    {"id": "H006", "raw_scores": {"novelty": 6, "falsifiability": 9, "impact": 6}, "calibrated_scores": {"novelty": 7, "falsifiability": 9, "impact": 6}, "passed": false}
+  ]
+}
