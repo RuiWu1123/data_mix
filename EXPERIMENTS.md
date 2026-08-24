@@ -346,3 +346,10 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Scaling condition: point stable ranks stay near `1.23`; the fitted log-log slope versus `m-1` is `-0.0030170525337915827`, bootstrap median `-0.0051797707918150426`, sigma `0.030959841084293546`, and `95%` upper bound `0.03448212813935515`, below frozen limits `0.50/0.75`.
 - Job accounting: Slurm job `384402`, state `COMPLETED`, elapsed `00:00:35`, exit `0:0`, MI210 GPUs `0`, MI210 node-hours `0`.
 - Evidence: `scripts/test_h015.py` and `slurm/h015_l0.sbatch`; eight official inputs and all singular spectra/counts are listed in `/work1/ruixiangtang/rw761/data_mix_artifacts/H015/result.json`; command `sbatch slurm/h015_l0.sbatch`; raw log `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/h015-384402.out`; accounting command `sacct -j 384402 --format=JobID,State,Elapsed,ExitCode -n -P`.
+
+## H000 - REVIEW-NEIGHBOR REFERENCES ADDED
+
+- *Gradient-Based Dimension Reduction of Multivariate Vector-Valued Functions* - added because its codomain-norm-dependent generalized spectrum is the direct mathematical ancestor of H015's vector-response operator.
+- *Shared Active Subspace for Multivariate Vector-Valued Functions* - added because its shared multi-output spectra and output-normalization sensitivity are the nearest measurement prior for H015.
+- *Sequential Learning of Active Subspaces* - added because its acquisition functions are the nearest adaptive-design prior for H014.
+- Inventory/accounting: these `3` additions bring literature expansion to `10/15`; their page counts are `25/18/36`, respectively. Every count was produced by `scripts/reference_inventory.py` from `references/*.pdf` and `vendor/*/.git`, command `sbatch slurm/extract_review_priors.sbatch` (job `384405`), output `artifacts/reference_inventory.json`, raw log `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/extract-review-priors-384405.out`; the expansion count is `26` inventoried papers minus `16` seed papers, with seed membership recorded by the earlier H000 reference-addition entries in this append-only ledger.

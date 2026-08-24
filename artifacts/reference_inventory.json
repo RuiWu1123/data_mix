@@ -111,9 +111,24 @@
       "sha256": "bca63d26aa7fe5600c005fc3fa1f116405555f1140bca588303122c3628c6e8f"
     },
     {
+      "pages": 36,
+      "path": "references/sequential_active_subspaces_1907.11572.pdf",
+      "sha256": "6165ed73ebc075efca4a6c3336dc22abd77667cef7d07f36e7ec845ed295df43"
+    },
+    {
+      "pages": 18,
+      "path": "references/shared_active_subspace_2401.02735.pdf",
+      "sha256": "8d6529ca0fd652a3ad6f69dada90d1ba2dd963916033c93d3cc955fd2ec93789"
+    },
+    {
       "pages": 14,
       "path": "references/tikmix_2508.17677.pdf",
       "sha256": "ff16ff358e320e9e31e392a757cd7db7d426ef09e50465cde9f8524dae176b08"
+    },
+    {
+      "pages": 25,
+      "path": "references/vector_dimension_reduction_1801.07922.pdf",
+      "sha256": "aafc922719c7852fa198529c35b969e43cb4d08b96304d5814129a0f24307e10"
     }
   ],
   "repositories": [
