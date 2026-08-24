@@ -1,0 +1,189 @@
+{
+  "calibration": [
+    {
+      "work": "RegMix: Data Mixture as Regression for Language Model Pre-training",
+      "source": "https://arxiv.org/abs/2407.01492",
+      "rewritten_claim": "Train 512 small models on distinct mixtures, fit a regression surrogate, and use it to select a mixture whose 1B-parameter, 25B-token model ranks best among 64 candidate mixtures; the selected mixture should also outperform human mixtures up to 7B parameters and 100B tokens while matching or exceeding DoReMi with about one tenth of its compute.",
+      "scores": {
+        "novelty": 8,
+        "falsifiability": 9,
+        "impact": 9
+      },
+      "oral_level_pass": true,
+      "rationale": "A new mixture-as-regression framing is tested with large proxy and target sweeps, explicit competing mixtures, cross-scale transfer, and consequential target-scale outcomes."
+    },
+    {
+      "work": "DoGE: Domain Reweighting with Generalization Estimation",
+      "source": "https://proceedings.mlr.press/v235/fan24e.html",
+      "rewritten_claim": "Use first-order gradient-alignment estimates and mirror-descent domain updates in a proxy model to select a fixed training mixture; a separately trained base model using that mixture should improve average SlimPajama perplexity and six-task few-shot accuracy, and target-conditioned DoGE should reduce loss on domains absent from pretraining.",
+      "scores": {
+        "novelty": 8,
+        "falsifiability": 8,
+        "impact": 8
+      },
+      "oral_level_pass": true,
+      "rationale": "The method introduces a substantive optimization mechanism, evaluates universal and out-of-domain objectives, and tests the learned mixture on separately trained base models."
+    }
+  ],
+  "candidate": {
+    "id": "H019",
+    "version": 2,
+    "title": "RankShareMix trades shared response rank for one-third fewer proxy runs",
+    "nearest_prior_work": [
+      {
+        "work": "Olmix: A Framework for Data Mixing Throughout LM Development",
+        "source": "https://arxiv.org/abs/2602.12237",
+        "closeness": "Closest empirical protocol and direct claimed comparator.",
+        "exact_difference": "Olmix fits a separate positive-offset log-linear law per task, recommends at least 3(m+1) proxy runs, and optimizes with KL regularization toward the natural distribution plus data-repetition constraints. H019 fixes rank-two sharing across six validation-loss outputs, uses 2(m+1) runs, performs no scale transfer, and replaces Olmix's natural-distribution/repetition optimization with a common uniform-centered box-and-KL trust region."
+      },
+      {
+        "work": "Data Mixing Laws",
+        "source": "https://arxiv.org/abs/2403.16952",
+        "closeness": "Direct antecedent of Olmix's per-output exponential response law.",
+        "exact_difference": "Data Mixing Laws fits separate exponential laws and optionally an implicit-domain MLP, then nests step and model-size scaling laws. H019 instead uses classical linear reduced-rank regression in ilr coordinates, fixes rank two prospectively, and tests only same-scale 14-run selection."
+      },
+      {
+        "work": "RegMix",
+        "source": "https://arxiv.org/abs/2407.01492",
+        "closeness": "Same offline train-a-swarm, fit-a-regressor, optimize-a-mixture schema.",
+        "exact_difference": "RegMix uses hundreds of proxy runs, primarily scalar downstream targets and LightGBM, and demonstrates transfer to much larger models. H019 uses six jointly modeled domain losses, a rank-two coefficient matrix, 14 runs, a compact constrained optimizer, and no cross-scale claim."
+      },
+      {
+        "work": "Data Mixture Optimization: A Multi-fidelity Multi-scale Bayesian Framework",
+        "source": "https://openreview.net/forum?id=Kvsa8ZXd0W",
+        "closeness": "Uses the same SlimPajama setting, the same 8-layer width-256 20M architecture family, and a shared predictor with multiple output metrics.",
+        "exact_difference": "The prior work trains a shared three-layer MLP simulator from 472 pretraining runs and performs adaptive multi-fidelity Bayesian optimization across model sizes and steps. H019 fits a direct rank-two linear multiresponse surrogate from 14 endpoint runs and selects one static same-scale mixture."
+      },
+      {
+        "work": "RegMix-D",
+        "source": "https://arxiv.org/abs/2606.18663",
+        "closeness": "Most recent proxy-efficiency extension of RegMix.",
+        "exact_difference": "RegMix-D reuses full proxy loss trajectories to produce dynamic mixture schedules and reports gains with 128 proxy models. H019 uses endpoint losses only, outputs a static mixture, and claims a much smaller fixed 14-run budget."
+      }
+    ],
+    "strongest_oral_level_objections": [
+      {
+        "rank": 1,
+        "objection": "The final quality evaluation is not independent of mixture selection.",
+        "severity": "fatal",
+        "detail": "The same fixed 51,200-token validation set per domain supplies every swarm response used to fit and choose selectors and then supplies the final 12-seed outcome. Fresh model seeds remove training noise leakage but do not remove evaluation-set reuse. A selected mixture can exploit finite-validation-set idiosyncrasies, so a positive result does not establish lower population or untouched-test loss. Rows 15-21 are cleanly excluded from RankShareMix fitting, but that does not repair this selection/evaluation reuse."
+      },
+      {
+        "rank": 2,
+        "objection": "The inference does not support the stated power or compute-quality Pareto interpretation.",
+        "severity": "fatal",
+        "detail": "With n=12 and a one-sided t critical value near 1.796, the stated noninferiority rule at true equality has power about P(t_11 <= 0.75*sqrt(12)-1.796)=0.780, not 0.83. The 0.83 calculation assumes known variance and a normal critical value although the protocol uses sample sigma and a t bound. For superiority, requiring both a positive lower bound and an observed effect of at least 0.75 or 1.0 sample sigma makes acceptance power near one half when the true effect equals the advertised threshold, not 0.83. More fundamentally, RankShareMix may be positively worse than Olmix while its upper bound remains below 0.75 sigma; that is bounded degradation, not Pareto quality dominance."
+      },
+      {
+        "rank": 3,
+        "objection": "Key baselines and the nonconvex optimizer are neither faithful nor fully executable.",
+        "severity": "fatal",
+        "detail": "The scalar-ridge lambda and tuning rule are absent; leave-one-out ridge does not specify fold-local scaling, its scoring aggregation, or lambda tie-breaking; and the claimed published Huber Olmix fit lacks a Huber threshold, initialization, restart, and convergence rule. The Olmix PDF specifies positive c and a per-task log-linear law but does not specify Huber fitting for this law, while its published optimizer regularizes toward the natural distribution and enforces repetition constraints rather than H019's uniform trust region. For RankShareMix, an affine-ilr term plus KL is generally nonconvex. Three batches of SLSQP multistarts and KKT residuals certify only local stationarity; optimizer disagreement is not defined as coordinate or objective disagreement, and Sobol seeds/skips and SLSQP tolerances are unspecified."
+      }
+    ],
+    "audit": {
+      "L0_executability": {
+        "status": "fail",
+        "findings": [
+          "The official Olmix raw m=6 and m=12 ratios and metrics tables exist, but no immutable artifact revision is pinned.",
+          "The mapping from SHA256 values to 200 subsets/permutations is unspecified.",
+          "Zero replacement is not defined: replacing and renormalizing, multiplicative replacement, and other compositional replacements yield different ilr coordinates.",
+          "The handling of missing or invalid task metrics and the exact output-column set are unspecified.",
+          "LOO ridge requires fold-local standardization to avoid leakage, but only outer split-local scaling is stated.",
+          "Scalar ridge has no lambda grid or selection rule.",
+          "The public tables contain many downstream-task BPB outputs, not the six domain-validation outputs used in L1; L0 is therefore an off-target kill gate and, as acknowledged, cannot support the structural claim."
+        ]
+      },
+      "split_leakage": {
+        "status": "fail",
+        "findings": [
+          "Outer L0 train/holdout standardization is appropriately stated as split-local.",
+          "Rows 15-21 select only the comparator identity and do not fit RankShareMix, which avoids direct swarm-outcome leakage into its 14-row fit.",
+          "L1 reuses the selector-training validation tokens for final inference, leaving a fatal selection-to-evaluation leak.",
+          "LOO ridge preprocessing is not explicitly fold-local."
+        ]
+      },
+      "baseline_coverage": {
+        "status": "fail",
+        "findings": [
+          "Centered RRR, full OLS, ranks 1 through 5, and multi-output ridge cover the main linear alternatives conceptually.",
+          "Rank five RRR is effectively the full-rank six-output/five-predictor case and duplicates OLS apart from numerical details.",
+          "Scalar ridge is underdefined because its penalty and selection rule are missing.",
+          "The Olmix regression and fitting algorithm are underdefined, and its optimizer/reference distribution is materially changed.",
+          "Selecting the strongest same-budget baseline by only seven held-out swarm rows is prospective but highly noisy; method-name tie-breaking does not address statistical selection error."
+        ]
+      },
+      "compact_constrained_optimizer": {
+        "status": "fail",
+        "findings": [
+          "The coordinate bounds and KL cap correctly keep all ilr values finite and use the same feasible region across selectors.",
+          "The RankShareMix objective need not be convex because coefficients multiply log mixture coordinates.",
+          "SLSQP KKT checks and 192 multistarts do not certify a global optimum.",
+          "The definition of optimizer disagreement and deterministic Sobol/SLSQP implementation details are incomplete."
+        ]
+      },
+      "L1_architecture_and_data_feasibility": {
+        "status": "partial_pass",
+        "findings": [
+          "The stated tied-embedding 8-layer, width-256, 8-head, MLP-1024 architecture is plausibly about 19M total parameters and fits the 18M-22M gate.",
+          "The token arithmetic is exact: 763*128*512=50,003,968.",
+          "A 45-minute MI210 run is plausible and the three-pilot wall-time gate prevents launching an infeasible swarm.",
+          "SlimPajama revision, exact six-domain file mapping, validation construction, document packing, tokenizer implementation, numerical precision, gradient accumulation, and within-domain sampling/permutation are not frozen.",
+          "The experiment trains only about 50M tokens, whereas the referenced 20M SlimPajama models were trained on 10B tokens; this is an unusually undertrained regime and sharply limits external impact even if executable."
+        ]
+      },
+      "paired_power_and_effects": {
+        "status": "fail",
+        "findings": [
+          "Twelve pairs do not deliver the stated 0.83 power under the actual t-based, estimated-variance rule.",
+          "The observed standardized-effect thresholds make support probability roughly one half at the advertised true superiority effects.",
+          "The noninferiority margin is endogenous to sample sigma and is not a preregistered raw-loss tolerance.",
+          "The protocol does not define behavior when paired sigma is zero.",
+          "The three claims form a conjunction, so multiplicity inflation is not the main problem; inadequate calibration and the Pareto interpretation are."
+        ]
+      },
+      "common_random_numbers": {
+        "status": "partial_pass",
+        "findings": [
+          "Common initialization seeds can validly reduce paired variance if each method retains the correct marginal seed distribution.",
+          "Common data randomness across different largest-remainder domain allocations is underdefined; the protocol must specify the coupling and verify each mixture's marginal sampler.",
+          "Validation order should not create meaningful randomness for exact full-set loss evaluation.",
+          "Independent fresh seed pairs make paired-t inference plausible only after the coupling and invalid-pair rules are frozen."
+        ]
+      },
+      "job_and_node_hour_accounting": {
+        "status": "pass",
+        "findings": [
+          "The maximum successful-job count is correctly 3 pilots + 21 swarm + 4*12 final = 72.",
+          "At 45 minutes each, 72 successful jobs consume 54 MI210 node-hours.",
+          "The 60-node-hour cap leaves 6 node-hours, equivalent to eight full 45-minute failed attempts.",
+          "Deduplication can only reduce the successful-job count, and the cap explicitly includes failures."
+        ]
+      },
+      "pareto_claim_support": {
+        "status": "fail",
+        "finding": "A positive result would establish, at most, that a modified Olmix-regression comparator cannot be shown to beat RankShareMix by more than an estimated 0.75 paired sigma on a reused finite validation set at the same tiny scale. It would not establish no quality degradation, full published-Olmix dominance, untouched-test quality, larger-scale transfer, or an actual compute-quality Pareto improvement."
+      }
+    },
+    "scores": {
+      "novelty": 5,
+      "falsifiability": 5,
+      "impact": 4
+    },
+    "score_rationale": {
+      "novelty": "The exact prospective 14-versus-21 test is new, but the offline regression schema, multi-output sharing, low-rank regression, ilr coordinates, KL regularization, and proxy-efficiency objective are all established. The contribution is a narrow structural prior and empirical run-count rule.",
+      "falsifiability": "The candidate has explicit kill gates and outcome inequalities, but validation reuse, incomplete data/baseline definitions, non-global optimization, and incorrect power calibration prevent a clean decisive test.",
+      "impact": "Saving seven tiny same-scale proxy runs could be useful, but there is no target-scale transfer, no population-quality evaluation, no faithful full-Olmix comparison, and only a six-domain compact-region experiment."
+    },
+    "unresolved_fatal_objection": true,
+    "fatal_objection_summary": "The final evaluation reuses selector-training validation data; the power and effect rules do not support the claimed Pareto conclusion; and the comparator/optimizer protocol is not fully executable or faithful.",
+    "substantial_overlap_veto": false,
+    "substantial_overlap_rationale": "No located prior work prospectively tests classical rank-two multiresponse regression at exactly 2(m+1) runs against a 3(m+1) per-output Olmix law with fresh paired final trainings. The overlap is extensive at the component level but does not fully subsume the exact hypothesis."
+  },
+  "fallback_eligibility": {
+    "eligible": false,
+    "reason": "This sole repair retains multiple unresolved fatal objections and scores below 7 on every required dimension."
+  },
+  "decision": "REJECT",
+  "decision_basis": "ACCEPT requires novelty, falsifiability, and impact all at least 7, with neither an unresolved fatal objection nor a substantial-overlap veto. H019 scores 5/5/4 and has an unresolved fatal objection."
+}
