@@ -11,6 +11,11 @@
       "sha256": "2acb179100ec76d2e2cafc5340f827a037842df63d5498317df50829939a17a8"
     },
     {
+      "pages": 33,
+      "path": "references/bicrossvalidation_0908.2062.pdf",
+      "sha256": "03b6aeaafb350b38d396a9170a855d7c5feea245780f0b83af8e3139c7b01360"
+    },
+    {
       "pages": 37,
       "path": "references/data_constrained_2606.06888.pdf",
       "sha256": "cecba3430d891fbd904593013a10e02086ebdb17544cc4734133f18cf0220542"
@@ -59,6 +64,11 @@
       "pages": 21,
       "path": "references/internal_repetition_2606.24998.pdf",
       "sha256": "48c0db6837f82547351710c42f3f256630ccb8d7217b0f49aec140584084f58a"
+    },
+    {
+      "pages": 756,
+      "path": "references/izenman_modern_multivariate_2008.pdf",
+      "sha256": "9f2b5f17028b4f83291480b765c475b859401f30d21da59325bd24cebd20acf9"
     },
     {
       "pages": 18,
@@ -119,6 +129,11 @@
       "pages": 18,
       "path": "references/shared_active_subspace_2401.02735.pdf",
       "sha256": "8d6529ca0fd652a3ad6f69dada90d1ba2dd963916033c93d3cc955fd2ec93789"
+    },
+    {
+      "pages": 38,
+      "path": "references/sparse_rrr_cv_1812.11555.pdf",
+      "sha256": "0ffa75a0643cb3a1cca73273f3334aea074b7fe1601caf4fede7de3e6d51ac72"
     },
     {
       "pages": 14,
