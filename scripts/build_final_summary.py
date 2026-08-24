@@ -106,12 +106,13 @@ def main() -> None:
         path = args.result_root / identifier / "result.json"
         result = json.loads(path.read_text(encoding="utf-8"))
         verdict = result["verdict"]
+        line_status = "closed" if identifier in CLOSED_LINES else ("candidate" if verdict == "supported" else "complete")
         records.append(
             {
                 "id": identifier,
                 "type": kind,
                 "level": level,
-                "line_status": "closed" if identifier in CLOSED_LINES else "active",
+                "line_status": line_status,
                 "review_scores": scores[identifier],
                 "verdict": verdict,
                 "supported_effect_sigma": supported_effect(identifier, result) if verdict == "supported" else "not_applicable",
@@ -149,7 +150,7 @@ def main() -> None:
     result = {
         "records": records,
         "verdict_counts": verdict_counts,
-        "active_research_lines": sorted(record["id"] for record in records if record["line_status"] == "active" and record["verdict"] == "supported"),
+        "active_research_lines": sorted(record["id"] for record in records if record["line_status"] == "candidate"),
         "closed_research_lines": sorted(CLOSED_LINES),
         "quotas": quotas,
         "assumptions": assumptions,
