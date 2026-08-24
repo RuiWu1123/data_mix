@@ -181,3 +181,13 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Three strongest objections and validity response: finite heldout oracle quality may change with dimension, so the job must bound it against a converged analytic/dense oracle within `0.10` sigma; domain sets must be verified as the paper's nested refinement or return `inconclusive`; reproducing both scales and all three seeds is required before interpreting normalization rather than model/noise artifacts. These checks do not change the support thresholds.
 - Cost: zero GPU, one Slurm CPU job. Missing released tables produces BLOCKED rather than fabricated reconstruction. No outcome table has been read before this entry.
 - Evidence for every count, threshold, score, and rank: `scripts/check_review.py` and `scripts/select_fallback.py`; inputs `reviews/candidate_round2_pages.json`, `reviews/candidate_round2.json`, `artifacts/fallback_after_12.json`, `references/olmix_2602.12237.pdf`; commands and outputs are recorded in `REVIEW-CALIBRATION-ROUND-2 AND FALLBACK-12`.
+
+## H010 v1 — REJECTED
+
+- ID/date/type/level: H010, 2026-08-24, measurement, L0. Attacked A015.
+- One-page statement/design: resampling the 472 real-run blocks and refitting `200` frozen simulators would expose unstable multi-fidelity speedup. Each metric half required nominal median speedup at least `2.0` and either `95%` lower bound at most `1.0` or winner changes in at least `0.20` of worlds; three policy seeds per world, `1%` time-to-target tolerance; zero GPU.
+- Review: raw/calibrated N/F/I `4/6/7`; REJECT with unresolved fatal objection and substantial-overlap veto, hence fallback-ineligible.
+- Nearest works: the attacked multi-fidelity paper supplies the simulator; simulation uncertainty analysis, Kriging/bootstrap surveys, and ranking under input uncertainty already propagate metamodel uncertainty to optimizer outcomes.
+- Three strongest objections: the statement was conjunctive while the support rule used OR; bootstrap worlds were not calibrated as equally admissible; metric halves shared runs, architecture, pool, and policies.
+- Disposition: abandoned without test due substantial methodological overlap. A local repair cannot clear the veto.
+- Evidence for every count, threshold, and score: `scripts/check_review.py`; inputs `reviews/candidate_round2_pages.json`, `reviews/candidate_round2.json`; command `python scripts/check_review.py reviews/candidate_round2.json --threshold 7 --novelty-offset 0`; output `artifacts/candidate_round2_check.json`.
