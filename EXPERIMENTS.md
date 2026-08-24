@@ -353,3 +353,8 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - *Shared Active Subspace for Multivariate Vector-Valued Functions* - added because its shared multi-output spectra and output-normalization sensitivity are the nearest measurement prior for H015.
 - *Sequential Learning of Active Subspaces* - added because its acquisition functions are the nearest adaptive-design prior for H014.
 - Inventory/accounting: these `3` additions bring literature expansion to `10/15`; their page counts are `25/18/36`, respectively. Every count was produced by `scripts/reference_inventory.py` from `references/*.pdf` and `vendor/*/.git`, command `sbatch slurm/extract_review_priors.sbatch` (job `384405`), output `artifacts/reference_inventory.json`, raw log `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/extract-review-priors-384405.out`; the expansion count is `26` inventoried papers minus `16` seed papers, with seed membership recorded by the earlier H000 reference-addition entries in this append-only ledger.
+
+## H003 - LINE CLOSED
+
+- Status: the supported implementation-audit verdict is retained, but this research line is closed and receives no further experiment budget. Its scope remains a traced coefficient-semantics defect in one implementation, not a general data-mixing thesis claim.
+- Evidence: `scripts/test_h003.py`; inputs and numeric result are recorded in `/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json`; command `sbatch slurm/h003_l0.sbatch`; the closure decision is the user instruction following the final comparison in this thread.
