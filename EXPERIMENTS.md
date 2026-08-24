@@ -192,6 +192,15 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Disposition: abandoned without test due substantial methodological overlap. A local repair cannot clear the veto.
 - Evidence for every count, threshold, and score: `scripts/check_review.py`; inputs `reviews/candidate_round2_pages.json`, `reviews/candidate_round2.json`; command `python scripts/check_review.py reviews/candidate_round2.json --threshold 7 --novelty-offset 0`; output `artifacts/candidate_round2_check.json`.
 
+## H004 v1 — CORRECTION AND PREREGISTRATION, admitted-by-fallback
+
+- Date/type/level: 2026-08-24, audit, L0. This entry supersedes the “not admitted” disposition in H004 v1 after cumulative fallback selected H004 with calibrated total `21`; the old review remains unchanged.
+- Frozen statement after reviewer scope check: ADMIRE's code labels target-fidelity rows as `X_test_high/y_test_high` for an MSE curve while those rows remain eligible for sequential acquisition. This makes that curve progressively partly in-sample if and only if the paper or released output presents it as held-out evaluation; finite-pool target acquisition itself is not called leakage.
+- Test/falsifier: trace row IDs and time of label acquisition for Pile discovery and IFT confirmation. Support requires a paper/released-result heldout-MSE claim, nonempty acquired/evaluation intersection, contaminated evaluation fraction at least `0.05`, and leave-acquired-out MSE differing from the reported-set MSE by at least `2` acquisition-seed sigma. An explicit finite-pool-only description or empty intersection falsifies the revised narrow claim; absent paper/output MSE semantics yields `inconclusive`.
+- Reviewer scores/objections: raw `7/5/8`, calibrated `8/5/8`; fatal category-error objection, no overlap veto. The review required identifying a heldout estimand, tracing labels temporally rather than intersecting static universes, and separating MSE from legitimate finite-pool regret. All three are now validity/decision conditions, with no relaxed numerical threshold.
+- Design/cost: `20` fixed acquisition-order seeds in each dataset; discovery and confirmation use different public corpora but the result will state that shared code is mechanistic rather than independent-code replication. Zero GPU, one Slurm CPU job. No replay or MSE output was inspected before this correction.
+- Evidence for every number, score, and rank: `scripts/select_fallback.py` and `scripts/check_review.py`; inputs `reviews/candidate_round1.json`, `reviews/candidate_round2.json`, `artifacts/fallback_after_12.json`, `references/admire_bayesopt_2508.11551.pdf`, `vendor/admire_bayesopt/mfbayesopt_maxvalue.py`; commands/outputs are recorded in `REVIEW-CALIBRATION-ROUND-2 AND FALLBACK-12`.
+
 ## H011 v1 — PREREGISTERED, admitted-by-fallback
 
 - ID/date/type/level: H011, 2026-08-24, audit, L0. Attacks A019.
