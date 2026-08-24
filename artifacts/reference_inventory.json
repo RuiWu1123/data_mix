@@ -1,0 +1,161 @@
+{
+  "papers": [
+    {
+      "pages": 40,
+      "path": "references/aioli_2411.05735.pdf",
+      "sha256": "2acb179100ec76d2e2cafc5340f827a037842df63d5498317df50829939a17a8"
+    },
+    {
+      "pages": 37,
+      "path": "references/data_constrained_2606.06888.pdf",
+      "sha256": "cecba3430d891fbd904593013a10e02086ebdb17544cc4734133f18cf0220542"
+    },
+    {
+      "pages": 21,
+      "path": "references/data_mixture_optimization_multifidelity_2503.21023.pdf",
+      "sha256": "f9e1dd8acd276f3e375db6fb60a9dd3eae6332f4e6a2e0a90d5fdda3f9a3157e"
+    },
+    {
+      "pages": 15,
+      "path": "references/data_mixture_survey_2026.pdf",
+      "sha256": "9e1c801430b16bb26afc3a50052c742478e86d0f6b39838b31ae3a8dbd0dc4ca"
+    },
+    {
+      "pages": 16,
+      "path": "references/datadecide_2504.11393.pdf",
+      "sha256": "5d810e659f231c9f839896f03742a1a905469c1497251e73c8f8ab1cc430371a"
+    },
+    {
+      "pages": 21,
+      "path": "references/doge_2310.15393.pdf",
+      "sha256": "ee777c94d4ae274230c9a6b86423742d17e2b7418834f27d9acd206f70df469f"
+    },
+    {
+      "pages": 27,
+      "path": "references/doremi_2305.10429.pdf",
+      "sha256": "fff8029cac22d2c1586d91707c4629bd32ced6c474d9893e46927a59a7e3e4e7"
+    },
+    {
+      "pages": 43,
+      "path": "references/explaining_dmsl_2606.08167.pdf",
+      "sha256": "dcd6942ebbfbcb222da625cac9fed9b2988eef20e8a4e781bbd17954ddc05d8f"
+    },
+    {
+      "pages": 44,
+      "path": "references/grape_2505.20380.pdf",
+      "sha256": "1ad8677b8a91b35f04c3807c88cdb819727b2e58d70ea72c37af0949d496a307"
+    },
+    {
+      "pages": 21,
+      "path": "references/infolaw_2605.02364.pdf",
+      "sha256": "524e7fd4c18f3ab0483c74e306ee4ff7d2ccf04a53f0292cd3e515b3e7c999da"
+    },
+    {
+      "pages": 18,
+      "path": "references/mde_2025_acl.pdf",
+      "sha256": "b2f367c4f629c33acff38d34b8b142b3fc074b4d6375d1a500c0e097bb34f914"
+    },
+    {
+      "pages": 17,
+      "path": "references/mixmin_2025.pdf",
+      "sha256": "dbffa884a5494e59269323ab3fc8dd38385ea8be9bf807e0f8b1271696114bb0"
+    },
+    {
+      "pages": 58,
+      "path": "references/olmix_2602.12237.pdf",
+      "sha256": "6f2f997eb61ec7ccc82b64b3cb780d218349a0aa3514472f000ed1a956630a29"
+    },
+    {
+      "pages": 25,
+      "path": "references/op_mix_2605.15220.pdf",
+      "sha256": "e898368eb8e8522dd5c30a218609ffe00ea1b92c5c86edf0b9c1bcb44ff5ed44"
+    },
+    {
+      "pages": 36,
+      "path": "references/regmix_2407.01492.pdf",
+      "sha256": "a492660731597c8eac0d2d8b59cc6b3a3fd317db024b16385eb28e888e42a3a4"
+    },
+    {
+      "pages": 8,
+      "path": "references/regmix_d_2606.18663.pdf",
+      "sha256": "2f56c457984f986018ee70642361de86282ffaf22984f039ebd645226e443edd"
+    },
+    {
+      "pages": 19,
+      "path": "references/scaling_domain_repetition_2608.14071.pdf",
+      "sha256": "75923a7baf1074d481ff17c47efa39c054b1cd2c2623678b5f8ca9374d6221db"
+    },
+    {
+      "pages": 33,
+      "path": "references/scaling_mixture_constraints_2605.12715.pdf",
+      "sha256": "5540fb899c3e2a08069d67ea0802e54d3d5bc8bcac40983fa45c475b28410a95"
+    },
+    {
+      "pages": 25,
+      "path": "references/scaling_optimal_mixtures_2507.09404.pdf",
+      "sha256": "bca63d26aa7fe5600c005fc3fa1f116405555f1140bca588303122c3628c6e8f"
+    }
+  ],
+  "repositories": [
+    {
+      "commit": "a2361123335cb91d68f5ad86a6c85de7a79e6d5e",
+      "path": "vendor/aioli",
+      "remote": "https://github.com/HazyResearch/aioli.git"
+    },
+    {
+      "commit": "37269969a0957448d51622e0c083977bc5d260e8",
+      "path": "vendor/data_recipes",
+      "remote": "https://github.com/namkoong-lab/data-recipes.git"
+    },
+    {
+      "commit": "68abc496587935b7211e9894206e78f15d535832",
+      "path": "vendor/datadecide",
+      "remote": "https://github.com/allenai/DataDecide.git"
+    },
+    {
+      "commit": "8d7ceeb6661a25747845e4b91211d679c1c6ed42",
+      "path": "vendor/dc_pretrain",
+      "remote": "https://github.com/yixinw-lab/dc_pretrain.git"
+    },
+    {
+      "commit": "88400e9263dfdd69a24b28aec8533fcb1bf9363d",
+      "path": "vendor/doge",
+      "remote": "https://github.com/Olivia-fsm/DoGE.git"
+    },
+    {
+      "commit": "7cde52d1848737aa967ecbdb9e643cf334de160d",
+      "path": "vendor/doremi",
+      "remote": "https://github.com/sangmichaelxie/doremi.git"
+    },
+    {
+      "commit": "c2bf1106e8e54b8d368cd6de2515d4804f1c8a36",
+      "path": "vendor/explaining_dmsl",
+      "remote": "https://github.com/meiqwq/Explaining-Data-Mixing-Scaling-Laws.git"
+    },
+    {
+      "commit": "7f3efcfb9eb2d8f074f21724a2041bf28e107149",
+      "path": "vendor/grape",
+      "remote": "https://github.com/Olivia-fsm/GRAPE_data_mixture_with_multi_target.git"
+    },
+    {
+      "commit": "8ad3e1244b53294ded55a96ae325f4112ce3bc63",
+      "path": "vendor/mixinglaws",
+      "remote": "https://github.com/yegcjs/mixinglaws.git"
+    },
+    {
+      "commit": "9586977981e01b60c8b20330f623047f0b693fe3",
+      "path": "vendor/olmix",
+      "remote": "https://github.com/allenai/olmix.git"
+    },
+    {
+      "commit": "0b4469c2457ae5e5e21dc13aaa2aa9394d5f3867",
+      "path": "vendor/on_policy_mix",
+      "remote": "https://github.com/michahu/on-policy-mix.git"
+    },
+    {
+      "commit": "dd9d1c3b2d7c1756b1a90f0ad7603068e9856cc6",
+      "path": "vendor/regmix",
+      "remote": "https://github.com/sail-sg/regmix.git"
+    }
+  ]
+}
