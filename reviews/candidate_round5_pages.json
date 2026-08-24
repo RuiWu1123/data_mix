@@ -1,0 +1,51 @@
+{
+  "reference_list": [
+    "olmix_2602.12237.pdf",
+    "regmix_2407.01492.pdf",
+    "doge_2310.15393.pdf",
+    "vector_dimension_reduction_1801.07922.pdf",
+    "shared_active_subspace_2401.02735.pdf",
+    "sequential_active_subspaces_1907.11572.pdf"
+  ],
+  "pages": [
+    {
+      "id": "H016",
+      "title": "Olmix response concentration is codomain-norm and task-granularity robust",
+      "statement": "The H015 concentration and its leading two mixture directions persist when the downstream-task codomain is changed from raw BPB to task-standardized BPB and to a paper-native family-balanced norm. Thus H015 is not produced solely by raw task scales, duplicated subtasks, or unequal Math/Code/QA granularity.",
+      "attacks": ["H015", "A-012"],
+      "original_tested": "No. Olmix compares per-task, per-family, and aggregate regression performance, but does not report a joint response spectrum, norm sensitivity, or leading mixture-subspace overlap. H015 used only raw BPB.",
+      "why_new": "Vector-valued active-subspace work proves that the codomain norm changes the operator, making this a necessary construct-validity test rather than a generic sensitivity appendix. The LLM-mixing-specific question is whether Olmix's released task suite supports the same response directions after its paper-native task-family balancing.",
+      "falsification": "Use the same 110 finite tasks and Helmert-ilr inputs as H015 without reading transformed outcomes before preregistration. Define three codomain norms: raw BPB; per-task BPB divided by its within-table standard deviation; and the same standardized tasks additionally divided by the square root of their family size, with Minerva MATH as Math, HumanEval/MBPP/MT-MBPP as Code, and all remaining paper-listed tasks as QA. Discovery is m=6/12 and confirmation is m=18/24. With 10000 mixture-row bootstraps, every norm and m must have median stable-rank fraction <=0.50, 95% upper bound <=0.60, and nominal deficit >2 bootstrap sigma. For rank two, raw-versus-alternative squared canonical overlap must have point estimate >=0.80 and bootstrap 5% lower bound >=0.60 at every m. Each norm's stable-rank log-log slope must be <=0.50 with bootstrap 95% upper bound <=0.75. Any failed conjunction falsifies; a family with fewer than 7 tasks or any rank-deficient design is inconclusive.",
+      "minimum_detectable_effect": "A 40% nominal-rank deficit at the upper confidence bound, two-sigma deficit, and at least 0.80 point/0.60 lower-bound rank-two overlap.",
+      "design": "All scaling constants are estimated inside each resampled table. The same bootstrap indices are used across norms for paired contrasts. The family-aggregated three-output spectrum is emitted only as a descriptive sensitivity because its algebraic rank ceiling would make a nominal-rank fraction tautological. Discovery and confirmation decisions are separate; claims are limited to norm robustness of this released affine response, not intrinsic dimension.",
+      "cost": "L0: one Slurm CPU job, zero GPU.",
+      "type": "measurement"
+    },
+    {
+      "id": "H017",
+      "title": "Olmix has at most two cross-validated affine predictive mixture directions",
+      "statement": "The H015 spectrum corresponds to a statistically useful low-dimensional affine predictor: across the nested Olmix swarms, no more than two reduced-rank mixture directions are needed to match the best held-out task-standardized BPB prediction, and those directions outperform dimension-matched random subspaces.",
+      "attacks": ["H015", "A-012"],
+      "original_tested": "No. Olmix measures held-out correlation for full-coordinate regressors and H015 measures in-sample stable rank. Neither selects reduced rank by out-of-fold prediction nor compares a learned low-rank mixture subspace with Haar-random subspaces.",
+      "why_new": "This replaces H015's invalid interpretation of stable rank as distinguishable rank with an operational estimand: cross-validated affine predictive rank under a frozen loss and rank-selection rule. It directly tests whether the spectral concentration carries information rather than merely describing singular-value imbalance.",
+      "falsification": "For each m, apply Helmert ilr to ratios and use five-fold splits determined only by SHA256(run, repeat), for 100 repeats. Within every training fold, standardize each task using training mean and variance and apply those constants to validation. Fit unregularized multivariate OLS, truncate its coefficient SVD at every rank r in 1..m-1, and score mean task-standardized RMSE. Select the smallest r within one fold-standard-error of the best rank. A Haar-random rank-two input subspace, generated from the repeat hash and refit on training outcomes, is the negative control. Discovery is m=6/12; confirmation is m=18/24. Support requires every m to have median selected rank <=2 and repeat 95% upper quantile <=3; learned rank-two RMSE may exceed the best-rank RMSE by at most 0.01 response standard deviations; and learned rank two must beat Haar rank two by >2 repeat-level paired sigma. Any failure falsifies. Any fold with design rank below m-1 or task standard deviation below 1e-8 is inconclusive.",
+      "minimum_detectable_effect": "Selected-rank upper quantile at most three, rank-two excess standardized RMSE at most 0.01, and a learned-versus-random benefit above two repeat sigma.",
+      "design": "Rank selection, task scaling, coefficient estimation, and subspace learning occur inside each training fold. Validation rows never influence the subspace or scaling. The result is explicitly an affine predictive rank on released proxy outcomes; it cannot be called intrinsic dimension, training-seed noise, or target-scale sample complexity. H016 norm robustness is logically separate.",
+      "cost": "L0: one Slurm CPU job, zero GPU.",
+      "type": "measurement"
+    },
+    {
+      "id": "H018",
+      "title": "Olmix's nonlinear log-linear Jacobian has the same concentrated response subspace as H015",
+      "statement": "When the published Olmix per-task log-linear law is fitted to the official nested swarms, its distribution-averaged nonlinear Jacobian in ilr coordinates has a low-rank spectrum and leading two mixture subspace consistent with H015's global affine operator. Therefore H015 is not merely cancellation or projection bias from fitting a global affine map to a nonlinear response.",
+      "attacks": ["H015", "A-012"],
+      "original_tested": "No. Olmix reports predictive correlation and optimized mixtures for f_i(p)=c_i+exp(A_i^T p), but does not form its vector Jacobian, integrate the gradient outer product, report its spectrum, or compare it with a global-ilr OLS subspace. H015 did not fit the published nonlinear law.",
+      "why_new": "This uses the published method's own response family to test the strongest remaining model-misspecification explanation of H015. The vector-valued active-subspace papers define related gradient operators but do not evaluate a pretraining mixing law or compare local nonlinear and global affine mixture subspaces.",
+      "falsification": "Use Olmix's released implementation and equation f_i(p)=c_i+exp(A_i^T p), preserving its Huber objective and positive c parameterization. Use five SHA256 row folds; require median held-out per-task Pearson correlation >=0.50 before interpreting the Jacobian. For each fit, compute the exact ilr gradient exp(A_i^T p) A_i^T(diag(p)-pp^T)B at every observed p, where B is the frozen Helmert basis, and average J(p)^T R J(p) under raw and task-standardized codomain norms. Discovery is m=6/12; confirmation is m=18/24. Across 200 row-bootstrap refits warm-started from the official point fit, support requires every norm and m to have active stable-rank fraction <=0.50 with 95% upper bound <=0.60; rank-two squared canonical overlap with H015 point OLS >=0.80 with bootstrap 5% lower bound >=0.60; and log-log active-rank slope <=0.50 with bootstrap 95% upper bound <=0.75. A fit convergence rate below 0.95 or failed predictive threshold is inconclusive; any spectral or overlap failure falsifies.",
+      "minimum_detectable_effect": "Held-out correlation at least 0.50, 40% rank deficit at the upper bound, and rank-two overlap at least 0.80 point/0.60 lower bound.",
+      "design": "The exact analytic Jacobian is checked against automatic differentiation on a held-out hash split to tolerance 1e-6. Bootstrap fits never initialize from bootstrap outcomes other than the frozen point estimate, and discovery/confirmation are reported separately. The conclusion is limited to agreement between two estimators of the released proxy response; target-scale or intrinsic-dimension claims remain prohibited.",
+      "cost": "L0: one Slurm CPU job, zero GPU; if the official refit cannot finish within the L0 wall-time, record an L1-free blocked line rather than changing the estimator.",
+      "type": "measurement"
+    }
+  ]
+}
