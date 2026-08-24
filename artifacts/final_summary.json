@@ -1,4 +1,7 @@
 {
+  "active_research_lines": [
+    "H015"
+  ],
   "assumptions": {
     "assumptions": 27,
     "errors": [],
@@ -22,6 +25,11 @@
     "passed": true
   },
   "blocked_line_count": 7,
+  "closed_research_lines": [
+    "H003",
+    "H006",
+    "H011"
+  ],
   "command": "python scripts/build_final_summary.py --root /work1/ruixiangtang/rw761/awesome-pretraining/data_mix --result-root /work1/ruixiangtang/rw761/data_mix_artifacts --output artifacts/final_summary.json",
   "inputs": [
     "protocol.json",
@@ -61,6 +69,7 @@
       "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H002/result.json",
       "id": "H002",
       "level": "L0",
+      "line_status": "complete",
       "next_minimum_upgrade": null,
       "review_scores": {
         "falsifiability": 6,
@@ -75,15 +84,8 @@
       "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json",
       "id": "H003",
       "level": "L0",
-      "next_minimum_upgrade": {
-        "arms": 2,
-        "decision": "Affine correction must lower mean target loss by at least 2 seed sigma without raising any domain loss by more than 1 sigma.",
-        "design": "Train the direct-coefficient and affine-corrected final samplers at matched scale and tokens.",
-        "model_parameters": 160000000,
-        "seeds_per_arm": 3,
-        "tier": "L1",
-        "training_tokens": 3200000000
-      },
+      "line_status": "closed",
+      "next_minimum_upgrade": null,
       "review_scores": {
         "falsifiability": 6,
         "impact": 7,
@@ -97,6 +99,7 @@
       "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H004/result.json",
       "id": "H004",
       "level": "L0",
+      "line_status": "complete",
       "next_minimum_upgrade": null,
       "review_scores": {
         "falsifiability": 5,
@@ -111,14 +114,8 @@
       "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H006/result.json",
       "id": "H006",
       "level": "L0",
-      "next_minimum_upgrade": {
-        "decision": "Any post-bound optimality gap above the maximum allowed gap falsifies the proposed repair.",
-        "design": "Add an explicit source-target progress constant and property-test the repaired theorem on strongly convex quadratic families.",
-        "maximum_allowed_gap": 1e-10,
-        "minimum_progress_constant": 0.1,
-        "quadratic_instances": 10000,
-        "tier": "L0"
-      },
+      "line_status": "closed",
+      "next_minimum_upgrade": null,
       "review_scores": {
         "falsifiability": 9,
         "impact": 6,
@@ -132,6 +129,7 @@
       "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H007/result.json",
       "id": "H007",
       "level": "L0",
+      "line_status": "complete",
       "next_minimum_upgrade": null,
       "review_scores": {
         "falsifiability": 7,
@@ -146,16 +144,8 @@
       "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H011/result.json",
       "id": "H011",
       "level": "L0",
-      "next_minimum_upgrade": {
-        "arms": 2,
-        "decision": "The theorem-relevance concern advances if GRAPE variance has a positive slope above 2 seed sigma over the first 10 logged intervals.",
-        "design": "Run GRAPE and a fixed-mixture control on a SlimPajama proxy while logging raw target-loss variance.",
-        "logging_interval_updates": 100,
-        "model_parameters": 60000000,
-        "seeds_per_arm": 3,
-        "target_domains": 7,
-        "tier": "L1"
-      },
+      "line_status": "closed",
+      "next_minimum_upgrade": null,
       "review_scores": {
         "falsifiability": 8,
         "impact": 7,
@@ -169,6 +159,7 @@
       "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H013/result.json",
       "id": "H013",
       "level": "L0",
+      "line_status": "complete",
       "next_minimum_upgrade": null,
       "review_scores": {
         "falsifiability": 8,
@@ -183,6 +174,7 @@
       "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H014/result.json",
       "id": "H014",
       "level": "L0",
+      "line_status": "complete",
       "next_minimum_upgrade": null,
       "review_scores": {
         "falsifiability": 8,
@@ -197,6 +189,7 @@
       "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H015/result.json",
       "id": "H015",
       "level": "L0",
+      "line_status": "candidate",
       "next_minimum_upgrade": {
         "bootstraps_per_norm": 10000,
         "codomain_norms": 3,
