@@ -1,0 +1,7 @@
+{
+  "conservative_accounting": "all goal tokens upper-bound review-generation tokens",
+  "forced_relative_selection": true,
+  "pool_limit": 200000,
+  "token_budget": 500000,
+  "tokens_used": 386781
+}
