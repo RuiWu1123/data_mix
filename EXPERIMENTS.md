@@ -125,3 +125,12 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Correction: define repeat sigma as exactly `0` when all three stored repeat statistics compare equal, otherwise use the sample standard deviation. This matches the preregistered phrase “all repetitions agree” and prevents a floating reduction artifact from overriding bitwise-equal inputs.
 - Decision rule: rerun the unchanged job. The existing supported/falsified/inconclusive logic then applies without any threshold change.
 - Evidence for all counts and the observed trigger: `scripts/test_h003.py`; input `/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json`; diagnostic command `python -c "import json; p=json.load(open('/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json')); print(p['discovery']['repeat_medians'], p['discovery']['sigma'])"`; implementation and rerun occur only after this entry.
+
+## H006 v1 — RESULT
+
+- ID/date/type/level/verdict: H006, 2026-08-24, audit, L0, `supported`. Review status `admitted-by-fallback`; calibrated N/F/I `7/9/6`.
+- Discovery: the one-dimensional construction satisfies every displayed Theorem 2.1 condition found by the parser. At `theta=1`, the target optimality gap is `0.6321205588285577`, source-gradient norm and update norm are `0`, and the analytic-versus-dual derivative error is `0`.
+- Independent confirmation: the separately instantiated `7`-dimensional dual-number construction has the same `0.6321205588285577` gap, update norm `0`, and AD error `0`. The global gradient/smoothness bounds are `0.8577638849607068/2.0`; learning rate `0.25` is within the `0.5` bound; both regularizers are `1.0`.
+- Noise/effect: three repetitions per construction give sigma `0`; the nonzero `0.6321205588285577` gap is `infinite` sigma and exceeds the preregistered `0.50` threshold. The conclusion is restricted to the literal displayed theorem.
+- Job accounting: Slurm job `384364`, state `COMPLETED`, elapsed `00:00:00`, exit `0:0`, MI210 GPUs `0`, MI210 node-hours `0`.
+- Evidence: `scripts/test_h006.py` and `slurm/h006_l0.sbatch`; inputs `/work1/ruixiangtang/rw761/data_mix_artifacts/paper_text/grape_2505.20380.txt` and `references/grape_2505.20380.pdf`; command `sbatch slurm/h006_l0.sbatch`; result `/work1/ruixiangtang/rw761/data_mix_artifacts/H006/result.json`; raw log `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/h006-384364.out`; accounting command `sacct -j 384364 --format=JobID,State,Elapsed,ExitCode -n -P`.
