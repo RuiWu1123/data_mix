@@ -4,7 +4,6 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=1G
 #SBATCH --time=00:15:00
 #SBATCH --output=/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/fetch-olmix-rq2-%j.out
 
