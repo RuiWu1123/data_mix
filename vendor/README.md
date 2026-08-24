@@ -4,6 +4,7 @@ These repositories were cloned from links in the papers, author project pages, o
 
 | Method | Official remote | Pinned commit |
 |---|---|---|
+| ADMIRE-BayesOpt | https://github.com/xo28/ADMIRE-BayesOpt.git | `dc177953300b89676695552a0f5f10dc0ae6f82d` |
 | Aioli | https://github.com/HazyResearch/aioli.git | `a2361123335cb91d68f5ad86a6c85de7a79e6d5e` |
 | Data Mixture Optimization | https://github.com/namkoong-lab/data-recipes.git | `37269969a0957448d51622e0c083977bc5d260e8` |
 | DataDecide | https://github.com/allenai/DataDecide.git | `68abc496587935b7211e9894206e78f15d535832` |
@@ -13,6 +14,8 @@ These repositories were cloned from links in the papers, author project pages, o
 | Explaining Data Mixing Scaling Laws | https://github.com/meiqwq/Explaining-Data-Mixing-Scaling-Laws.git | `c2bf1106e8e54b8d368cd6de2515d4804f1c8a36` |
 | GRAPE | https://github.com/Olivia-fsm/GRAPE_data_mixture_with_multi_target.git | `7f3efcfb9eb2d8f074f21724a2041bf28e107149` |
 | Data Mixing Laws | https://github.com/yegcjs/mixinglaws.git | `8ad3e1244b53294ded55a96ae325f4112ce3bc63` |
+| MixMin | https://github.com/Anvith-Thudi/MixMin.git | `7212abef3b6e62d2a6164675a46f2ab143d305ca` |
+| Scaling Laws for Optimal Data Mixtures | https://github.com/apple/ml-scalefit.git | `ac4664af5db6c94e6ac7521a61dd3bbb0d91cc3a` |
 | Olmix | https://github.com/allenai/olmix.git | `9586977981e01b60c8b20330f623047f0b693fe3` |
 | OP-MIX | https://github.com/michahu/on-policy-mix.git | `0b4469c2457ae5e5e21dc13aaa2aa9394d5f3867` |
 | RegMix | https://github.com/sail-sg/regmix.git | `dd9d1c3b2d7c1756b1a90f0ad7603068e9856cc6` |

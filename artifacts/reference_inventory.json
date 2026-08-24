@@ -1,6 +1,11 @@
 {
   "papers": [
     {
+      "pages": 25,
+      "path": "references/admire_bayesopt_2508.11551.pdf",
+      "sha256": "e7935322dc3b01d4f0bbcd0169f4caa71bebef3a1a8bb71949801666e3fa0f07"
+    },
+    {
       "pages": 40,
       "path": "references/aioli_2411.05735.pdf",
       "sha256": "2acb179100ec76d2e2cafc5340f827a037842df63d5498317df50829939a17a8"
@@ -51,9 +56,19 @@
       "sha256": "524e7fd4c18f3ab0483c74e306ee4ff7d2ccf04a53f0292cd3e515b3e7c999da"
     },
     {
+      "pages": 21,
+      "path": "references/internal_repetition_2606.24998.pdf",
+      "sha256": "48c0db6837f82547351710c42f3f256630ccb8d7217b0f49aec140584084f58a"
+    },
+    {
       "pages": 18,
       "path": "references/mde_2025_acl.pdf",
       "sha256": "b2f367c4f629c33acff38d34b8b142b3fc074b4d6375d1a500c0e097bb34f914"
+    },
+    {
+      "pages": 20,
+      "path": "references/mergemix_2601.17858.pdf",
+      "sha256": "84aed5a66a1cb38b2d289de488330245948fbc7277e335938312948159315954"
     },
     {
       "pages": 17,
@@ -94,9 +109,19 @@
       "pages": 25,
       "path": "references/scaling_optimal_mixtures_2507.09404.pdf",
       "sha256": "bca63d26aa7fe5600c005fc3fa1f116405555f1140bca588303122c3628c6e8f"
+    },
+    {
+      "pages": 14,
+      "path": "references/tikmix_2508.17677.pdf",
+      "sha256": "ff16ff358e320e9e31e392a757cd7db7d426ef09e50465cde9f8524dae176b08"
     }
   ],
   "repositories": [
+    {
+      "commit": "dc177953300b89676695552a0f5f10dc0ae6f82d",
+      "path": "vendor/admire_bayesopt",
+      "remote": "https://github.com/xo28/ADMIRE-BayesOpt.git"
+    },
     {
       "commit": "a2361123335cb91d68f5ad86a6c85de7a79e6d5e",
       "path": "vendor/aioli",
@@ -141,6 +166,16 @@
       "commit": "8ad3e1244b53294ded55a96ae325f4112ce3bc63",
       "path": "vendor/mixinglaws",
       "remote": "https://github.com/yegcjs/mixinglaws.git"
+    },
+    {
+      "commit": "7212abef3b6e62d2a6164675a46f2ab143d305ca",
+      "path": "vendor/mixmin",
+      "remote": "https://github.com/Anvith-Thudi/MixMin.git"
+    },
+    {
+      "commit": "ac4664af5db6c94e6ac7521a61dd3bbb0d91cc3a",
+      "path": "vendor/ml_scalefit",
+      "remote": "https://github.com/apple/ml-scalefit.git"
     },
     {
       "commit": "9586977981e01b60c8b20330f623047f0b693fe3",
