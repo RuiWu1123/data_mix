@@ -20,6 +20,8 @@ COMPLETED = {
     "H015": ("measurement", "L0"),
 }
 
+CLOSED_LINES = {"H003", "H006", "H011"}
+
 REVIEW_ROUNDS = (
     ("reviews/candidate_round1.json", 1),
     ("reviews/candidate_round2.json", 0),
@@ -109,11 +111,12 @@ def main() -> None:
                 "id": identifier,
                 "type": kind,
                 "level": level,
+                "line_status": "closed" if identifier in CLOSED_LINES else "active",
                 "review_scores": scores[identifier],
                 "verdict": verdict,
                 "supported_effect_sigma": supported_effect(identifier, result) if verdict == "supported" else "not_applicable",
                 "evidence": str(path),
-                "next_minimum_upgrade": UPGRADES.get(identifier),
+                "next_minimum_upgrade": None if identifier in CLOSED_LINES else UPGRADES.get(identifier),
             }
         )
 
@@ -146,6 +149,8 @@ def main() -> None:
     result = {
         "records": records,
         "verdict_counts": verdict_counts,
+        "active_research_lines": sorted(record["id"] for record in records if record["line_status"] == "active" and record["verdict"] == "supported"),
+        "closed_research_lines": sorted(CLOSED_LINES),
         "quotas": quotas,
         "assumptions": assumptions,
         "blocked_line_count": 7,
