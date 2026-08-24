@@ -1,0 +1,120 @@
+{
+  "calibration": {
+    "scale": "Scores of 7 or higher denote oral-level strength on that axis.",
+    "anchors": [
+      {
+        "work": "RegMix: Data Mixture as Regression for Language Model Pre-training",
+        "publication": "ICLR 2025 conference paper",
+        "source": "https://proceedings.iclr.cc/paper_files/paper/2025/file/5f67d864aae6115374fed7beddd119e0-Paper-Conference.pdf",
+        "rewritten_core_hypothesis": "Mixture rankings learned by regression from 512 ultra-small proxy models remain sufficiently stable across model and token scales that the selected mixture can outperform human and prior automatic mixtures when used for substantially larger pretraining. Concretely, regressors fitted to 1M-parameter models trained for 1B tokens should identify the best-performing mixture among 64 candidate 1B-parameter models trained for 25B tokens, with the advantage persisting in larger-model and longer-training comparisons.",
+        "scores": {
+          "novelty": 8,
+          "falsifiability": 8,
+          "impact": 9
+        },
+        "calibration_reason": "A new operational formulation, expensive target-scale validation, explicit competing mixtures, and direct practical consequences."
+      },
+      {
+        "work": "DoGE: Domain Reweighting with Generalization Estimation",
+        "publication": "ICML 2024 poster",
+        "source": "https://proceedings.mlr.press/v235/fan24e.html",
+        "rewritten_core_hypothesis": "Domain-gradient alignment measured during one proxy-model run can identify sampling weights that improve a larger model's universal and target-specific generalization. Weights learned with an 82M proxy on seven SlimPajama domains should improve held-out perplexity and six-task few-shot accuracy for 124M, 210M, and 684M base models relative to uniform and DoReMi baselines, and should also improve perplexity on target domains excluded from the training mixture.",
+        "scores": {
+          "novelty": 8,
+          "falsifiability": 8,
+          "impact": 8
+        },
+        "calibration_reason": "A distinct bilevel method tested through newly trained models, multiple scales, direct baselines, and an out-of-domain regime."
+      }
+    ]
+  },
+  "candidate": {
+    "id": "H017",
+    "version": 2,
+    "title": "Two directions suffice for cross-fitted affine prediction on Olmix swarms",
+    "nearest_prior_work": [
+      {
+        "work": "Olmix: A Framework for Data Mixing Throughout LM Development",
+        "source": "https://arxiv.org/abs/2602.12237",
+        "exact_difference": "Olmix supplies the same mixture-to-per-task-BPB swarms, the nested 6/12/18/24-domain study, and held-out regression-fit analyses. It does not fit reduced-rank multi-output regressions, nest predictive rank selection inside outer folds, or test rank two against design-whitened random two-dimensional subspaces."
+      },
+      {
+        "work": "RegMix: Data Mixture as Regression for Language Model Pre-training",
+        "source": "https://proceedings.iclr.cc/paper_files/paper/2025/file/5f67d864aae6115374fed7beddd119e0-Paper-Conference.pdf",
+        "exact_difference": "RegMix predicts unseen-mixture scalar objectives with ridge regression or LightGBM and validates selected mixtures at larger training scales. It neither estimates a shared multi-task coefficient rank nor tests whether two supervised input directions match a cross-validated rank-selected predictor."
+      },
+      {
+        "work": "Data Mixing Laws: Optimizing Data Mixtures by Predicting Language Modeling Performance",
+        "source": "https://arxiv.org/abs/2403.16952",
+        "exact_difference": "Data Mixing Laws fits explicit per-output functional relationships and composes them with model-size and training-step scaling laws. It does not posit or measure a shared rank-two affine subspace across a released downstream-task vector."
+      },
+      {
+        "work": "Gradient-Based Dimension Reduction of Multivariate Vector-Valued Functions",
+        "source": "https://arxiv.org/abs/1801.07922",
+        "exact_difference": "This work formalizes supervised low-dimensional ridge approximations for vector-valued functions and shows that the relevant subspace depends on input geometry and the output norm. It uses gradients and approximation bounds under Gaussian or Poincare assumptions, not cross-fitted RRR on compositional LLM-mixture observations."
+      },
+      {
+        "work": "On Cross-Validation for Sparse Reduced Rank Regression",
+        "source": "https://academic.oup.com/jrsssb/article/81/1/145/7048349",
+        "exact_difference": "This work studies rank and sparsity selection for reduced-rank regression and warns about instability and inconsistency in conventional cross-validation. It contributes general statistical methodology, not an Olmix-specific rank-two sufficiency measurement or Haar-subspace comparison."
+      }
+    ],
+    "technical_checks": {
+      "repaired_rrr_estimator": {
+        "status": "PASS",
+        "assessment": "For centered X and Y under unweighted Frobenius loss, truncating the SVD of the OLS fitted response P_X Y and mapping the result back with X-plus is the correct fixed-X RRR solution. The explicit prohibition on coefficient-SVD truncation repairs the prior algebraic error."
+      },
+      "nested_cv": {
+        "status": "PASS_WITH_RESERVATION",
+        "assessment": "Outer holdouts are isolated from inner rank selection, and predictor and response scaling are refitted inside each inner fold. The rank grid omits rank zero, so 'rank-selected' excludes the valid intercept-only affine model. Averaging predictions from repetitions is also underspecified because each fold uses a different response standardization."
+      },
+      "random_subspace_geometry": {
+        "status": "PASS_WITH_RESERVATION",
+        "assessment": "Drawing Haar two-planes after whitening the outer-training Gram matrix is the right conceptual way to make the negative control uniform in the empirical design metric. The exact whitening and back-mapping formulas are unstated, and the entire construction is blocked by undefined ilr coordinates on zero-weight rows."
+      },
+      "uncertainty": {
+        "status": "FAIL",
+        "assessment": "Bootstrapping stored cross-fitted residual rows without redoing folds, inner rank selection, whitening, and fitted subspaces conditions on the trained procedures and does not account for their training-sample variability. OOF residuals are dependent because their fitted models use heavily overlapping training rows. No justification is given for treating this residual bootstrap as valid for the claimed unseen-row estimand, and no simultaneous coverage adjustment is made for the conjunction across four domain counts and two effect requirements."
+      },
+      "thresholds": {
+        "status": "PARTIAL_PASS",
+        "assessment": "The 0.01 noninferiority and 0.02 superiority margins are explicit, directional, and unchanged by the repair. However, they are called minimum detectable effects without a power calculation, their substantive basis is not supplied, and the bootstrap interval type and one-sided versus two-sided convention are unspecified."
+      },
+      "claim_follows": {
+        "status": "FAIL",
+        "assessment": "If the pipeline were executable and its uncertainty procedure valid, the conjunction would support only the appropriately narrow fixed-task, new-row performance claim. As written, exact-zero mixtures make the predictor coordinates undefined, while fold-dependent standardization and residual-only bootstrap prevent the numerical conjunction from establishing the stated result."
+      }
+    },
+    "strongest_oral_level_objections": [
+      {
+        "rank": 1,
+        "fatal": true,
+        "objection": "The claimed Olmix topic swarms are sparse. Olmix states that topic-level experiments use sparse swarms and defines those swarms by clipping every mixture weight below 0.05 to exactly zero. Helmert-ilr coordinates require strictly positive compositions. H017 specifies neither zero replacement nor a subcomposition, so X, its Gram matrix, its condition number, RRR, and Haar whitening are undefined on the claimed data. Different implicit zero treatments can materially change geometry at margins of 0.01 and 0.02."
+      },
+      {
+        "rank": 2,
+        "fatal": false,
+        "objection": "The uncertainty calculation does not match the learning procedure. Resampling already-computed OOF residuals neither refits the nested rank-selection pipeline nor captures dependence induced by overlapping training folds. In addition, predictions from repetitions live in fold-specific task-standardized coordinate systems, yet the protocol does not say how they are returned to a common scale before averaging. The resulting confidence bounds are not presently interpretable as uncertainty for unseen mixture rows."
+      },
+      {
+        "rank": 3,
+        "fatal": false,
+        "objection": "The contribution remains below the calibrated oral bar. It is a secondary application of classical RRR to one released proxy-model table, with no new target-model training, new-task test, scale transfer, or demonstrated mixture-quality consequence. Equalizing every released response column after task-wise standardization also makes the discovered rank depend on an arbitrary fixed output norm and raw task decomposition. A positive result would be an interesting diagnostic, but not yet a high-impact mixing law."
+      }
+    ],
+    "scores": {
+      "novelty": 6,
+      "falsifiability": 4,
+      "impact": 6
+    },
+    "unresolved_fatal_objection": true,
+    "fatal_objection_summary": "Standard Helmert-ilr is undefined for the exact-zero weights deliberately present in the sparse Olmix swarms, and the protocol defines no operation that produces finite predictors.",
+    "substantial_overlap_veto": false,
+    "substantial_overlap_assessment": "The estimator, rank-selection idea, and supervised dimension-reduction interpretation are established, but the exact Olmix rank-two predictive-sufficiency measurement does not appear to have been reported by the closest work."
+  },
+  "decision": {
+    "rule": "ACCEPT only when novelty, falsifiability, and impact are all at least 7, unresolved_fatal_objection is false, and substantial_overlap_veto is false.",
+    "result": "REJECT",
+    "reason": "All three calibrated scores do not clear the required bar, and an unresolved fatal objection makes the specified analysis undefined on the claimed sparse swarms."
+  }
+}
