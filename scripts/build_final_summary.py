@@ -82,7 +82,9 @@ def load_scores(root: Path) -> dict[str, dict[str, int]]:
 
 
 def supported_effect(identifier: str, result: dict[str, object]):
-    if identifier in {"H003", "H006", "H011"}:
+    if identifier == "H003":
+        return result["confirmation"]["effect_sigma"]
+    if identifier in {"H006", "H011"}:
         return result["effect_sigma"]
     if identifier == "H015":
         return min(result["tables"][key]["deficit_sigma"] for key in ("18", "24"))
