@@ -1,0 +1,46 @@
+{
+  "results": [
+    {
+      "calibrated_scores": {
+        "falsifiability": 6,
+        "impact": 4,
+        "novelty": 4
+      },
+      "id": "H016",
+      "passed": false,
+      "raw_scores": {
+        "falsifiability": 6,
+        "impact": 4,
+        "novelty": 4
+      }
+    },
+    {
+      "calibrated_scores": {
+        "falsifiability": 6,
+        "impact": 6,
+        "novelty": 6
+      },
+      "id": "H017",
+      "passed": false,
+      "raw_scores": {
+        "falsifiability": 6,
+        "impact": 6,
+        "novelty": 6
+      }
+    },
+    {
+      "calibrated_scores": {
+        "falsifiability": 6,
+        "impact": 5,
+        "novelty": 5
+      },
+      "id": "H018",
+      "passed": false,
+      "raw_scores": {
+        "falsifiability": 6,
+        "impact": 5,
+        "novelty": 5
+      }
+    }
+  ]
+}
