@@ -1,0 +1,22 @@
+{
+  "assumptions": 27,
+  "errors": [],
+  "maximum_method_share": 0.1111111111111111,
+  "method_counts": {
+    "ADMIRE": 2,
+    "Aioli": 2,
+    "DataDecide": 3,
+    "DoGE": 2,
+    "DoReMi": 2,
+    "ExplainingDMSL": 2,
+    "GRAPE": 2,
+    "MixMin": 2,
+    "MultiFidelityMixing": 2,
+    "OPMIX": 2,
+    "Olmix": 2,
+    "OptimalMixtureScaling": 2,
+    "RegMix": 2
+  },
+  "methods": 13,
+  "passed": true
+}
