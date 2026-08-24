@@ -72,7 +72,11 @@ def main() -> None:
             else:
                 if record["next_minimum_upgrade"] is None:
                     errors.append(f"{identifier}: next minimum upgrade is missing")
-                if f"CANDIDATE FINDING — {identifier}" not in result_markdown:
+                candidate_markers = (
+                    f"CANDIDATE FINDING — {identifier}",
+                    f"CANDIDATE FINDING - {identifier}",
+                )
+                if not any(marker in result_markdown for marker in candidate_markers):
                     errors.append(f"{identifier}: candidate-finding marker is missing")
 
     payload = {
