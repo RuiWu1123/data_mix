@@ -221,3 +221,12 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Three strongest objections: visible labels may hide checkpoint/seed/version differences; a discrepancy does not identify the correct table or reverse a conclusion; odd/even columns do not create independent evidence.
 - Disposition: abandoned without test. A broader systematic audit would be a different hypothesis rather than a local repair.
 - Evidence for every count, threshold, and score: `scripts/check_review.py`; inputs `reviews/candidate_round2_pages.json`, `reviews/candidate_round2.json`; command `python scripts/check_review.py reviews/candidate_round2.json --threshold 7 --novelty-offset 0`; output `artifacts/candidate_round2_check.json`.
+
+## H004 v1 — RESULT
+
+- ID/date/type/level/verdict: H004, 2026-08-24, audit, L0, `falsified`. Review status `admitted-by-fallback`; calibrated N/F/I `8/5/8`.
+- Discovery: Pile contains `64` high-fidelity rows; the code makes `48` acquisition-eligible and `16` evaluation-only. Across `20` fixed acquisition-order seeds, every intersection count is `0` and maximum contamination fraction is `0`.
+- Independent confirmation: IFT contains `76` high-fidelity rows; `60` are eligible and `16` are evaluation-only. All `20` intersections are again `0`, with contamination fraction `0`.
+- Source trace: preparation initially concatenates high rows, but the actual call slices both features and labels by `[:-(X_train_high.shape[0]-threshold)]` before acquisition. This missed final consumer falsifies the leakage hypothesis.
+- Job accounting: Slurm job `384368`, state `COMPLETED`, elapsed `00:00:02`, exit `0:0`, MI210 GPUs `0`, MI210 node-hours `0`.
+- Evidence: `scripts/test_h004.py` and `slurm/h004_l0.sbatch`; inputs listed in `/work1/ruixiangtang/rw761/data_mix_artifacts/H004/result.json`; command `sbatch slurm/h004_l0.sbatch`; result `/work1/ruixiangtang/rw761/data_mix_artifacts/H004/result.json`; raw log `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/h004-384368.out`; accounting command `sacct -j 384368 --format=JobID,State,Elapsed,ExitCode -n -P`.
