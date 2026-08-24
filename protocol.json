@@ -19,7 +19,7 @@
   "max_l1_hours_per_job": 12,
   "max_concurrent_l1_jobs": 2,
   "gpu_budget_mi210_node_hours": 200,
-  "token_budget": 500000,
+  "token_budget": 50000000,
   "max_rescue_analyses_per_pair": 2,
   "slurm_l0_fallback_hours": 6
 }
