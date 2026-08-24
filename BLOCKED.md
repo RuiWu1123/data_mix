@@ -25,3 +25,7 @@ No official code, run-level table, exact model configuration, or checkpoint arti
 ## B-006 Data-constrained pretraining scaling laws
 
 The repository contains training code but omits the SoftQ fitting implementation, run-level numeric table, result payloads, and checkpoints required for nested scale holdout. The SoftQ model-comparison line is stopped. Evidence inputs: `references/data_constrained_2606.06888.pdf`, `vendor/dc_pretrain`, `artifacts/reference_inventory.json`; inventory command above.
+
+## B-007 H009 Olmix 1B normalization confirmation
+
+The four official RQ2 releases contain `511` row-level run names, all identifying 30M proxy runs and `0` identifying 1B runs. The paper reports 1B behavior only in aggregated Figure 18, without the per-mixture, per-seed target table required for the frozen common-oracle and `10000`-bootstrap confirmation. H009 is stopped rather than reconstructed from plot pixels. Evidence: `scripts/audit_h009_artifacts.py`; inputs `/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2` and `/work1/ruixiangtang/rw761/data_mix_artifacts/paper_text/olmix_2602.12237.txt`; command `sbatch slurm/h009_availability.sbatch`; result `/work1/ruixiangtang/rw761/data_mix_artifacts/H009/availability.json`; Slurm job `384399`.
