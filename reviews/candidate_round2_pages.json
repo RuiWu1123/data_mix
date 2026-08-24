@@ -1,0 +1,90 @@
+{
+  "reference_list": [
+    "regmix_2407.01492.pdf", "doremi_2305.10429.pdf", "doge_2310.15393.pdf",
+    "aioli_2411.05735.pdf", "datadecide_2504.11393.pdf", "olmix_2602.12237.pdf",
+    "data_mixture_optimization_multifidelity_2503.21023.pdf", "explaining_dmsl_2606.08167.pdf",
+    "grape_2505.20380.pdf", "op_mix_2605.15220.pdf", "mixmin_2025.pdf",
+    "scaling_optimal_mixtures_2507.09404.pdf", "admire_bayesopt_2508.11551.pdf",
+    "tikmix_2508.17677.pdf", "mergemix_2601.17858.pdf"
+  ],
+  "pages": [
+    {
+      "id": "H007",
+      "title": "Training-weight masking changes the DMSL validation estimand",
+      "statement": "Explaining DMSL reports a validation mean relative error as evidence for its capacity-plus-noise law, but its official metric includes a domain loss only when that domain's training weight is at least 0.1. On the released seven-domain simplex, this training-weight mask omits a large, systematically difficult set of finite nonzero target losses and materially inflates the reported advantage of Equation 3 over Equation 1.",
+      "attacks": ["A-016"],
+      "original_tested": "No. Section 5.1 Table 2 reports MRE and says zero-weight domains are excluded; fitting_7domains.py lines 252-277 instead uses h >= 0.1 in both fit and metric helpers. The paper does not report all-finite-cell MRE or a mask sensitivity.",
+      "why_new": "This is a metric-lineage audit, not another model-family comparison: it asks whether the published outcome variable silently depends on the treatment variable. Nearby DMSL work debates functional forms but does not audit this mask.",
+      "falsification": "Use the official released CSV and frozen official Equation 1/Equation 3 implementations. Hash unique mixture vectors into discovery and confirmation halves; fit each law only on the other mixture blocks at each eligible scale, then score the untouched half twice: official h>=0.1 mask and all finite nonzero losses. Support requires, in both halves, omitted-cell fraction >=0.40, winner's all-cell MRE minus masked MRE >=0.002 (0.20 percentage points), that difference >2 mixture-block-bootstrap sigma, and Equation 3's advantage shrinkage >=0.50 or a ranking reversal. If any half misses any condition, falsify; optimizer or reproduction failure is inconclusive.",
+      "minimum_detectable_effect": "0.20 MRE percentage points, 50% advantage shrinkage, and 2 sigma, using 10000 mixture-block bootstrap replicates.",
+      "design": "Discovery and confirmation are disjoint mixture hashes. Fit settings, target scales, cell counts, and convergence residuals are emitted. Model-selection data never enter the scored half.",
+      "cost": "L0, one Slurm CPU job, zero GPU.",
+      "type": "audit"
+    },
+    {
+      "id": "H008",
+      "title": "Equivalence-aware pairwise decisions calibrate DataDecide",
+      "statement": "A pretraining-recipe comparison should be treated as unidentified when its target-scale replicate confidence interval crosses zero. A fixed equivalence-aware abstention rule will reduce wrong scale-transfer decisions by at least 5 percentage points while retaining at least 60% of recipe pairs, exposing forced binary target means as a miscalibrated ground truth.",
+      "attacks": ["A-009", "A-010"],
+      "original_tested": "No. DataDecide averages target replicates and assigns every pair a winner in Equation 3. It reports prediction accuracy but neither an equivalence set nor error-versus-coverage calibration.",
+      "why_new": "DataDecide studies pairwise accuracy and later proxy-reliability work studies regret; neither turns replicate uncertainty into a preregistered selective decision rule with an independent coverage guarantee on the released multi-seed recipe ladder.",
+      "falsification": "Use final-step validation likelihood metrics in the official perplexity_metrics_by_group.csv. Parse recipe, scale, and seed from group IDs. A pair is decided only when a 95% paired seed-bootstrap interval for the target-scale mean difference excludes zero; no threshold tuning. Hash metric columns into discovery and confirmation halves. Support requires in both halves: coverage >=0.60; forced-decision error >=0.10; selective error <=0.05; and selective-minus-forced error reduction >=0.05 and >2 paired recipe-block-bootstrap sigma. Missing any condition falsifies; fewer than three target seeds for either split is inconclusive.",
+      "minimum_detectable_effect": "5 percentage points error reduction at 60% coverage and 2 sigma, with 10000 nested seed-and-recipe bootstrap replicates.",
+      "design": "The smallest available proxy scale predicts the largest scale. Metric-column hash halves are untouched across discovery and confirmation; recipe blocks, not individual rows, are resampled. The construction is the fixed confidence rule, not a fitted regressor.",
+      "cost": "L0, one Slurm CPU job, zero GPU.",
+      "type": "constructive"
+    },
+    {
+      "id": "H009",
+      "title": "Olmix linear swarm scaling is a normalization artifact",
+      "statement": "The reported collapse of swarm-error curves at K=c(m+1) depends on normalizing against the best member of the same finite sweep. On untouched released mixtures, absolute held-out regret at K=3(m+1) grows with domain count even when the normalized curves appear invariant; therefore domain count alone does not supply a constant-quality linear sample prescription.",
+      "attacks": ["A-012"],
+      "original_tested": "No. Olmix Section 3.3.2 and Figures 4/18 normalize against the best observed sweep member and report curve collapse across m; they do not test absolute regret to a common held-out oracle as m changes.",
+      "why_new": "Prior sample-complexity discussions compare linear and quadratic swarm counts. This page isolates denominator-induced invariance by keeping one common held-out oracle and asks whether the published linear prescription preserves absolute decision quality.",
+      "falsification": "Use the official allenai/olmix released ratios and metrics. Reproduce m in {6,12,18,24}, K=3(m+1), and three published seeds with the frozen log-linear model. Discovery uses 30M losses and confirmation uses 1B losses. For each, reserve the same 20% mixture IDs as a common oracle set before subsampling. Support requires the published normalized-regret slope versus log2(m) have absolute value <=0.10 sigma per doubling while common-oracle absolute regret slope is >2 bootstrap sigma per doubling and the m=24 median regret is at least 2 times m=6. Otherwise falsify; missing released tables is blocked.",
+      "minimum_detectable_effect": "A 2x endpoint regret ratio and a positive slope above 2 sigma, estimated with 10000 nested swarm-seed and heldout-mixture bootstraps.",
+      "design": "The common oracle set is never used for fitting or normalization. Scale separates discovery from confirmation, and published swarm seeds estimate the noise floor.",
+      "cost": "L0, one Slurm CPU job, zero GPU.",
+      "type": "measurement"
+    },
+    {
+      "id": "H010",
+      "title": "Simulator uncertainty overturns multi-fidelity speedup",
+      "statement": "The reported multi-fidelity mixing speedup is conditional on one fitted simulator. Resampling the 472 real pretraining-run blocks and refitting the frozen simulator produces a distribution of equally admissible benchmark worlds in which the nominal policy's speedup is not reliably above one and the winning acquisition policy changes materially.",
+      "attacks": ["A-015"],
+      "original_tested": "No. The multi-fidelity framework reports 2.6x and 3.3x speedups in one simulator and acknowledges scale OOD limits, but it does not propagate simulator estimation uncertainty into policy speedup or winner identity.",
+      "why_new": "Bayesian optimization represents observation uncertainty inside a fixed world. This measures a different layer: uncertainty in the benchmark world used to assert end-to-end policy speedup.",
+      "falsification": "Use official data_mixing_runs.pkl, the frozen 422/50 split, simulator architecture, candidate pool, costs, and policy hyperparameters. Fit 200 mixture-block bootstrap simulators using only the 422 training blocks. Time-to-target is cumulative normalized cost to first observation within 1% of each bootstrap world's pool optimum. Hash evaluation metrics into discovery and confirmation halves. Support requires nominal median speedup >=2.0 in each half and either its percentile 95% lower bound <=1.0 or the nominal winner changes in >=0.20 of bootstrap worlds in each half. Otherwise falsify; failure to reproduce nominal speedup within 0.20x is inconclusive.",
+      "minimum_detectable_effect": "A lower confidence bound crossing 1.0 or 20% policy-winner instability, with 200 bootstrap worlds and three fixed policy seeds per world.",
+      "design": "Bootstrap unit is a full trained-model/mixture/scale block. Evaluation metrics are split before any bootstrap; confirmation metrics never tune policies. This tests simulator-induced uncertainty, not real-training transfer itself.",
+      "cost": "L0, one Slurm CPU job; if runtime exceeds the devel limit, a longer CPU batch remains L0; zero GPU.",
+      "type": "measurement"
+    },
+    {
+      "id": "H011",
+      "title": "Strongly convex GRAPE tasks can have perpetually increasing raw variance",
+      "statement": "Even under the strong-convexity reading of GRAPE Theorem 2.2, its monotonic raw-task-loss variance conclusion is false without a source-target progress condition. With one source objective driving theta from 0 toward 1 and two strongly convex target quadratics centered at -1 and +1, GRAPE has no source-mixture degree of freedom and target-loss variance increases at every finite iteration.",
+      "attacks": ["A-019"],
+      "original_tested": "No. Theorem 2.2 states eventual monotonic raw-variance reduction. Appendix C.2 introduces an unproved positive covariance kappa and treats a time-varying normalization factor as if it transferred normalized monotonicity to raw losses.",
+      "why_new": "The objection is not the nonconvex loophole used against Theorem 2.1: every source and target loss in the bounded invariant trajectory is smooth and strongly convex. It isolates the missing source-target progress assumption and the raw-versus-normalized variance error.",
+      "falsification": "Discovery: source s(theta)=(theta-1)^2, targets l1=(theta-1)^2+2 and l2=(theta+1)^2+2, theta0=0, gamma=0.1. Derive theta_t=1-(0.8)^t and Var(l1,l2)=4 theta_t^2, hence positive variance increment for every finite t. Confirmation embeds the construction in seven dimensions with seven target centers and forward-mode automatic differentiation. Support requires verified mu=2 strong convexity, L=2 smoothness, bounded gradients on the invariant trajectory, update/formula error <=1e-12, and strictly positive analytic variance increment for all finite t in both constructions. Any failed assumption or nonpositive symbolic increment falsifies.",
+      "minimum_detectable_effect": "At t=1 the raw variance increase must exceed 0.10 and the symbolic increment must remain positive for all finite t; three deterministic evaluations estimate sigma=0.",
+      "design": "A symbolic derivation is discovery; an independently implemented multidimensional automatic-differentiation trace is confirmation. The claim is limited to the theorem, not empirical GRAPE quality.",
+      "cost": "L0, one Slurm CPU job, zero GPU.",
+      "type": "audit"
+    },
+    {
+      "id": "H012",
+      "title": "GRAPE reports incompatible values for the same benchmark cells",
+      "statement": "GRAPE's main and appendix benchmark tables assign different numeric values to identically labeled method-task cells, at a frequency and magnitude too large for rounding, so at least one published table cannot be the claimed underlying experiment.",
+      "attacks": ["A-019"],
+      "original_tested": "No. Main Table 2 and Appendix Table 9 are both presented as the same 125M reasoning comparison; no erratum or table-lineage explanation is supplied, and the official repository releases no result table to disambiguate them.",
+      "why_new": "This is a within-paper identity audit, not a performance reanalysis or generic reproducibility complaint. It tests exact labeled-cell equality before drawing mixture-method conclusions.",
+      "falsification": "Parse both tables from the reference PDF and join on method and task labels. Freeze odd-numbered task columns for discovery and even-numbered columns for confirmation. Support requires at least three joined mismatches above 0.10 in each split, at least one mismatch above 0.50 overall, and exact labels/units in both table captions. Fewer than three mismatches in either split or a caption-defined protocol difference falsifies; unparseable labels are inconclusive.",
+      "minimum_detectable_effect": "Six cross-table cells above 0.10 in total, split 3/3, with one above 0.50; deterministic extraction repeated three times gives sigma=0.",
+      "design": "PDF text and page-rendered table cells are checked independently. The second task-column half is not consulted while verifying the first.",
+      "cost": "L0, one Slurm CPU job, zero GPU.",
+      "type": "audit"
+    }
+  ]
+}
