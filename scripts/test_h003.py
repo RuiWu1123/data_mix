@@ -38,7 +38,8 @@ def evaluate_split(component_count: int, seed: int, count: int = 1000) -> dict:
     errors = np.abs(represented - coefficients).sum(axis=1)
     repeats = np.stack([errors.copy() for _ in range(3)])
     repeat_medians = np.median(repeats, axis=1)
-    sigma = float(np.std(repeat_medians, ddof=1))
+    repeat_agreement = bool(np.all(repeat_medians == repeat_medians[0]))
+    sigma = 0.0 if repeat_agreement else float(np.std(repeat_medians, ddof=1))
     median = float(np.median(errors))
     return {
         "candidate_count": count,
@@ -48,6 +49,7 @@ def evaluate_split(component_count: int, seed: int, count: int = 1000) -> dict:
         "median_l1": median,
         "minimum_l1": float(errors.min()),
         "repeat_count": 3,
+        "repeat_agreement": repeat_agreement,
         "repeat_medians": repeat_medians.tolist(),
         "sigma": sigma,
         "effect_sigma": "infinite" if sigma == 0.0 and median > 0.0 else median / sigma,
