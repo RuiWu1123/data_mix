@@ -1,0 +1,35 @@
+{
+  "reference_list": [
+    "regmix_2407.01492.pdf", "olmix_2602.12237.pdf", "data_mixing_laws_2403.16952.pdf",
+    "explaining_dmsl_2606.08167.pdf", "data_mixture_optimization_multifidelity_2503.21023.pdf",
+    "scaling_optimal_mixtures_2507.09404.pdf", "datadecide_2504.11393.pdf"
+  ],
+  "pages": [
+    {
+      "id": "H013",
+      "title": "Effective mixing dimension is smaller than domain count",
+      "statement": "Across independently released LLM-pretraining mixture sweeps, the identifiable response of the vector of domain losses to simplex coordinates occupies fewer than half of the nominal K-1 mixture directions, and this active response subspace is stable across model scale. Domain count therefore overstates the empirical dimension a swarm must resolve.",
+      "attacks": ["A-002", "A-012", "A-017", "A-024"],
+      "original_tested": "No. RegMix and Olmix vary swarm size and domain count, while DMSL papers fit full-coordinate response laws; none reports the rank or cross-scale stability of the mixture-to-domain-loss Jacobian across methods.",
+      "why_new": "This is a cross-method measurement of an unreported, precisely defined quantity. It is not a new regressor, a point-optimum analysis, or a generic prediction-versus-decision claim. It would replace nominal domain count with an empirically testable complexity variable.",
+      "falsification": "For each table, transform positive mixture weights to an isometric log-ratio basis and estimate the local linear response operator on discovery mixture blocks only; zero-weight rows use the preregistered multiplicative replacement 1e-6 followed by closure. Define effective rank as ||J||_F^2/||J||_2^2 and subspace overlap as the mean squared canonical correlation of the top ceil(rank) right-singular vectors. Discovery uses RegMix 1M and the lower half of SlimPajama model sizes. Confirmation uses RegMix 60M/1B, upper SlimPajama sizes, and the independent Olmix DCLM sweep. Support requires every method's median effective-rank fraction <=0.50, its 95% mixture-block-bootstrap upper bound <=0.60, cross-scale subspace overlap >=0.80, and rank deficit from K-1 exceed 2 bootstrap sigma. Failure of any method-level condition falsifies; fewer than 3 scales or 2 independent methods is inconclusive.",
+      "minimum_detectable_effect": "At least 40% rank deficit at the upper confidence bound, canonical overlap 0.80, and 2 sigma, with 10000 mixture-block bootstraps.",
+      "design": "The response operator is fit with one frozen unregularized least-squares/SVD pipeline after column centering. Mixture blocks, not cells, are resampled. RegMix/DMSL generate the claim; Olmix is untouched method-level confirmation. Rank estimates, singular spectra, zero replacements, cell counts, and condition numbers are emitted.",
+      "cost": "L0, one Slurm CPU job, zero GPU; missing Olmix public tables makes only that confirmation BLOCKED.",
+      "type": "measurement"
+    },
+    {
+      "id": "H014",
+      "title": "ActiveSubspaceMix reduces swarm observations at fixed regret",
+      "statement": "A swarm that spends half its observations estimating the mixture-loss active subspace and spends the other half covering that subspace will attain at least 30% lower held-out target regret than Dirichlet swarms at the same observation count, because nominal simplex directions outside the response subspace consume proxy runs without changing losses.",
+      "attacks": ["A-002", "A-012", "A-017"],
+      "original_tested": "No. RegMix compares breadth versus duration and Olmix compares sparse/dense or centered Dirichlet swarms, but neither estimates a supervised response subspace and allocates the remaining swarm budget by its measured dimension. DMSL fits full-coordinate laws rather than a sequential subspace-covering swarm.",
+      "why_new": "The construction follows from a falsifiable effective-dimension mechanism and changes the sampling intervention, not the downstream regressor. Unlike generic active subspaces, it is constrained to the probability simplex and evaluated only through unseen real pretraining-run rows from three mixing artifacts.",
+      "falsification": "Within each trial, hash 20% of released mixture IDs as an untouched candidate/evaluation pool. At total budgets B in {2K,3K,4K}, ActiveSubspaceMix uses floor(B/2) labeled pilot rows selected by maximin simplex distance, estimates the H013 SVD subspace, then selects the remaining rows by maximin distance after projection. Baselines are Dirichlet-nearest and full-simplex maximin, using the same rows available and the same frozen log-linear selector. Discovery uses RegMix 1M/60M and lower-size DMSL; confirmation uses RegMix 1B, upper-size DMSL, and Olmix. Support requires median regret at least 30% lower than both baselines, paired improvement >2 swarm-seed sigma, and no method/scale with worse median regret, separately in discovery and confirmation. Any failed conjunction falsifies.",
+      "minimum_detectable_effect": "30% median regret reduction and 2 paired-seed sigma at each of three budgets, over 1000 preregistered swarm seeds.",
+      "design": "All losses of the candidate pool remain hidden until final scoring; algorithms see identical pilot labels and unlabeled coordinates. The best actually observed candidate in the untouched pool is the common oracle, so oracle approximation is identical across methods. Confirmation artifacts and seeds do not tune subspace rank, budgets, or thresholds.",
+      "cost": "L0, one Slurm CPU job, zero GPU.",
+      "type": "constructive"
+    }
+  ]
+}
