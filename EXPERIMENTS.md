@@ -160,3 +160,13 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Three strongest objections: refitted heldout halves do not quantify inflation of the published Table 2 estimand; equal weighting of low-weight extrapolation cells lacks scientific justification; and shrinkage/aggregation is unstable for a near-zero baseline gap.
 - Disposition: abandoned without test. A single repair could exactly reproduce Table 2 and change only the mask, but it is not selected under fallback.
 - Evidence for all counts, thresholds, scores, and ranking: `scripts/check_review.py` and `scripts/select_fallback.py`; inputs `reviews/candidate_round2_pages.json`, `reviews/candidate_round2.json`, `artifacts/fallback_after_12.json`; commands and outputs are recorded in `REVIEW-CALIBRATION-ROUND-2 AND FALLBACK-12`.
+
+## H008 v1 — REJECTED
+
+- ID/date/type/level: H008, 2026-08-24, constructive, L0. Attacked A009 and A010.
+- One-page statement/design: a target-replicate `95%` confidence filter would abstain on unidentified DataDecide recipe pairs, reducing forced-decision error by at least `0.05` while retaining coverage at least `0.60`. Both metric-hash halves also required forced error at least `0.10`, selective error at most `0.05`, and reduction above `2` sigma using `10000` nested replicates; zero GPU.
+- Review: raw/calibrated N/F/I `3/4/6`; absolute REJECT with unresolved fatal objection, no overlap veto; cumulative fallback total `13`, not selected.
+- Nearest works: DataDecide defines the forced means; selective-prediction sets already give abstention/coverage theory; ranking-and-selection uses indifference zones; equivalence testing requires a nonzero practical interval.
+- Three strongest objections: the rule uses target data and is unavailable when making the proxy decision; a zero-crossing interval is not equivalence without a practical margin; metric hashes reuse recipes, seeds, checkpoints, and correlated likelihoods.
+- Disposition: abandoned without test. Repair would require both proxy-side uncertainty and a genuine indifference margin, exceeding the one-repair scope.
+- Evidence for all counts, thresholds, and scores: `scripts/check_review.py`; inputs `reviews/candidate_round2_pages.json`, `reviews/candidate_round2.json`; command `python scripts/check_review.py reviews/candidate_round2.json --threshold 7 --novelty-offset 0`; output `artifacts/candidate_round2_check.json`.
