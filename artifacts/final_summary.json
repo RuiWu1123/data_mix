@@ -1,6 +1,7 @@
 {
   "active_research_lines": [
-    "H015"
+    "H015",
+    "H016"
   ],
   "assumptions": {
     "assumptions": 27,
@@ -25,6 +26,11 @@
     "passed": true
   },
   "blocked_line_count": 7,
+  "candidate_line_accounting": {
+    "budget_mi210_node_hours": 60.0,
+    "maximum_fraction_of_total_gpu_budget": 0.3,
+    "used_mi210_node_hours": 0
+  },
   "closed_research_lines": [
     "H003",
     "H006",
@@ -38,6 +44,7 @@
     "reviews/candidate_round2.json",
     "reviews/candidate_round3.json",
     "reviews/candidate_round4.json",
+    "reviews/candidate_round5.json",
     "/work1/ruixiangtang/rw761/data_mix_artifacts/H002/result.json",
     "/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json",
     "/work1/ruixiangtang/rw761/data_mix_artifacts/H004/result.json",
@@ -46,22 +53,23 @@
     "/work1/ruixiangtang/rw761/data_mix_artifacts/H011/result.json",
     "/work1/ruixiangtang/rw761/data_mix_artifacts/H013/result.json",
     "/work1/ruixiangtang/rw761/data_mix_artifacts/H014/result.json",
-    "/work1/ruixiangtang/rw761/data_mix_artifacts/H015/result.json"
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H015/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H016/result.json"
   ],
   "literature_addition_cap": 15,
-  "literature_addition_count": 10,
+  "literature_addition_count": 15,
   "quotas": {
     "audit_count": 5,
-    "audit_fraction": 0.5555555555555556,
-    "completed_count": 9,
+    "audit_fraction": 0.5,
+    "completed_count": 10,
     "gpu_budget_mi210_node_hours": 200,
     "gpu_mi210_node_hours": 0,
-    "l0_count": 9,
+    "l0_count": 10,
     "maximum_audit_fraction": 0.6,
     "minimum_completed": 6,
     "minimum_l0": 4,
     "minimum_non_audit": 2,
-    "non_audit_count": 4,
+    "non_audit_count": 5,
     "passed": true
   },
   "records": [
@@ -191,13 +199,14 @@
       "level": "L0",
       "line_status": "candidate",
       "next_minimum_upgrade": {
-        "bootstraps_per_norm": 10000,
-        "codomain_norms": 3,
-        "decision": "The measurement is norm-robust only if both upper bounds hold under every codomain norm.",
-        "design": "Repeat the frozen spectrum analysis under raw, z-scored, and task-family-aggregated BPB codomain norms.",
-        "maximum_rank_fraction_upper_95": 0.6,
-        "maximum_slope_upper_95": 0.75,
-        "tier": "L0"
+        "decision": "A newly reviewed preregistration must require rank-two prediction to beat all frozen same-budget baselines on every untouched split by at least two training-seed sigma; H017 and H019 cannot be reused because their one-repair allowances are exhausted.",
+        "design": "Use newly trained mixtures and an untouched validation corpus to test whether a rank-two response model predicts unseen-mixture losses, with three independent training seeds per mixture.",
+        "fit_mixtures": 14,
+        "maximum_jobs": 60,
+        "seeds_per_mixture": 3,
+        "tier": "L1",
+        "training_mixtures": 20,
+        "untouched_mixtures": 6
       },
       "review_scores": {
         "falsifiability": 7,
@@ -207,11 +216,33 @@
       "supported_effect_sigma": 342.73550076880593,
       "type": "measurement",
       "verdict": "supported"
+    },
+    {
+      "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H016/result.json",
+      "id": "H016",
+      "level": "L0",
+      "line_status": "candidate",
+      "next_minimum_upgrade": {
+        "codomain_norms": 3,
+        "decision": "The result advances only if every norm retains a rank-fraction upper 95% bound at most 0.60 and the leading rank-two subspace overlap lower 5% bound is at least 0.60 after item-level uncertainty is propagated.",
+        "design": "Repeat the response-spectrum measurement with item-level resampling and an untouched validation corpus so task duplication and finite-benchmark adaptation enter the uncertainty estimate.",
+        "minimum_untouched_tasks": 100,
+        "tier": "L1",
+        "training_seeds": 3
+      },
+      "review_scores": {
+        "falsifiability": 6,
+        "impact": 4,
+        "novelty": 4
+      },
+      "supported_effect_sigma": 37.71672810247446,
+      "type": "measurement",
+      "verdict": "supported"
     }
   ],
   "verdict_counts": {
     "falsified": 3,
     "inconclusive": 2,
-    "supported": 4
+    "supported": 5
   }
 }
