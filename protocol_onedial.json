@@ -1,0 +1,318 @@
+{
+  "protocol_id": "ONEDIAL-V1",
+  "stage": "act1_preregistered_not_executed",
+  "claim": "After removing one total-quality factor g, pretraining-mixture response has exactly one reproducible tradeoff factor h, and validation objectives select mixtures along the resulting one-dimensional dial.",
+  "scope": "LLM pretraining data mixing; public-result L0 analysis only",
+  "compute": {
+    "level": "L0",
+    "gpu_count": 0,
+    "gpu_node_hours": 0,
+    "slurm_batch_only": true
+  },
+  "randomness": {
+    "seed_rule": "little-endian uint64 from the first 8 bytes of SHA256('ONEDIAL-V1:' + label)",
+    "bootstrap_replicates": 2000,
+    "bootstrap_layers": 1,
+    "nested_bootstrap": false,
+    "permutation_replicates": 999,
+    "confidence_level": 0.95
+  },
+  "common_estimator": {
+    "response_transform": "lower-is-better task loss, centered and divided by fit-split task standard deviation with ddof=1",
+    "minimum_task_standard_deviation": 1e-08,
+    "crossfit_folds": 2,
+    "rank1_peeling": "fit rank-1 OLS response operator on the opposite SHA256 row fold and subtract its held-out prediction; stack held-out residuals before estimating h",
+    "primary_candidates": {
+      "A": {
+        "name": "multiplicative-zero-replacement ilr",
+        "zero_replacement": 1e-06,
+        "audit_zero_replacements": [1e-08, 0.0001],
+        "closure": "replace each zero by delta and multiply positive entries by (1-k*delta)/positive_sum before Helmert ilr"
+      },
+      "B": {
+        "name": "zero-safe Hellinger",
+        "map": "sqrt(closed_weights) times the transposed Helmert basis",
+        "zero_replacement": 0
+      }
+    },
+    "operator": "unregularized OLS with intercept after fit-split centering; SVD is taken on the task-by-coordinate coefficient operator",
+    "significant_residual_dimension": "For each ordered residual singular value j, compute p_j=(1+count(s_j_perm>=s_j_obs))/(1+999); apply Holm at familywise alpha=0.01 over all residual indices and count the longest leading sequence for which every adjusted test rejects.",
+    "bootstrap_alignment": "Within each original SHA fold, resample rows once with replacement, refit the complete cross-fitted estimator, and sign-align h to the point estimate; no result of a bootstrap replicate is bootstrapped again.",
+    "task_loading_orientation": "orient g so median task loading is positive; orient h by the question-specific frozen anchor",
+    "invalidity": "nonfinite cells, response scale below floor, deficient required design rank, or insufficient rows returns inconclusive and forbids estimator substitution"
+  },
+  "inputs": {
+    "olmix": {
+      "repository_commit": "9586977981e01b60c8b20330f623047f0b693fe3",
+      "directory": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2",
+      "domain_counts": [6, 12, 18, 24],
+      "hash_manifest": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/SHA256SUMS"
+    },
+    "regmix": {
+      "repository_commit": "dd9d1c3b2d7c1756b1a90f0ad7603068e9856cc6",
+      "directory": "vendor/regmix/data",
+      "discovery_files": [
+        "train_mixture_1m.csv",
+        "train_pile_loss_1m.csv"
+      ],
+      "confirmation_files": [
+        "test_mixture_60m.csv",
+        "test_pile_loss_60m.csv",
+        "test_mixture_1B.csv",
+        "test_pile_loss_1B.csv"
+      ]
+    },
+    "datadecide": {
+      "repository_commit": "68abc496587935b7211e9894206e78f15d535832",
+      "perplexity_file": "vendor/datadecide/perplexity_metrics_by_group.csv",
+      "task_results_repository": "allenai/DataDecide-eval-results",
+      "task_results_revision": "b59512bb1b0b5dc02bfc469e0531be11149203d9",
+      "task_results_subpath": "default/train/*.parquet",
+      "download_root": "/work1/ruixiangtang/rw761/data_mix_public/datadecide_eval_results"
+    }
+  },
+  "questions": {
+    "Q1": {
+      "title": "Synthetic calibration including structural zeros",
+      "discovery": {
+        "olmix_designs": [6, 12],
+        "replicates_per_scenario": 200,
+        "seed_namespace": "Q1-discovery"
+      },
+      "confirmation": {
+        "olmix_designs": [18, 24],
+        "replicates_per_scenario": 400,
+        "seed_namespace": "Q1-confirmation"
+      },
+      "truth": {
+        "task_count": 110,
+        "noise_sigma": 1.0,
+        "singular_values": [2.0, 0.5, 0.35, 0.3, 0.25],
+        "scenarios": [
+          "interior_rank1",
+          "interior_rank2",
+          "interior_rank5",
+          "structural_zero_rank1",
+          "structural_zero_rank2"
+        ],
+        "structural_zero_generator": "g and h are linear in the zero-safe Hellinger coordinates of the unmodified design"
+      },
+      "pipeline_selection": "Evaluate A and B on discovery only; choose A if it passes every discovery condition, otherwise choose B if B passes every condition; do not inspect confirmation until selection is frozen. Confirmation evaluates only the selected pipeline.",
+      "detector": "Use the exact Q2 permutation p-value and Holm significant-dimension rule in every synthetic replicate; synthetic Monte Carlo replicates supply calibration uncertainty and are not bootstrap samples.",
+      "support": {
+        "null_false_positive_rate_max": 0.075,
+        "null_false_positive_wilson_upper95_max": 0.1,
+        "rank2_detection_rate_min": 0.8,
+        "rank2_detection_wilson_lower95_min": 0.75,
+        "rank5_gt3_detection_rate_min": 0.8,
+        "rank5_gt3_detection_wilson_lower95_min": 0.75,
+        "rank2_h_cosine_median_min": 0.9,
+        "rank2_h_cosine_q05_min": 0.8,
+        "all_conditions_required_interior_and_structural_zero": true
+      },
+      "falsify": "The selected pipeline misses any confirmation support condition in either confirmation design.",
+      "inconclusive": "Neither pipeline passes discovery, or a synthetic design cannot satisfy its declared rank and finite-value gates.",
+      "death_branch": "If Q1 is falsified or inconclusive, Q2-Q5 are recorded as inconclusive_by_Q1 and no real outcome table is analyzed."
+    },
+    "Q2": {
+      "title": "Residual Olmix spectrum after peeling g",
+      "discovery": {
+        "olmix_designs": [6, 12]
+      },
+      "confirmation": {
+        "olmix_designs": [18, 24]
+      },
+      "task_set": "finite intersection of official task columns across all four Olmix designs, frozen before fitting",
+      "significance_null": "independently permute each task's cross-fitted residual rows, add the fixed cross-fitted g prediction, and refit the full estimator",
+      "support": {
+        "h_permutation_p_max": 0.01,
+        "significant_residual_dimension_min": 1,
+        "significant_residual_dimension_max": 3,
+        "h_total_operator_energy_point_min": 0.05,
+        "h_total_operator_energy_bootstrap_lower95_min": 0.02,
+        "h_residual_energy_point_min": 0.5,
+        "h_residual_energy_bootstrap_lower95_min": 0.35,
+        "within_split_h_cosine_point_min": 0.7,
+        "within_split_h_cosine_bootstrap_lower95_min": 0.5,
+        "alternative_coordinate_h_cosine_min": 0.8,
+        "alternative_coordinate_dimension_difference_max": 1,
+        "all_discovery_and_confirmation_designs_must_pass": true
+      },
+      "agent_added_exact_one": {
+        "significant_residual_dimension": 1,
+        "h_residual_energy_bootstrap_lower95_min": 0.5,
+        "required_for_overall_survived": true
+      },
+      "agent_added_g_quality_audit": {
+        "same_sign_task_fraction_min": 0.8,
+        "hellinger_to_h015_g_cosine_point_min": 0.8,
+        "hellinger_to_h015_g_cosine_bootstrap_lower95_min": 0.6
+      },
+      "falsify": "A valid discovery or confirmation design has no significant h, more than three significant residual dimensions, or misses any registered effect/stability condition.",
+      "inconclusive": "A validity gate fails, or Q1-selected Hellinger g does not clear the H015-g alignment audit.",
+      "death_branch": "A discovery failure quarantines confirmation; a scientific falsification sets Q4 and Q5 to falsified_by_Q2 because their dial is undefined, while Q3 may still run as an external-axis audit."
+    },
+    "Q3": {
+      "title": "External task-loading replication and polarity",
+      "discovery": {
+        "regmix": "official 1M train mixture/loss tables",
+        "datadecide_model_sizes": ["4M", "6M", "8M", "10M", "14M", "16M", "20M", "60M"],
+        "olmix_designs": [6, 12]
+      },
+      "confirmation": {
+        "regmix": "official 60M and 1B test mixture/loss tables, reported separately",
+        "datadecide_model_sizes": ["90M", "150M", "300M", "530M", "750M", "1B"],
+        "olmix_designs": [18, 24]
+      },
+      "exact_task_bridge": [
+        "arc_challenge",
+        "arc_easy",
+        "csqa",
+        "hellaswag",
+        "piqa",
+        "socialiqa",
+        "winogrande",
+        "mmlu_macro"
+      ],
+      "macro_target_bridge": {
+        "names": ["web", "wiki", "science", "code", "books"],
+        "regmix": {
+          "web": ["pile_cc"],
+          "wiki": ["wikipedia_en"],
+          "science": ["arxiv", "pubmed_central", "pubmed_abstracts"],
+          "code": ["github"],
+          "books": ["gutenberg_pg_19"]
+        },
+        "datadecide": {
+          "web": ["dolma_common-crawl", "c4_en"],
+          "wiki": ["wikitext_103", "dolma_wiki"],
+          "science": ["m2d2_s2orc", "dolma_pes2o"],
+          "code": ["dolma_stack"],
+          "books": ["dolma_books"]
+        }
+      },
+      "polarity": {
+        "exact_task_anchor": "mmlu_macro minus mean(arc_easy, hellaswag) must be positive",
+        "macro_anchor": "code minus mean(web, wiki) must be positive",
+        "minimum_absolute_anchor": 1e-08
+      },
+      "data_transforms": {
+        "olmix": "official lower-is-better BPB, with MMLU subtasks macro-averaged before task standardization",
+        "regmix": "official lower-is-better validation loss; macro members are averaged before task standardization",
+        "datadecide_tasks": "at the maximum released step per recipe/model/task/seed, use -log(max(correct_prob_per_char,1e-12)); average transformed losses over seeds, center recipes within each model size, and represent recipe by a fixed categorical one-hot design",
+        "datadecide_perplexity": "at the maximum released step per recipe/model-size/seed, use log(perplexity); average transformed losses over seeds, form frozen macro targets, center recipes within each model size, and use the same categorical one-hot design"
+      },
+      "support": {
+        "external_h_permutation_p_max": 0.01,
+        "external_h_residual_energy_point_min": 0.4,
+        "bridge_cosine_point_min": 0.7,
+        "bridge_cosine_bootstrap_lower95_min": 0.4,
+        "exact_task_sign_agreement_min": 6,
+        "exact_task_count": 8,
+        "macro_sign_agreement_min": 4,
+        "macro_target_count": 5,
+        "both_bridges_and_both_splits_required": true
+      },
+      "falsify": "All artifacts and validity gates pass, but either bridge misses any confirmation cosine, sign, existence, or residual-energy threshold.",
+      "inconclusive": "The pinned DataDecide task artifact is unavailable/incompatible, fewer than all frozen bridge targets are present, or a polarity anchor is numerically undefined.",
+      "agent_added_scope_guard": "The exact-task and macro-target bridges are reported separately; no rotation, CCA, learned task matching, or claim of identical h(w) input coordinates is allowed."
+    },
+    "Q4": {
+      "title": "Validation-objective optima collapse to a one-dimensional dial curve",
+      "discovery": {
+        "axis_source_design": 6,
+        "oracle_target_design": 12
+      },
+      "confirmation": {
+        "axis_source_design": 18,
+        "oracle_target_design": 24
+      },
+      "validation_objectives": {
+        "total": 512,
+        "one_hot": 110,
+        "dirichlet": 402,
+        "dirichlet_alpha": 0.05,
+        "fit_fraction_by_sha256": 0.5,
+        "minimum_targets_per_half": 200
+      },
+      "dial": "theta_v = atan2(v dot b, v dot a), with a and b frozen from the source design",
+      "curve": {
+        "mixture_embedding": "zero-safe Hellinger coordinates",
+        "model": "coordinate-wise cubic B-spline of oracle mixture on theta",
+        "degree": 3,
+        "interior_knots": 7,
+        "knots_depend_only_on_fit-half theta quantiles": true
+      },
+      "shuffle_control": "hold g fixed; independently permute every task's residual across oracle-target mixtures; recompute oracle selections and the frozen-form curve",
+      "support": {
+        "heldout_curve_r2_point_min": 0.8,
+        "heldout_curve_r2_bootstrap_lower95_min": 0.7,
+        "shuffle_p_max": 0.01,
+        "margin_over_shuffle_q99_min": 0.1,
+        "unique_oracle_mixtures_min": 10,
+        "dial_angle_span_radians_min": 0.75,
+        "both_discovery_and_confirmation_required": true
+      },
+      "falsify": "A valid discovery or confirmation split misses any curve, shuffle, diversity, or dial-span condition.",
+      "inconclusive": "The objective halves are too small, oracle ties exceed numerical tolerance 1e-10 without a unique hash tie-break, or Q2 supplies no valid dial.",
+      "agent_added_discrete_oracle_guard": "The shuffle margin, unique-mixture gate, and held-out objective split must all pass so repeated finite-table argmins cannot manufacture a curve."
+    },
+    "Q5": {
+      "title": "Few-point retrospective selection using frozen g and h",
+      "discovery": {
+        "axis_source_design": 6,
+        "selection_target_design": 12,
+        "onedial_budget": 26,
+        "three_x_budget": 39
+      },
+      "confirmation": {
+        "axis_source_design": 18,
+        "selection_target_design": 24,
+        "onedial_budget": 50,
+        "three_x_budget": 75
+      },
+      "budget_rule": {
+        "onedial": "2*(m+1)",
+        "comparison": "3*(m+1)",
+        "point_reduction_fraction": 0.3333333333333333
+      },
+      "pilot_selection": "deterministic farthest-first traversal in the Q1-selected mixture coordinates, initialized by the row nearest uniform; ties use SHA256 row ID",
+      "onedial_fit": "freeze source-design task loadings a,b; estimate target-table task intercept from pilots, project pilot residuals onto a,b, fit two unregularized affine score maps, and predict every nonpilot candidate",
+      "baselines": [
+        "same-budget full multi-output affine OLS",
+        "same-budget per-objective affine OLS",
+        "3*(m+1)-point full multi-output affine OLS"
+      ],
+      "objective_set": "the same frozen 512 validation objectives as Q4",
+      "regret": "(selected objective loss - oracle candidate loss) divided by the candidate objective-loss IQR; nonpositive numerical values are clipped to zero",
+      "support": {
+        "top_decile_rate_point_min": 0.8,
+        "top_decile_rate_bootstrap_lower95_min": 0.7,
+        "median_iqr_regret_point_max": 0.1,
+        "median_iqr_regret_bootstrap_upper95_max": 0.15,
+        "same_budget_regret_difference_bootstrap_upper95_max": 0.02,
+        "three_x_budget_regret_difference_bootstrap_upper95_max": 0.05,
+        "scrambled_loading_regret_improvement_point_min": 0.05,
+        "scrambled_loading_regret_improvement_bootstrap_lower95_min": 0.02,
+        "minimum_nonpilot_candidates": 50,
+        "both_discovery_and_confirmation_required": true
+      },
+      "falsify": "A valid discovery or confirmation target misses any near-optimality, noninferiority, attribution, or candidate-support condition.",
+      "inconclusive": "A pilot design is rank deficient, a target IQR is at most 1e-08, or a frozen source loading is unavailable.",
+      "agent_added_attribution_control": "Independently permute a and b over tasks before fitting; One-Dial must beat this scrambled-loading control by the registered regret margins.",
+      "scope_guard": "This is retrospective public-table observation efficiency, not evidence from newly trained models or target-scale transfer."
+    }
+  },
+  "execution_order": ["Q1", "Q2", "Q3", "Q4", "Q5"],
+  "overall_verdict": {
+    "SURVIVED": "Q1-Q5 are supported and Q2 agent_added_exact_one passes.",
+    "PARTIAL": "No Q1-Q4 question is falsified, but at least one question is inconclusive, Q5 is falsified, or Q2 passes dimension<=3 while agent_added_exact_one fails.",
+    "KILLED": "Any of Q1-Q4 is falsified, including falsified_by_dependency.",
+    "precedence": ["KILLED", "SURVIVED", "PARTIAL"]
+  },
+  "mutation_policy": "After Act I confirmation, thresholds and methods are immutable. A defect is appended to EXPERIMENTS.md and that question stops; no silent repair, fallback estimator, or outcome-conditioned reanalysis is allowed.",
+  "commands": {
+    "protocol_check": "sbatch slurm/check_onedial_protocol.sbatch",
+    "execution": "not authorized until explicit user confirmation of Act I"
+  }
+}
