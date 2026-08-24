@@ -1,0 +1,26 @@
+{
+  "reference_list": [
+    "olmix_2602.12237.pdf",
+    "data_mixture_optimization_multifidelity_2503.21023.pdf",
+    "vector_dimension_reduction_1801.07922.pdf",
+    "shared_active_subspace_2401.02735.pdf",
+    "izenman_modern_multivariate_2008.pdf"
+  ],
+  "pages": [
+    {
+      "id": "H018",
+      "version": 2,
+      "title": "Olmix's validated nonlinear surrogate preserves H015's concentrated response subspace",
+      "statement": "Among released downstream tasks for which Olmix's published log-linear law predicts both held-out BPB values and held-out local response chords, the law's distribution-averaged nonlinear Jacobian in Helmert-ilr coordinates has a concentrated spectrum and the same leading two mixture directions as a paired-refit global affine operator. The claim is conditional on the published surrogate and observed swarm support; it does not identify the true response derivative, intrinsic dimension, or target-scale behavior.",
+      "attacks": ["H015", "A-012"],
+      "original_tested": "No. Olmix fits f_i(p)=c_i+exp(A_i^T p), reports held-out value correlation, and optimizes mixtures, but does not validate local response chords, form the vector Jacobian Gram operator, report its coefficient-equivalent stable rank, or compare it with a paired-refit global affine subspace. H015 fits only a global affine operator.",
+      "why_new": "The log-linear law and vector-valued gradient operator are prior art, so neither is claimed as new. The new falsifiable diagnostic asks whether H015's extreme affine concentration survives the published nonlinear response family after excluding tasks whose held-out values or local changes the family cannot predict. This directly decides whether a low-rank joint mixing-law method is technically warranted on the released Olmix benchmark.",
+      "falsification": "Use five SHA256 row folds separately at m in {6,12,18,24}. Within every fold, fit Olmix's published Huber log-linear law with positive c using only training rows. For each task, concatenate outer-heldout predictions and compute Pearson value correlation. For every heldout row, identify its nearest outer-training row in train-standardized ilr distance; correlate predicted versus observed heldout-minus-neighbor BPB chords per task. Freeze as validated only tasks with both correlations >=0.50 in every m; require at least 90 common validated tasks or return inconclusive. Refit the nonlinear law and centered affine OLS on all rows restricted to that frozen task set. At every observed p, compute the exact ilr gradient exp(A_i^T p) A_i^T(diag(p)-pp^T)B and C=mean_p J(p)^T R J(p) under raw and train-task-standardized codomain metrics. Define active stable rank as tr(C)/lambda_max(C); emit tr(C^2)/lambda_max(C)^2 only as sensitivity. Check the analytic Jacobian against automatic differentiation on hash-selected points to absolute/relative tolerance 1e-6. Run 200 paired mixture-row bootstrap refits of both nonlinear and affine operators; convergence below 0.95 is inconclusive. Discovery is m=6/12 and confirmation is m=18/24. Every norm and m must have active-rank fraction <=0.50 with bootstrap 95% upper bound <=0.60; paired nonlinear-versus-affine rank-two squared canonical overlap must be >=0.80 with bootstrap 5% lower bound >=0.60; and the active-rank log-log slope must be <=0.50 with bootstrap 95% upper bound <=0.75. Any spectral or overlap failure falsifies.",
+      "minimum_detectable_effect": "At least 90 tasks each pass two 0.50 held-out correlation gates across all four tables; coefficient-equivalent active rank retains a 40% nominal-rank deficit at its upper bound; paired rank-two overlap is at least 0.80 point and 0.60 lower-bound.",
+      "design": "Task validation is cross-fitted and completed before the full-data operator fits. Nearest-neighbor chords test finite local changes on observed support, not exact derivatives; the statement is therefore explicitly about a validated fitted surrogate. Bootstrap indices are paired across nonlinear and affine refits, so the overlap interval contains both estimators' row-sampling variation. Task validation is frozen before bootstrap and the resulting inference is conditional on that selected fixed task vector. Discovery and confirmation use separate domain-count tables and are reported separately.",
+      "cost": "L0: one Slurm CPU job, zero GPU. If the official estimator cannot complete within 30 minutes, record the line as blocked without replacing the law or optimizer.",
+      "type": "measurement",
+      "repair": "Single permitted repair of H018 v1. It adds per-task held-out value and local-chord gates, requires 90 jointly valid tasks, pairs nonlinear and affine bootstrap refits, and fixes the coefficient-equivalent stable-rank functional. No spectral or overlap threshold is relaxed."
+    }
+  ]
+}
