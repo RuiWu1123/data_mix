@@ -1,5 +1,11 @@
 # Results
 
+## CANDIDATE FINDING - H016
+
+H015's affine response concentration survives `3` frozen output metrics on the same `110` official Olmix tasks: raw BPB, task-standardized BPB, and equal-family-quadratic weighting over Math/Code/QA task counts `7/19/84`. Across `m=6/12/18/24`, all `12/12` rank conditions and `8/8` rank-`2` overlap conditions pass. The largest rank-fraction `95%` upper bound is `0.3451602555029466`, the smallest raw-versus-alternative overlap `5%` lower bound is `0.7553062395308168`, and the smallest rank deficit is `37.71672810247446` bootstrap sigma. This is robustness to `3` specified diagonal norms, not evidence that correlated task duplicates were removed; its fallback review score remains N/F/I `4/6/4`.
+
+Evidence for every number: `scripts/test_h016.py`; the eight official inputs, `10000`-bootstrap spectra, overlaps, task mapping, and conditions are in `/work1/ruixiangtang/rw761/data_mix_artifacts/H016/result.json`; command `sbatch slurm/h016_l0.sbatch`; Slurm job `384588`.
+
 ## CANDIDATE FINDING — H015
 
 Across Olmix's official nested top-`m` 30M RQ2 swarms, the centered raw-BPB affine response has stable rank near `1.23` while nominal ilr dimension grows from `5` to `23`. Discovery rank fractions at `m=6/12` are `0.24628975134617892/0.11203295581408268`; independent `m=18/24` confirmation gives `0.07280427145046091/0.05332770154720674`. The smallest confirmation rank-deficit effect is `342.73550076880593` bootstrap sigma, and the stable-rank log-log slope is `-0.0030170525337915827` with `95%` upper bound `0.03448212813935515`. This is a raw-BPB global-OLS spectral measurement, not evidence that only one mixture direction is statistically identifiable or that swarm size can be reduced.
@@ -43,10 +49,11 @@ Research status: closed. The theorem-audit result is retained, but this line rec
 | H013 | measurement | L0 | `7/8/6` | `falsified` | `complete` | n/a | `/work1/ruixiangtang/rw761/data_mix_artifacts/H013/result.json` |
 | H014 | constructive | L0 | `6/8/7` | `inconclusive` | `complete` | n/a | `/work1/ruixiangtang/rw761/data_mix_artifacts/H014/result.json` |
 | H015 | measurement | L0 | `6/7/5` | `supported` | `candidate` | `342.73550076880593` | `/work1/ruixiangtang/rw761/data_mix_artifacts/H015/result.json` |
+| H016 | measurement | L0 | `4/6/4` | `supported` | `candidate` | `37.71672810247446` | `/work1/ruixiangtang/rw761/data_mix_artifacts/H016/result.json` |
 
-Completion audit: `9` reviewed, pre-registered hypotheses completed at L0, comprising `4` supported, `3` falsified, and `2` inconclusive. Audit hypotheses are `5/9 = 0.5555555555555556`, below the `0.60` ceiling; `4` completed hypotheses are measurement or constructive, above the required `2`. The assumption inventory passes with `27` assumptions across `13` methods and maximum method share `0.1111111111111111`. GPU use is `0/200` MI210 node-hours, and literature expansion is `10/15` papers.
+Completion audit: `10` reviewed, pre-registered hypotheses completed at L0, comprising `5` supported, `3` falsified, and `2` inconclusive. Audit hypotheses are `5/10 = 0.5`, below the `0.60` ceiling; `5` completed hypotheses are measurement or constructive, above the required `2`. The assumption inventory passes with `27` assumptions across `13` methods and maximum method share `0.1111111111111111`. GPU use is `0/200` MI210 node-hours, and literature expansion is `13/15` papers.
 
-Research portfolio: H003, H006, and H011 are closed; H015 is the sole candidate line. Closure changes research allocation, not the recorded experimental verdicts.
+Research portfolio: H003, H006, and H011 are closed; H015 is the primary candidate line and H016 is its codomain-norm robustness result. Closure changes research allocation, not the recorded experimental verdicts.
 
 ## Next Minimum Upgrade
 
