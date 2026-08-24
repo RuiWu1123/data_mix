@@ -1,0 +1,16 @@
+{
+  "results": [
+    {
+      "calibrated_scores": {"falsifiability": 8, "impact": 6, "novelty": 7},
+      "id": "H013",
+      "passed": false,
+      "raw_scores": {"falsifiability": 8, "impact": 6, "novelty": 7}
+    },
+    {
+      "calibrated_scores": {"falsifiability": 8, "impact": 7, "novelty": 6},
+      "id": "H014",
+      "passed": false,
+      "raw_scores": {"falsifiability": 8, "impact": 7, "novelty": 6}
+    }
+  ]
+}

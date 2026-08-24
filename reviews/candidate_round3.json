@@ -1,0 +1,50 @@
+{
+  "reviewer_scope": "fresh context-free oral-level review with independent web search",
+  "calibration": {
+    "action": "no score offset",
+    "CAL-RM": {"novelty": 8, "falsifiability": 9, "impact": 9},
+    "CAL-DG": {"novelty": 8, "falsifiability": 9, "impact": 8}
+  },
+  "reviews": [
+    {
+      "id": "H013",
+      "nearest_prior_work": [
+        "Data Mixing Laws: sparse normalized interactions, but no singular dimension, non-coordinate active directions, or canonical subspace stability.",
+        "Gradient-based dimension reduction of vector-valued functions: established Jacobian active subspaces, but no ilr-simplex LLM measurement or cross-artifact result.",
+        "Olmix: linear swarm-size studies and lower-dimensional reuse, but no response-derived active subspace or cross-scale canonical stability.",
+        "RegMix: domain-loss interactions and rank transfer, but rank means mixture ordering rather than Jacobian dimension."
+      ],
+      "strongest_objections": [
+        "A global affine OLS slope is not an average-Jacobian active subspace, and stable rank is not numerical rank.",
+        "Olmix exposes downstream-task BPB rather than training-domain losses, so the frozen every-method conjunction lacks a common response estimand.",
+        "The 1e-6 zero replacement and nonuniform support can dominate ilr geometry and create apparent low dimension or subspace agreement."
+      ],
+      "reviewer_raw_scores": {"novelty": 8, "falsifiability": 9, "impact": 7},
+      "scores": {"novelty": 7, "falsifiability": 8, "impact": 6},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": true,
+      "raw_verdict": "REJECT",
+      "repairable_once": true
+    },
+    {
+      "id": "H014",
+      "nearest_prior_work": [
+        "Sequential Learning of Active Subspaces: sequential GP-derived subspaces and acquisition, but not the frozen multiresponse ilr projected-maximin construction.",
+        "Data Mixture Optimization: sequential multi-fidelity LLM mixture BO, whereas H014 fixes fidelity and learns a response subspace.",
+        "Olmix: static sparse/dense and centered Dirichlet swarms without supervised projected allocation.",
+        "Constrained D- and I-optimal mixture designs: simplex design with fixed response models rather than learned LLM response dimension."
+      ],
+      "strongest_objections": [
+        "Retrospective nearest-row selection from fixed nonuniform sweeps does not validate prospective projected-mixture interventions.",
+        "The baselines omit the nearest sequential LLM-mixture BO and sequential active-subspace algorithms.",
+        "At B=2K the pilot fit is effectively saturated and inherits H013's output mismatch and stable-rank construct problem."
+      ],
+      "reviewer_raw_scores": {"novelty": 7, "falsifiability": 9, "impact": 8},
+      "scores": {"novelty": 6, "falsifiability": 8, "impact": 7},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": true,
+      "raw_verdict": "REJECT",
+      "repairable_once": true
+    }
+  ]
+}
