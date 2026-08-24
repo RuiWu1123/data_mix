@@ -1,0 +1,224 @@
+{
+  "assumptions": {
+    "assumptions": 27,
+    "errors": [],
+    "maximum_method_share": 0.1111111111111111,
+    "method_counts": {
+      "ADMIRE": 2,
+      "Aioli": 2,
+      "DataDecide": 3,
+      "DoGE": 2,
+      "DoReMi": 2,
+      "ExplainingDMSL": 2,
+      "GRAPE": 2,
+      "MixMin": 2,
+      "MultiFidelityMixing": 2,
+      "OPMIX": 2,
+      "Olmix": 2,
+      "OptimalMixtureScaling": 2,
+      "RegMix": 2
+    },
+    "methods": 13,
+    "passed": true
+  },
+  "blocked_line_count": 7,
+  "command": "python scripts/build_final_summary.py --root /work1/ruixiangtang/rw761/awesome-pretraining/data_mix --result-root /work1/ruixiangtang/rw761/data_mix_artifacts --output artifacts/final_summary.json",
+  "inputs": [
+    "protocol.json",
+    "artifacts/assumptions_check.json",
+    "reviews/candidate_round1.json",
+    "reviews/candidate_round2.json",
+    "reviews/candidate_round3.json",
+    "reviews/candidate_round4.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H002/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H004/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H006/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H007/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H011/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H013/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H014/result.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/H015/result.json"
+  ],
+  "literature_addition_cap": 15,
+  "literature_addition_count": 10,
+  "quotas": {
+    "audit_count": 5,
+    "audit_fraction": 0.5555555555555556,
+    "completed_count": 9,
+    "gpu_budget_mi210_node_hours": 200,
+    "gpu_mi210_node_hours": 0,
+    "l0_count": 9,
+    "maximum_audit_fraction": 0.6,
+    "minimum_completed": 6,
+    "minimum_l0": 4,
+    "minimum_non_audit": 2,
+    "non_audit_count": 4,
+    "passed": true
+  },
+  "records": [
+    {
+      "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H002/result.json",
+      "id": "H002",
+      "level": "L0",
+      "next_minimum_upgrade": null,
+      "review_scores": {
+        "falsifiability": 6,
+        "impact": 7,
+        "novelty": 8
+      },
+      "supported_effect_sigma": "not_applicable",
+      "type": "measurement",
+      "verdict": "inconclusive"
+    },
+    {
+      "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json",
+      "id": "H003",
+      "level": "L0",
+      "next_minimum_upgrade": {
+        "arms": 2,
+        "decision": "Affine correction must lower mean target loss by at least 2 seed sigma without raising any domain loss by more than 1 sigma.",
+        "design": "Train the direct-coefficient and affine-corrected final samplers at matched scale and tokens.",
+        "model_parameters": 160000000,
+        "seeds_per_arm": 3,
+        "tier": "L1",
+        "training_tokens": 3200000000
+      },
+      "review_scores": {
+        "falsifiability": 6,
+        "impact": 7,
+        "novelty": 9
+      },
+      "supported_effect_sigma": "infinite",
+      "type": "audit",
+      "verdict": "supported"
+    },
+    {
+      "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H004/result.json",
+      "id": "H004",
+      "level": "L0",
+      "next_minimum_upgrade": null,
+      "review_scores": {
+        "falsifiability": 5,
+        "impact": 8,
+        "novelty": 8
+      },
+      "supported_effect_sigma": "not_applicable",
+      "type": "audit",
+      "verdict": "falsified"
+    },
+    {
+      "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H006/result.json",
+      "id": "H006",
+      "level": "L0",
+      "next_minimum_upgrade": {
+        "decision": "Any post-bound optimality gap above the maximum allowed gap falsifies the proposed repair.",
+        "design": "Add an explicit source-target progress constant and property-test the repaired theorem on strongly convex quadratic families.",
+        "maximum_allowed_gap": 1e-10,
+        "minimum_progress_constant": 0.1,
+        "quadratic_instances": 10000,
+        "tier": "L0"
+      },
+      "review_scores": {
+        "falsifiability": 9,
+        "impact": 6,
+        "novelty": 7
+      },
+      "supported_effect_sigma": "infinite",
+      "type": "audit",
+      "verdict": "supported"
+    },
+    {
+      "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H007/result.json",
+      "id": "H007",
+      "level": "L0",
+      "next_minimum_upgrade": null,
+      "review_scores": {
+        "falsifiability": 7,
+        "impact": 6,
+        "novelty": 5
+      },
+      "supported_effect_sigma": "not_applicable",
+      "type": "audit",
+      "verdict": "falsified"
+    },
+    {
+      "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H011/result.json",
+      "id": "H011",
+      "level": "L0",
+      "next_minimum_upgrade": {
+        "arms": 2,
+        "decision": "The theorem-relevance concern advances if GRAPE variance has a positive slope above 2 seed sigma over the first 10 logged intervals.",
+        "design": "Run GRAPE and a fixed-mixture control on a SlimPajama proxy while logging raw target-loss variance.",
+        "logging_interval_updates": 100,
+        "model_parameters": 60000000,
+        "seeds_per_arm": 3,
+        "target_domains": 7,
+        "tier": "L1"
+      },
+      "review_scores": {
+        "falsifiability": 8,
+        "impact": 7,
+        "novelty": 6
+      },
+      "supported_effect_sigma": "infinite",
+      "type": "audit",
+      "verdict": "supported"
+    },
+    {
+      "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H013/result.json",
+      "id": "H013",
+      "level": "L0",
+      "next_minimum_upgrade": null,
+      "review_scores": {
+        "falsifiability": 8,
+        "impact": 6,
+        "novelty": 7
+      },
+      "supported_effect_sigma": "not_applicable",
+      "type": "measurement",
+      "verdict": "falsified"
+    },
+    {
+      "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H014/result.json",
+      "id": "H014",
+      "level": "L0",
+      "next_minimum_upgrade": null,
+      "review_scores": {
+        "falsifiability": 8,
+        "impact": 7,
+        "novelty": 6
+      },
+      "supported_effect_sigma": "not_applicable",
+      "type": "constructive",
+      "verdict": "inconclusive"
+    },
+    {
+      "evidence": "/work1/ruixiangtang/rw761/data_mix_artifacts/H015/result.json",
+      "id": "H015",
+      "level": "L0",
+      "next_minimum_upgrade": {
+        "bootstraps_per_norm": 10000,
+        "codomain_norms": 3,
+        "decision": "The measurement is norm-robust only if both upper bounds hold under every codomain norm.",
+        "design": "Repeat the frozen spectrum analysis under raw, z-scored, and task-family-aggregated BPB codomain norms.",
+        "maximum_rank_fraction_upper_95": 0.6,
+        "maximum_slope_upper_95": 0.75,
+        "tier": "L0"
+      },
+      "review_scores": {
+        "falsifiability": 7,
+        "impact": 5,
+        "novelty": 6
+      },
+      "supported_effect_sigma": 342.73550076880593,
+      "type": "measurement",
+      "verdict": "supported"
+    }
+  ],
+  "verdict_counts": {
+    "falsified": 3,
+    "inconclusive": 2,
+    "supported": 4
+  }
+}
