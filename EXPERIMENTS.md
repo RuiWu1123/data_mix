@@ -109,3 +109,12 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Three strongest objections and scope response: preceding prose invokes strong convexity, so the conclusion is limited to the literal displayed theorem; the chosen target is not strongly convex, so no claim is made about an intended corrected theorem or empirical GRAPE; and all referenced displayed definitions/assumptions must be enumerated before declaring support.
 - Cost: zero GPU, one Slurm CPU job. No test output was inspected before this entry.
 - Evidence for every count, threshold, score, and code-line number in this entry: `scripts/check_review.py`; inputs `reviews/candidate_round1.json`, `references/grape_2505.20380.pdf`, and `vendor/grape/src/trainer.py`; command `python scripts/check_review.py reviews/candidate_round1.json --threshold 7 --novelty-offset 1`; output `artifacts/candidate_round1_check.json`.
+
+## H003 v1 — RESULT ATTEMPT 1
+
+- Date/verdict: 2026-08-24, `inconclusive`. Review status remains `admitted-by-fallback`, calibrated N/F/I `9/6/7`.
+- Discovery (`5` components, seed `0`, `1000` candidates): median/max L1 coordinate error `0.1699068579672292/0.19997472781501544`; all three repeat medians were exactly `0.1699068579672292`, but NumPy's sample standard deviation returned `3.3993498887762956e-17`, so the implementation did not recognize exact agreement.
+- Independent confirmation (`7` components, seed `1729`, `1000` candidates): median/max L1 error `0.1775721961553033/0.19998872518171068`; three repeats gave sigma `0` and infinite-sigma effect. Both splits exceed the frozen median `0.02` and maximum `1e-12` thresholds.
+- Source trace: all five booleans were true, including final direct coefficient expansion and the continual-path effective-ratio negative control. The numerical/source hypothesis conditions pass, but the preregistered repeat-validity implementation failed due solely to the discovery sigma artifact.
+- Job accounting: Slurm job `384362`, state `COMPLETED`, elapsed `00:00:01`, exit `0:0`, MI210 GPUs `0`, MI210 node-hours `0`.
+- Evidence: `scripts/test_h003.py` and `slurm/h003_l0.sbatch`; inputs are the three `vendor/on_policy_mix/pipeline` files listed in `/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json`; command `sbatch slurm/h003_l0.sbatch`; raw log `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/h003-384362.out`; result `/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json`; accounting command `sacct -j 384362 --format=JobID,State,Elapsed,ExitCode -n -P`.
