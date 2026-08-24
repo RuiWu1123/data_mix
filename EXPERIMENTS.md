@@ -358,3 +358,8 @@ Historical entries below must never be edited or deleted. Corrections are new en
 
 - Status: the supported implementation-audit verdict is retained, but this research line is closed and receives no further experiment budget. Its scope remains a traced coefficient-semantics defect in one implementation, not a general data-mixing thesis claim.
 - Evidence: `scripts/test_h003.py`; inputs and numeric result are recorded in `/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json`; command `sbatch slurm/h003_l0.sbatch`; the closure decision is the user instruction following the final comparison in this thread.
+
+## H006 - LINE CLOSED
+
+- Status: the supported theorem-audit verdict is retained, but this research line is closed and receives no further experiment budget. Its scope remains a counterexample to the literal displayed assumptions, without a claim about repaired theory or empirical method performance.
+- Evidence: `scripts/test_h006.py`; inputs and numeric result are recorded in `/work1/ruixiangtang/rw761/data_mix_artifacts/H006/result.json`; command `sbatch slurm/h006_l0.sbatch`; the closure decision is the user instruction following the final comparison in this thread.
