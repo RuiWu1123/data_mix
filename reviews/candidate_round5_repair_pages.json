@@ -1,0 +1,27 @@
+{
+  "reference_list": [
+    "olmix_2602.12237.pdf",
+    "regmix_2407.01492.pdf",
+    "izenman_modern_multivariate_2008.pdf",
+    "sparse_rrr_cv_1812.11555.pdf",
+    "bicrossvalidation_0908.2062.pdf",
+    "vector_dimension_reduction_1801.07922.pdf"
+  ],
+  "pages": [
+    {
+      "id": "H017",
+      "version": 2,
+      "title": "Two directions suffice for cross-fitted affine prediction on Olmix swarms",
+      "statement": "On each official Olmix nested swarm, a fixed rank-two reduced-rank regression in Helmert-ilr mixture coordinates predicts held-out task-standardized BPB within 0.01 response standard deviations of a properly nested, cross-validated rank-selected reduced-rank regression, while improving by at least 0.02 response standard deviations over the median dimension-matched random input subspace. The claim concerns unseen mixture rows for the fixed released task vector, not new tasks, intrinsic dimension, or target-scale mixture quality.",
+      "attacks": ["H015", "A-012"],
+      "original_tested": "No. Olmix reports held-out per-task correlations for full-coordinate regressors. H015 reports in-sample stable rank. Neither fits prediction-loss-optimal reduced-rank regression, nests rank selection inside held-out evaluation, nor compares the supervised rank-two predictor with design-metric-matched random rank-two input subspaces.",
+      "why_new": "Izenman's reduced-rank regression and rank assessment are established, so estimator novelty is explicitly disclaimed. The new falsifiable measurement is whether the released LLM mixture-to-task response admits a two-factor cross-fitted predictor across a nested 6/12/18/24-domain sequence. A positive result would justify testing joint low-rank multi-task mixing laws; a negative result would confine H015 to spectral concentration without predictive sufficiency.",
+      "falsification": "For each m in {6,12,18,24}, use 20 SHA256-defined repetitions of five outer folds. For every outer fold, use only outer-training rows to center Helmert-ilr predictors and standardize every task. Select rank r in 1..m-1 by four-fold inner-CV mean standardized MSE, with rank and all scaling refit inside each inner fold; ties within 1e-12 select the smaller rank. Refit on the entire outer-training fold. For each r, solve min_B ||Y-XB||_F subject to rank(B)<=r by truncating the SVD of the OLS fitted response P_X Y and mapping it back with the Moore-Penrose inverse; direct coefficient-SVD truncation is prohibited. Evaluate the fixed rank-two model and the inner-selected model only on the outer holdout. Generate 64 deterministic Haar rank-two subspaces per outer fold after whitening the outer-training predictor Gram matrix, map them through the same train-frozen transform, refit their output coefficients, and score the outer holdout. Average each row's outer-fold predictions across the 20 repetitions, then use 10000 paired mixture-row bootstraps over those cross-fitted residual tensors. Discovery is m=6/12 and confirmation is m=18/24. For every m, support requires the point and bootstrap 95% upper bound of rank-two RMSE minus nested-selected RMSE to be <=0.01; the point and bootstrap 95% lower bound of median-Haar RMSE minus rank-two RMSE to be >=0.02 and >2 paired-row bootstrap sigma. Any failed conjunction falsifies. Any outer/inner design rank below m-1, condition number above 10000, task training standard deviation below 1e-8, or fewer than 100 common finite tasks is inconclusive.",
+      "minimum_detectable_effect": "Rank-two noninferiority margin 0.01 task-standardized RMSE; random-subspace superiority margin 0.02 task-standardized RMSE and more than 2 paired-row bootstrap sigma.",
+      "design": "The outer fold is the sole performance assessment layer; inner outcomes select rank without touching the outer holdout. The fixed rank-two predictor has no selection step. Repetitions stabilize cross-fitting but are not treated as independent samples: uncertainty resamples mixture rows after averaging repeated out-of-fold predictions. Tasks are fixed outputs, so no new-task claim or bi-cross-validation claim is made. Haar controls are uniform only after train-design whitening, preventing Dirichlet/ilr anisotropy from defining the negative control. Discovery and confirmation use separate domain-count tables and are reported separately.",
+      "cost": "L0: one Slurm CPU job, zero GPU.",
+      "type": "measurement",
+      "repair": "Single permitted repair of H017 v1. It replaces the invalid coefficient-SVD estimator, removes the ambiguous one-fold-SE rule, adds nested evaluation, makes the random-subspace distribution explicit, and narrows the statement to fixed-task new-row prediction. Numerical effect margins are not relaxed."
+    }
+  ]
+}
