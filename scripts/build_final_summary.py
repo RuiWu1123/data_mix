@@ -22,6 +22,7 @@ COMPLETED = {
 }
 
 CLOSED_LINES = {"H003", "H006", "H011"}
+CANDIDATE_LINE_L1_FRACTION = 0.30
 
 REVIEW_ROUNDS = (
     ("reviews/candidate_round1.json", 1),
@@ -171,6 +172,13 @@ def main() -> None:
         "active_research_lines": sorted(record["id"] for record in records if record["line_status"] == "candidate"),
         "closed_research_lines": sorted(CLOSED_LINES),
         "quotas": quotas,
+        "candidate_line_accounting": {
+            "maximum_fraction_of_total_gpu_budget": CANDIDATE_LINE_L1_FRACTION,
+            "budget_mi210_node_hours": (
+                protocol["gpu_budget_mi210_node_hours"] * CANDIDATE_LINE_L1_FRACTION
+            ),
+            "used_mi210_node_hours": 0,
+        },
         "assumptions": assumptions,
         "blocked_line_count": 7,
         "literature_addition_count": 15,
