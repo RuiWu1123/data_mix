@@ -202,3 +202,13 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Three strongest objections and validity response: globally bounded gradients conflict with unconstrained global strong convexity, so the job must quote whether the theorem quantifies over all parameters or only stochastic iterates; singleton-source scope must be present, and confirmation therefore uses seven sources as a nondegenerate check; the multidimensional AD construction and formulas must be fully emitted. No empirical GRAPE claim is made.
 - Cost: zero GPU, one Slurm CPU job. No computation was performed before this entry.
 - Evidence for every count, threshold, score, and rank: `scripts/check_review.py` and `scripts/select_fallback.py`; inputs `reviews/candidate_round2_pages.json`, `reviews/candidate_round2.json`, `artifacts/fallback_after_12.json`, `references/grape_2505.20380.pdf`; commands and outputs are recorded in `REVIEW-CALIBRATION-ROUND-2 AND FALLBACK-12`.
+
+## H012 v1 — REJECTED
+
+- ID/date/type/level: H012, 2026-08-24, audit, L0. Attacked A019.
+- One-page statement/design: identically labeled method-task cells in GRAPE main Table 2 and Appendix Table 9 differ beyond rounding. Odd task columns were discovery and even columns confirmation. Support required at least `3` mismatches above `0.10` in each split and one above `0.50`, with captions establishing identical protocol and three deterministic extraction repeats; zero GPU.
+- Review: raw/calibrated N/F/I `3/9/4`; absolute REJECT because novelty and impact are below `7`, no fatal objection for the narrow identity claim, no overlap veto; cumulative fallback total `16`, not selected.
+- Nearest works: GRAPE is the source; statcheck, TAB-AUDIT, and PaperAudit-Bench address broader inconsistency or fabrication detection but not this exact join.
+- Three strongest objections: visible labels may hide checkpoint/seed/version differences; a discrepancy does not identify the correct table or reverse a conclusion; odd/even columns do not create independent evidence.
+- Disposition: abandoned without test. A broader systematic audit would be a different hypothesis rather than a local repair.
+- Evidence for every count, threshold, and score: `scripts/check_review.py`; inputs `reviews/candidate_round2_pages.json`, `reviews/candidate_round2.json`; command `python scripts/check_review.py reviews/candidate_round2.json --threshold 7 --novelty-offset 0`; output `artifacts/candidate_round2_check.json`.
