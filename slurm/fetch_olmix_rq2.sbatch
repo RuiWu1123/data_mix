@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=fetch-olmix-rq2
-#SBATCH --partition=cpu
+#SBATCH --partition=devel
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
