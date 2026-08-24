@@ -1,0 +1,123 @@
+{
+  "reviewer_scope": "fresh context-free oral-level review with independent web search",
+  "calibration": {
+    "action": "no score offset",
+    "CAL-RM": {"novelty": 8, "falsifiability": 9, "impact": 9},
+    "CAL-DG": {"novelty": 8, "falsifiability": 9, "impact": 9}
+  },
+  "reviews": [
+    {
+      "id": "H007",
+      "nearest_prior_work": [
+        "Explaining Data Mixing Scaling Laws: attacked Equation 1/3 and MRE; H007 audits metric lineage.",
+        "Data Mixing Laws: mixture-conditioned prediction but no treatment-dependent inclusion mask.",
+        "Chen et al. 2023 outcome-dependent missingness: general bias theory, not this benchmark audit.",
+        "statcheck: reporting checks without benchmark-mask estimands."
+      ],
+      "strongest_objections": [
+        "Refitted heldout halves cannot establish inflation of the published Table 2 estimand.",
+        "Equal weighting of low-weight extrapolation cells needs scientific justification.",
+        "Advantage shrinkage and bootstrap aggregation are unstable when the baseline gap is near zero."
+      ],
+      "scores": {"novelty": 5, "falsifiability": 7, "impact": 6},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": true,
+      "raw_verdict": "REJECT",
+      "repairable_once": true
+    },
+    {
+      "id": "H008",
+      "nearest_prior_work": [
+        "DataDecide: forced target means; H008 adds confidence-filtered abstention.",
+        "Selective prediction sets: general abstention and coverage guarantees.",
+        "Ranking-and-selection: indifference zones and probability of correct selection.",
+        "Equivalence testing: requires a practical interval rather than failure to reject zero."
+      ],
+      "strongest_objections": [
+        "Target replicates determine abstention, so the rule is unavailable at proxy decision time.",
+        "A zero-crossing confidence interval is not an equivalence test without an indifference margin.",
+        "Metric hashes share recipes, seeds, checkpoints, and correlated likelihood metrics."
+      ],
+      "scores": {"novelty": 3, "falsifiability": 4, "impact": 6},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": true,
+      "raw_verdict": "REJECT",
+      "repairable_once": false
+    },
+    {
+      "id": "H009",
+      "nearest_prior_work": [
+        "Olmix: attacked K=c(m+1) collapse; H009 changes the denominator to absolute heldout regret.",
+        "RegMix: swarm regression without dimension-varying sample complexity.",
+        "Scaling Laws for Optimal Data Mixtures: scale extrapolation without normalization audit.",
+        "HPO x ELA: common best-found normalization in optimization benchmarking."
+      ],
+      "strongest_objections": [
+        "A finite 20% released-mixture oracle has dimension-dependent approximation error.",
+        "Non-nested domain semantics confound domain count with objective landscape.",
+        "One budget, three seeds, and two scales cannot isolate normalization from model misspecification."
+      ],
+      "scores": {"novelty": 5, "falsifiability": 6, "impact": 7},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": true,
+      "raw_verdict": "REJECT",
+      "repairable_once": true
+    },
+    {
+      "id": "H010",
+      "nearest_prior_work": [
+        "Data Mixture Optimization: attacked single simulator and speedups; H010 propagates simulator uncertainty.",
+        "Statistical Uncertainty Analysis for Stochastic Simulation: bootstraps metamodel input uncertainty.",
+        "Kriging and bootstrap simulation-optimization survey: propagates metamodel variability to optima.",
+        "Data-Driven Ranking and Selection Under Input Uncertainty: optimizer winner instability from estimated worlds."
+      ],
+      "strongest_objections": [
+        "The statement is conjunctive while the support rule uses an OR.",
+        "Bootstrap refits are not automatically equally admissible benchmark worlds.",
+        "Metric halves share training runs, architecture, pool, and policies."
+      ],
+      "scores": {"novelty": 4, "falsifiability": 6, "impact": 7},
+      "substantial_overlap": true,
+      "unresolved_fatal_objection": true,
+      "raw_verdict": "REJECT"
+    },
+    {
+      "id": "H011",
+      "nearest_prior_work": [
+        "GRAPE: attacked raw-variance theorem; H011 gives a strongly convex counterexample.",
+        "Gradient Surgery: gradient-conflict conditions without GRAPE variance analysis.",
+        "Gradient Coordination: alignment and loss reduction, not this theorem.",
+        "Information Transfer in MTL: positive-transfer conditions without normalized/raw variance audit."
+      ],
+      "strongest_objections": [
+        "Global bounded-gradient and strong-convexity assumptions may be incompatible with the quadratic construction.",
+        "One source removes the defining mixture degree of freedom unless singleton scope is universal.",
+        "The seven-dimensional confirmation is underspecified and AD is not independent of an exact identity."
+      ],
+      "scores": {"novelty": 6, "falsifiability": 8, "impact": 7},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": true,
+      "raw_verdict": "REJECT",
+      "repairable_once": true
+    },
+    {
+      "id": "H012",
+      "nearest_prior_work": [
+        "GRAPE: exact audited source; H012 checks duplicate-cell identity.",
+        "statcheck: automatic statistical inconsistency checking.",
+        "TAB-AUDIT: likelihood-based fabricated-table detection rather than deterministic joins.",
+        "PaperAudit-Bench: general paper-error detection benchmark."
+      ],
+      "strongest_objections": [
+        "Visible labels do not exclude hidden checkpoint, seed, correction, or version differences.",
+        "A local discrepancy does not identify the correct table or reverse a scientific conclusion.",
+        "Odd/even columns are not independent evidence from one PDF."
+      ],
+      "scores": {"novelty": 3, "falsifiability": 9, "impact": 4},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": false,
+      "raw_verdict": "REJECT",
+      "repairable_once": false
+    }
+  ]
+}
