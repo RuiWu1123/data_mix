@@ -21,3 +21,9 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Calibration action: because both published core hypotheses fell below the threshold of 7 only on novelty, subsequent reviews use a novelty offset of 1. The substantial-overlap veto and thresholds of 7 for all calibrated dimensions remain unchanged.
 - Budget action: conservative token accounting forced relative-selection mode before candidate review because cumulative use 386781 exceeded the review-generation pool limit 200000 under the total budget 500000.
 - Evidence: `scripts/check_review.py` and `scripts/check_budget.py`; inputs `reviews/calibration.json`, `protocol.json`, `artifacts/budget_snapshot_20260824.json`; commands `python scripts/check_review.py reviews/calibration.json --threshold 7 --novelty-offset 1` and `python scripts/check_budget.py --protocol protocol.json --snapshot artifacts/budget_snapshot_20260824.json`.
+
+## JOB-384355 — L0 environment setup
+
+- Date: 2026-08-24. Slurm state `COMPLETED`, elapsed `00:00:43`, exit code `0:0`, requested nodes `1`, requested CPUs `4`, MI210 GPU count `0`, and MI210 node-hours `0`.
+- Output versions: NumPy `2.5.2`, pandas `3.0.5`, SciPy `1.18.1`, scikit-learn `1.9.0`.
+- Evidence: `slurm/setup_l0_env.sbatch`; inputs `slurm/setup_l0_env.sbatch` and the public Python package index; commands `sbatch slurm/setup_l0_env.sbatch` and `sacct -j 384355 --format=JobID,State,Elapsed,ExitCode -n -P`; raw output `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/setup_l0_env-384355.out`.
