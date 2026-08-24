@@ -18,6 +18,7 @@ COMPLETED = {
     "H013": ("measurement", "L0"),
     "H014": ("constructive", "L0"),
     "H015": ("measurement", "L0"),
+    "H016": ("measurement", "L0"),
 }
 
 CLOSED_LINES = {"H003", "H006", "H011"}
@@ -27,6 +28,7 @@ REVIEW_ROUNDS = (
     ("reviews/candidate_round2.json", 0),
     ("reviews/candidate_round3.json", 0),
     ("reviews/candidate_round4.json", 0),
+    ("reviews/candidate_round5.json", 0),
 )
 
 UPGRADES = {
@@ -58,13 +60,22 @@ UPGRADES = {
         "decision": "The theorem-relevance concern advances if GRAPE variance has a positive slope above 2 seed sigma over the first 10 logged intervals.",
     },
     "H015": {
-        "tier": "L0",
-        "design": "Repeat the frozen spectrum analysis under raw, z-scored, and task-family-aggregated BPB codomain norms.",
+        "tier": "L1",
+        "design": "Use newly trained mixtures and an untouched validation corpus to test whether a rank-two response model predicts unseen-mixture losses, with three independent training seeds per mixture.",
+        "training_mixtures": 20,
+        "fit_mixtures": 14,
+        "untouched_mixtures": 6,
+        "seeds_per_mixture": 3,
+        "maximum_jobs": 60,
+        "decision": "A newly reviewed preregistration must require rank-two prediction to beat all frozen same-budget baselines on every untouched split by at least two training-seed sigma; H017 and H019 cannot be reused because their one-repair allowances are exhausted.",
+    },
+    "H016": {
+        "tier": "L1",
+        "design": "Repeat the response-spectrum measurement with item-level resampling and an untouched validation corpus so task duplication and finite-benchmark adaptation enter the uncertainty estimate.",
         "codomain_norms": 3,
-        "bootstraps_per_norm": 10_000,
-        "maximum_rank_fraction_upper_95": 0.60,
-        "maximum_slope_upper_95": 0.75,
-        "decision": "The measurement is norm-robust only if both upper bounds hold under every codomain norm.",
+        "training_seeds": 3,
+        "minimum_untouched_tasks": 100,
+        "decision": "The result advances only if every norm retains a rank-fraction upper 95% bound at most 0.60 and the leading rank-two subspace overlap lower 5% bound is at least 0.60 after item-level uncertainty is propagated.",
     },
 }
 
@@ -73,8 +84,9 @@ def load_scores(root: Path) -> dict[str, dict[str, int]]:
     scores = {}
     for relative, novelty_offset in REVIEW_ROUNDS:
         payload = json.loads((root / relative).read_text(encoding="utf-8"))
-        for review in payload["reviews"]:
-            raw = review["scores"]
+        for review in payload.get("reviews", payload.get("candidates", [])):
+            score_payload = review["scores"]
+            raw = score_payload.get("raw", score_payload)
             scores[review["id"]] = {
                 "novelty": min(10, int(raw["novelty"]) + novelty_offset),
                 "falsifiability": int(raw["falsifiability"]),
@@ -90,6 +102,12 @@ def supported_effect(identifier: str, result: dict[str, object]):
         return result["effect_sigma"]
     if identifier == "H015":
         return min(result["tables"][key]["deficit_sigma"] for key in ("18", "24"))
+    if identifier == "H016":
+        return min(
+            norm["deficit_sigma"]
+            for table in result["tables"].values()
+            for norm in table["norms"].values()
+        )
     return "not_applicable"
 
 
@@ -155,7 +173,7 @@ def main() -> None:
         "quotas": quotas,
         "assumptions": assumptions,
         "blocked_line_count": 7,
-        "literature_addition_count": 10,
+        "literature_addition_count": 15,
         "literature_addition_cap": protocol["literature_addition_cap"],
         "command": (
             f"python scripts/build_final_summary.py --root {args.root} "
