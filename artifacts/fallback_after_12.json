@@ -1,0 +1,13 @@
+{
+  "already_admitted": ["H002", "H003", "H006"],
+  "eligible_ranked": [
+    {"id": "H004", "scores": {"novelty": 8, "falsifiability": 5, "impact": 8}, "total": 21, "source": "reviews/candidate_round1.json"},
+    {"id": "H011", "scores": {"novelty": 6, "falsifiability": 8, "impact": 7}, "total": 21, "source": "reviews/candidate_round2.json"},
+    {"id": "H009", "scores": {"novelty": 5, "falsifiability": 6, "impact": 7}, "total": 18, "source": "reviews/candidate_round2.json"},
+    {"id": "H007", "scores": {"novelty": 5, "falsifiability": 7, "impact": 6}, "total": 18, "source": "reviews/candidate_round2.json"},
+    {"id": "H012", "scores": {"novelty": 3, "falsifiability": 9, "impact": 4}, "total": 16, "source": "reviews/candidate_round2.json"},
+    {"id": "H008", "scores": {"novelty": 3, "falsifiability": 4, "impact": 6}, "total": 13, "source": "reviews/candidate_round2.json"}
+  ],
+  "selected": ["H004", "H011", "H009"],
+  "tie_break": "total, impact, falsifiability, novelty, id descending"
+}
