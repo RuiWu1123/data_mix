@@ -1,0 +1,20 @@
+{
+  "agent_added_check_count": 6,
+  "bootstrap_layers": 1,
+  "command": "python scripts/check_onedial_protocol.py --root /work1/ruixiangtang/rw761/awesome-pretraining/data_mix --protocol /work1/ruixiangtang/rw761/awesome-pretraining/data_mix/protocol_onedial.json --markdown /work1/ruixiangtang/rw761/awesome-pretraining/data_mix/PROTOCOL_ONEDIAL.md --ledger /work1/ruixiangtang/rw761/awesome-pretraining/data_mix/EXPERIMENTS.md --output /work1/ruixiangtang/rw761/awesome-pretraining/data_mix/artifacts/onedial_protocol_check.json",
+  "errors": [],
+  "gpu_count": 0,
+  "inputs": [
+    "/work1/ruixiangtang/rw761/awesome-pretraining/data_mix/protocol_onedial.json",
+    "/work1/ruixiangtang/rw761/awesome-pretraining/data_mix/PROTOCOL_ONEDIAL.md",
+    "/work1/ruixiangtang/rw761/awesome-pretraining/data_mix/EXPERIMENTS.md"
+  ],
+  "ledger_sha256": "59552dc1475d20d6ba8ce541ad685cad3226a5700c1b8bec22d942a34806462c",
+  "markdown_sha256": "10ec812d2feebdb33a336a819c62fcdc550e6bb2ddeb221ebbecc59d98a34659",
+  "nested_bootstrap": false,
+  "passed": true,
+  "preexisting_outcome_artifact_count": 0,
+  "protocol_id": "ONEDIAL-V1",
+  "protocol_sha256": "43a05296625f725b091b7e0a8a2003987e23b7879cc0ac019a2f4581f11bf494",
+  "question_count": 5
+}
