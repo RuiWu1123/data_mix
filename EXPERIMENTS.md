@@ -118,3 +118,10 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Source trace: all five booleans were true, including final direct coefficient expansion and the continual-path effective-ratio negative control. The numerical/source hypothesis conditions pass, but the preregistered repeat-validity implementation failed due solely to the discovery sigma artifact.
 - Job accounting: Slurm job `384362`, state `COMPLETED`, elapsed `00:00:01`, exit `0:0`, MI210 GPUs `0`, MI210 node-hours `0`.
 - Evidence: `scripts/test_h003.py` and `slurm/h003_l0.sbatch`; inputs are the three `vendor/on_policy_mix/pipeline` files listed in `/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json`; command `sbatch slurm/h003_l0.sbatch`; raw log `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/h003-384362.out`; result `/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json`; accounting command `sacct -j 384362 --format=JobID,State,Elapsed,ExitCode -n -P`.
+
+## H003 v1 — RESCUE 1 PREREGISTRATION
+
+- Date: 2026-08-24. This is rescue analysis `1` of the allowed maximum `2` for the same hypothesis/data pair. It corrects only the repeat-agreement implementation; hypothesis, splits, source assertions, and effect thresholds remain frozen.
+- Correction: define repeat sigma as exactly `0` when all three stored repeat statistics compare equal, otherwise use the sample standard deviation. This matches the preregistered phrase “all repetitions agree” and prevents a floating reduction artifact from overriding bitwise-equal inputs.
+- Decision rule: rerun the unchanged job. The existing supported/falsified/inconclusive logic then applies without any threshold change.
+- Evidence for all counts and the observed trigger: `scripts/test_h003.py`; input `/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json`; diagnostic command `python -c "import json; p=json.load(open('/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json')); print(p['discovery']['repeat_medians'], p['discovery']['sigma'])"`; implementation and rerun occur only after this entry.
