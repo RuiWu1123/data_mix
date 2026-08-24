@@ -1,0 +1,284 @@
+{
+  "review_protocol": {
+    "standard": "ICML/ICLR/NeurIPS oral-level",
+    "acceptance_rule": "ACCEPT only if every calibrated dimension is at least 7, with no unresolved fatal objection and no substantial-overlap veto.",
+    "web_calibration_completed_before_candidate_review": true,
+    "workspace_files_read": [
+      "reviews/candidate_round5_pages.json"
+    ],
+    "workspace_files_modified": []
+  },
+  "calibration": {
+    "anchors": [
+      {
+        "name": "RegMix",
+        "title": "RegMix: Data Mixture as Regression for Language Model Pre-training",
+        "url": "https://arxiv.org/abs/2407.01492",
+        "core_hypothesis_rewrite": "The relative quality of pretraining mixtures is sufficiently stable across model and token scales that a regression surrogate trained on many cheap, diverse proxy runs can rank unseen mixtures and select one that remains superior when used for a much larger and longer target-model run.",
+        "one_page_test_rewrite": "Sample a broad, fixed set of source-domain mixtures; train small proxy models on those mixtures; fit a regression model using mixture weights as inputs and a precommitted validation metric as the response; rank a separate candidate set without target-scale outcomes; then train target-scale models on the selected and comparison mixtures. The hypothesis fails if proxy predictions do not rank held-out target-scale mixtures reliably or if the selected mixture does not beat competitive human, random, and automated baselines at target scale under equal training compute.",
+        "scores": {
+          "novelty": 8,
+          "falsifiability": 8,
+          "impact": 9
+        },
+        "score_rationale": {
+          "novelty": "It turns mixture selection into an explicit supervised surrogate problem and directly tests cross-scale rank transfer.",
+          "falsifiability": "The proxy-only selection and target-scale candidate comparison expose the central transfer assumption to direct failure, although the published paper is less preregistered than the candidate format.",
+          "impact": "A successful cheap-to-expensive transfer changes how large pretraining mixtures can be selected and was validated on consequential training runs."
+        }
+      },
+      {
+        "name": "DoGE",
+        "title": "DoGE: Domain Reweighting with Generalization Estimation",
+        "url": "https://arxiv.org/abs/2310.15393",
+        "core_hypothesis_rewrite": "Gradient-based estimates of how each source domain advances a universal or specified target objective can drive online mirror-descent domain weights in a proxy model, and the averaged proxy weights transfer to a larger base-model run with better in-domain and out-of-domain generalization than heuristic or prior automated mixtures.",
+        "one_page_test_rewrite": "During proxy training, compute per-domain gradients and update sampling weights according to their alignment with the universal or out-of-domain target gradient. Freeze the resulting averaged weights, train a separate base model from scratch with those weights, and compare final perplexity and reasoning performance against uniform sampling and strong reweighting baselines at equal base-model compute. The hypothesis fails if the transferred weights do not improve the predeclared target objectives or if gains disappear on genuinely unseen target domains.",
+        "scores": {
+          "novelty": 8,
+          "falsifiability": 8,
+          "impact": 8
+        },
+        "score_rationale": {
+          "novelty": "It operationalizes inter-domain influence through gradient alignment and converts it into transferable sampling weights.",
+          "falsifiability": "Proxy-weight transfer and equal-compute base-model comparisons directly test both the optimization mechanism and claimed generalization.",
+          "impact": "It supplies a principled alternative to manual domain weighting for universal and target-specific pretraining."
+        }
+      }
+    ],
+    "global_offset": {
+      "novelty": 0,
+      "falsifiability": 0,
+      "impact": 0,
+      "applied": false,
+      "reason": "The raw scale already places two published, field-level contributions at 8-9 while reserving 7 for work plausibly competitive at oral level. No systematic upward or downward correction is justified."
+    }
+  },
+  "candidates": [
+    {
+      "id": "H016",
+      "title": "Olmix response concentration is codomain-norm and task-granularity robust",
+      "closest_works": [
+        {
+          "title": "Olmix: A Framework for Data Mixing Throughout LM Development",
+          "url": "https://arxiv.org/abs/2602.12237",
+          "exact_difference": "Olmix supplies the same swarms, BPB tasks, and Math/Code/QA grouping and compares per-task, per-family, and aggregate regression fits. H016 instead computes spectra and leading-subspace overlap after output reweighting; it introduces no new mixtures, models, or downstream validation."
+        },
+        {
+          "title": "Gradient-based dimension reduction of multivariate vector-valued functions",
+          "url": "https://arxiv.org/abs/1801.07922",
+          "exact_difference": "Zahm et al. derive vector-valued ridge approximations and explicitly show that the codomain norm changes the active operator. H016 is an application of that known norm dependence to an affine Olmix response table, using bootstrap thresholds rather than contributing a new dimension-reduction result."
+        },
+        {
+          "title": "Shared active subspace for multivariate vector-valued functions",
+          "url": "https://arxiv.org/abs/2401.02735",
+          "exact_difference": "Musayeva and Binois compare gradient-level and SPD-level ways to recover a shared subspace across multiple outputs and distributions. H016 fixes three hand-selected diagonal output metrics and asks whether one existing affine coefficient subspace survives them."
+        }
+      ],
+      "substantial_overlap_veto": {
+        "veto": false,
+        "reason": "The mathematical ingredients and the Olmix task-family sensitivity question are close to prior work, but none of the closest works reports this exact norm-overlap analysis on the released Olmix nested swarms."
+      },
+      "strongest_objections": [
+        {
+          "rank": 1,
+          "objection": "The proposed weighting does not test the stated duplicated-subtask explanation. Dividing each standardized task by the square root of its family size equalizes total quadratic weight across three families, but correlated or near-duplicate subtasks within a family still contribute repeated copies of the same response direction. A spectrum that survives this weighting can still be produced entirely by duplicated MT-MBPP languages, MATH categories, or QA subsets. The family-aggregated analysis that could remove this multiplicity is explicitly made descriptive, so the confirmatory conjunction cannot support the statement that duplication is ruled out."
+        },
+        {
+          "rank": 2,
+          "objection": "The third norm is not paper-native in the claimed sense. Olmix's per-family objective is weighted by family size, so summing |F_i|/n times each family mean algebraically recovers the ordinary task macro-average. H016's 1/sqrt(|F_i|) output scaling instead gives each family equal total squared mass after task standardization. That is a defensible researcher-chosen norm, but it is neither Olmix's reported objective nor its per-family estimator."
+        },
+        {
+          "rank": 3,
+          "objection": "The uncertainty calculation resamples mixture rows only. It does not propagate benchmark-item uncertainty, task-definition uncertainty, or dependence among subtasks, precisely the sources implicated by the hypothesis. Using paired rows across norms improves a conditional contrast but does not turn 110 correlated outputs into independent evidence. Ten thousand resamples increase Monte Carlo precision without repairing that missing sampling level."
+        }
+      ],
+      "unresolved_fatal_objections": [
+        "The confirmatory estimand cannot falsify the explicit claim that concentration is not produced solely by duplicated subtasks. Family weighting changes leverage but does not de-duplicate or cluster correlated outputs, while the only family-aggregated calculation is excluded from the decision."
+      ],
+      "scores": {
+        "raw": {
+          "novelty": 4,
+          "falsifiability": 6,
+          "impact": 4
+        },
+        "calibrated": {
+          "novelty": 4,
+          "falsifiability": 6,
+          "impact": 4
+        },
+        "rationale": {
+          "novelty": "This is a useful but direct codomain-metric sensitivity application of established vector-valued active-subspace ideas to one released table.",
+          "falsifiability": "The numerical conjunction is explicit, but it does not operationalize a central part of the verbal hypothesis and its uncertainty is conditional on fixed tasks.",
+          "impact": "A positive result would modestly strengthen one descriptive Olmix reanalysis; it would not establish intrinsic dimension, target-scale behavior, or a better mixture-selection method."
+        }
+      },
+      "decision": "REJECT",
+      "decision_reason": "All calibrated dimensions are below 7, and the duplicated-subtask claim has an unresolved fatal estimand mismatch."
+    },
+    {
+      "id": "H017",
+      "title": "Olmix has at most two cross-validated affine predictive mixture directions",
+      "closest_works": [
+        {
+          "title": "Olmix: A Framework for Data Mixing Throughout LM Development",
+          "url": "https://arxiv.org/abs/2602.12237",
+          "exact_difference": "Olmix evaluates held-out per-task Pearson correlation for full regression models and studies the swarm size required to propose a strong mixture. H017 asks a different post hoc question: the cross-validated rank of a multivariate affine map in ilr coordinates, with a random-subspace control."
+        },
+        {
+          "title": "Reduced-rank regression for the multivariate linear model",
+          "url": "https://www.sciencedirect.com/science/article/pii/0047259X75900421",
+          "exact_difference": "Izenman's work develops the reduced-rank multivariate regression problem and its estimators and inference. H017 applies a rank-selection idea to Olmix, but its stated estimator truncates the ordinary coefficient matrix directly rather than fitting the prediction-loss-optimal reduced-rank regression under the observed design metric."
+        },
+        {
+          "title": "On Cross-validation for Sparse Reduced Rank Regression",
+          "url": "https://arxiv.org/abs/1812.11555",
+          "exact_difference": "She and Tran analyze how reduced-rank structures should be cross-validated and show that apparently natural fold procedures can be inconsistent. H017 is non-sparse and application-specific, with hash-generated repeated folds and a one-standard-error rule, but provides no analogous justification for its selection procedure."
+        },
+        {
+          "title": "Bi-cross-validation of the SVD and the nonnegative matrix factorization",
+          "url": "https://arxiv.org/abs/0908.2062",
+          "exact_difference": "Owen and Perry develop held-out rank selection for low-rank matrices by withholding both rows and columns. H017 withholds mixture rows only and treats tasks as a fixed multivariate response, so it tests interpolation to new mixtures rather than generalization to new task outputs."
+        }
+      ],
+      "substantial_overlap_veto": {
+        "veto": false,
+        "reason": "Reduced-rank regression and cross-validated rank selection are established, but their application to Olmix mixture coordinates with a supervised-versus-Haar comparison has not been reported by the closest works."
+      },
+      "strongest_objections": [
+        {
+          "rank": 1,
+          "objection": "Truncating the SVD of the unregularized OLS coefficient matrix is not generally the rank-r estimator that minimizes held-out prediction error. For design matrix X, the relevant training geometry is X'X: one must solve reduced-rank regression, equivalently truncate in the whitened coefficient or fitted-value geometry and map back. Direct coefficient-SVD truncation is valid only under an orthonormal or proportional-to-identity predictor Gram matrix. Dirichlet-derived ilr designs are not expected to satisfy that condition, so the proposed selected rank need not be the affine predictive rank named in the title."
+        },
+        {
+          "rank": 2,
+          "objection": "The same five-fold outcomes are used to choose the best rank, apply the one-standard-error rule, and quantify the rank-two gap to that selected best rank. No outer assessment layer or correction addresses selection optimism. The phrase 'one fold-standard-error' is also underdefined for a mean over standardized tasks and five correlated folds, making the decisive rank rule non-reproducible without an additional convention."
+        },
+        {
+          "rank": 3,
+          "objection": "One Haar draw per repeat and 100 overlapping repartitions of the same finite swarm do not provide 100 independent experimental replications. A 'greater than two repeat-level paired sigma' threshold is ambiguous between a standard deviation and a standard error and does not test against the conditional distribution of many random rank-two subspaces for each training fold. Exact matrix rank guards also do not protect the unregularized fit from severe conditioning at roughly linear-in-m swarm sizes."
+        }
+      ],
+      "unresolved_fatal_objections": [
+        "The specified coefficient-SVD truncation does not estimate the prediction-loss-optimal reduced-rank affine model under a non-orthogonal ilr design. Consequently, failure or success cannot establish the claimed number of predictive mixture directions."
+      ],
+      "scores": {
+        "raw": {
+          "novelty": 6,
+          "falsifiability": 6,
+          "impact": 6
+        },
+        "calibrated": {
+          "novelty": 6,
+          "falsifiability": 6,
+          "impact": 6
+        },
+        "rationale": {
+          "novelty": "Operationalizing the earlier spectral observation through held-out prediction and a supervised random-subspace control is the strongest new idea in this round, though it remains an application of established reduced-rank regression.",
+          "falsifiability": "The intended thresholds are strong and mostly executable, but the estimator targets the wrong loss geometry and key uncertainty terms are ambiguous.",
+          "impact": "A valid result would directly inform how many mixture directions need to be learned from a swarm, but the evidence remains confined to released proxy outcomes and does not demonstrate target-scale mixture selection."
+        }
+      },
+      "decision": "REJECT",
+      "decision_reason": "Every calibrated dimension is below 7 and the decisive estimator does not target the claimed affine predictive rank."
+    },
+    {
+      "id": "H018",
+      "title": "Olmix's nonlinear log-linear Jacobian has the same concentrated response subspace as H015",
+      "closest_works": [
+        {
+          "title": "Olmix: A Framework for Data Mixing Throughout LM Development",
+          "url": "https://arxiv.org/abs/2602.12237",
+          "exact_difference": "Olmix fits the same per-task law c_i+exp(A_i^T p), reports held-out predictive correlation, and uses the fitted functions for mixture optimization and reuse analysis. H018 adds the exact ilr Jacobian, averages its gradient Gram operator over observed mixtures, and compares that operator with a global affine OLS subspace."
+        },
+        {
+          "title": "Data Mixing Laws: Optimizing Data Mixtures by Predicting Language Modeling Performance",
+          "url": "https://arxiv.org/abs/2403.16952",
+          "exact_difference": "Data Mixing Laws introduces the log-linear mixture-response family and uses it to predict and optimize losses across mixtures and scales. H018 contributes no new response law or optimization result; it performs a differential subspace diagnostic on Olmix fits of that law."
+        },
+        {
+          "title": "Gradient-based dimension reduction of multivariate vector-valued functions",
+          "url": "https://arxiv.org/abs/1801.07922",
+          "exact_difference": "Zahm et al. define and analyze codomain-weighted gradient operators for vector-valued functions and their ridge approximations. H018 instantiates essentially this operator for an LLM data-mixing surrogate and compares it to an affine estimator, without a new approximation theorem."
+        },
+        {
+          "title": "Shared active subspace for multivariate vector-valued functions",
+          "url": "https://arxiv.org/abs/2401.02735",
+          "exact_difference": "Musayeva and Binois study methods for combining component gradient matrices into a shared active subspace. H018 fixes Olmix's analytic component gradients and two diagonal codomain metrics; its novelty is the application and affine-versus-nonlinear comparison."
+        }
+      ],
+      "substantial_overlap_veto": {
+        "veto": false,
+        "reason": "The nonlinear law and vector-gradient operator are both prior art, but the exact Olmix Jacobian spectrum and its comparison with the released-table affine subspace are not reported in the closest works."
+      },
+      "strongest_objections": [
+        {
+          "rank": 1,
+          "objection": "A median held-out per-task Pearson correlation of 0.50 is far too weak to interpret an equally weighted joint Jacobian. It permits almost half of the task functions to have zero, negative, or otherwise unusable predictive fit, yet their fitted gradients still enter J(p)'R J(p) and can determine its rank and eigenvectors. Median correlation also ignores calibration and derivative accuracy: a function can rank ten held-out points moderately while having badly wrong local gradients."
+        },
+        {
+          "rank": 2,
+          "objection": "The nonlinear bootstrap is compared with a frozen full-data H015 OLS point subspace. This conditions away uncertainty in the affine estimator and uses the same response rows to construct both estimators, so shared sampling noise can inflate apparent canonical overlap. A claim that two estimators recover the same response subspace requires paired refitting of both estimators, or cross-fitting them on independent row splits, followed by an overlap interval that includes both sources of uncertainty."
+        },
+        {
+          "rank": 3,
+          "objection": "The decisive 'active stable-rank fraction' is not defined relative to H015's coefficient spectrum. If ordinary stable rank is applied to the PSD active matrix C=E[J'RJ], it is tr(C'C)/||C||_2^2, which squares the gradient-energy eigenvalues again. The coefficient-matrix stable rank corresponding to H015 is instead tr(C)/lambda_max(C). Copying the same 0.50/0.60 thresholds across these non-equivalent functionals can manufacture stronger apparent concentration. The four-point log-log slope across changing domain sets compounds this ambiguity."
+        }
+      ],
+      "unresolved_fatal_objections": [
+        "The predictive gate does not ensure that the task gradients entering the joint operator are meaningful; a median value threshold allows a large fraction of arbitrary fitted Jacobians and does not validate derivatives.",
+        "The overlap confidence bound ignores affine-subspace uncertainty and shared-data bias, so it cannot establish agreement between two population response-subspace estimators."
+      ],
+      "scores": {
+        "raw": {
+          "novelty": 5,
+          "falsifiability": 6,
+          "impact": 5
+        },
+        "calibrated": {
+          "novelty": 5,
+          "falsifiability": 6,
+          "impact": 5
+        },
+        "rationale": {
+          "novelty": "The analytic Jacobian comparison is a focused and relevant application, but both the nonlinear law and vector-valued gradient operator are already established.",
+          "falsifiability": "Convergence, prediction, spectrum, overlap, and derivative checks are explicit, yet the prediction gate does not validate the operator and the stable-rank estimand is ambiguous.",
+          "impact": "The result could rule out one misspecification explanation for an earlier descriptive finding, but it would remain confined to a proxy surrogate on one released swarm and would not improve mixture selection directly."
+        }
+      },
+      "decision": "REJECT",
+      "decision_reason": "All calibrated dimensions are below 7, and both derivative validity and same-subspace inference retain unresolved fatal objections."
+    }
+  ],
+  "relative_fallback_ranking": [
+    {
+      "rank": 1,
+      "id": "H017",
+      "vetoed": false,
+      "hypothesis_and_thresholds_changed": false,
+      "reason": "It asks the most operational and potentially consequential question: whether a low-dimensional learned mixture representation actually preserves held-out prediction and beats random subspaces. Its fatal coefficient-geometry error prevents acceptance but does not erase its relative scientific value."
+    },
+    {
+      "rank": 2,
+      "id": "H018",
+      "vetoed": false,
+      "hypothesis_and_thresholds_changed": false,
+      "reason": "It targets the important nonlinear-cancellation alternative with the paper's own response family, but weak derivative validation and conditional overlap inference make it less decisive than a valid predictive-rank test."
+    },
+    {
+      "rank": 3,
+      "id": "H016",
+      "vetoed": false,
+      "hypothesis_and_thresholds_changed": false,
+      "reason": "It is a useful sensitivity check, but equal family weighting does not address the duplicated-subtask mechanism named in its statement, and its likely impact is limited to robustness of one descriptive spectrum."
+    }
+  ],
+  "round_decision": {
+    "accepted": [],
+    "rejected": [
+      "H016",
+      "H017",
+      "H018"
+    ],
+    "reason": "No candidate reaches 7 on every calibrated dimension, and every candidate has at least one unresolved fatal objection. No candidate is rejected solely for literature overlap."
+  }
+}
