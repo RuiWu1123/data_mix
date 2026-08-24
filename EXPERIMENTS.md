@@ -230,3 +230,13 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Source trace: preparation initially concatenates high rows, but the actual call slices both features and labels by `[:-(X_train_high.shape[0]-threshold)]` before acquisition. This missed final consumer falsifies the leakage hypothesis.
 - Job accounting: Slurm job `384368`, state `COMPLETED`, elapsed `00:00:02`, exit `0:0`, MI210 GPUs `0`, MI210 node-hours `0`.
 - Evidence: `scripts/test_h004.py` and `slurm/h004_l0.sbatch`; inputs listed in `/work1/ruixiangtang/rw761/data_mix_artifacts/H004/result.json`; command `sbatch slurm/h004_l0.sbatch`; result `/work1/ruixiangtang/rw761/data_mix_artifacts/H004/result.json`; raw log `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/h004-384368.out`; accounting command `sacct -j 384368 --format=JobID,State,Elapsed,ExitCode -n -P`.
+
+## H011 v1 — RESULT
+
+- ID/date/type/level/verdict: H011, 2026-08-24, audit, L0, `supported`. Review status `admitted-by-fallback`; calibrated N/F/I `6/8/7`.
+- Discovery: the one-source, two-target construction has `theta_t=1-0.8^t` and target-loss variance `4*theta_t^2`. Its first-step variance increase is `0.15999999999999992`; the emitted factorization certifies a positive increment at every finite iteration.
+- Independent confirmation: the `7`-source, `7`-target, `7`-dimensional construction has source-gradient mixture spread `0`, forward-mode update error `0`, and minimum analytic variance derivative `1.3333333333333333` over the invariant interval. The minimum sampled increment over `1000` floating-point iterations is `-8.881784197001252e-16`, so the verdict uses the preregistered analytic derivative rather than a rounded late-iteration difference.
+- Assumption/scope checks: `mu=2`, `L=2`, `gamma=0.1<=1/L`, invariant interval `[0,1]`, trajectory gradient bound `6`; the theorem displays strong convexity and bounded gradients but no global-parameter quantifier or minimum source count.
+- Noise/effect: three exact repeats give sigma `0`; the first-step increase is therefore `infinite` sigma under the preregistered exact-construction convention.
+- Job accounting: Slurm job `384367`, state `COMPLETED`, elapsed `00:00:01`, exit `0:0`, MI210 GPUs `0`, MI210 node-hours `0`.
+- Evidence: `scripts/test_h011.py` and `slurm/h011_l0.sbatch`; inputs listed in `/work1/ruixiangtang/rw761/data_mix_artifacts/H011/result.json`; command `sbatch slurm/h011_l0.sbatch`; result `/work1/ruixiangtang/rw761/data_mix_artifacts/H011/result.json`; raw log `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/h011-384367.out`; accounting command `sacct -j 384367 --format=JobID,State,Elapsed,ExitCode -n -P`.
