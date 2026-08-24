@@ -134,3 +134,12 @@ Historical entries below must never be edited or deleted. Corrections are new en
 - Noise/effect: three repetitions per construction give sigma `0`; the nonzero `0.6321205588285577` gap is `infinite` sigma and exceeds the preregistered `0.50` threshold. The conclusion is restricted to the literal displayed theorem.
 - Job accounting: Slurm job `384364`, state `COMPLETED`, elapsed `00:00:00`, exit `0:0`, MI210 GPUs `0`, MI210 node-hours `0`.
 - Evidence: `scripts/test_h006.py` and `slurm/h006_l0.sbatch`; inputs `/work1/ruixiangtang/rw761/data_mix_artifacts/paper_text/grape_2505.20380.txt` and `references/grape_2505.20380.pdf`; command `sbatch slurm/h006_l0.sbatch`; result `/work1/ruixiangtang/rw761/data_mix_artifacts/H006/result.json`; raw log `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/h006-384364.out`; accounting command `sacct -j 384364 --format=JobID,State,Elapsed,ExitCode -n -P`.
+
+## H003 v1 — RESCUE 1 RESULT
+
+- ID/date/type/level/verdict: H003, 2026-08-24, audit, L0, `supported`. Review status `admitted-by-fallback`; calibrated N/F/I `9/6/7`.
+- Discovery (`5` components, seed `0`, `1000` candidates): median/max L1 coordinate error `0.1699068579672292/0.19997472781501544`. Three equal repeat medians give sigma `0` and an `infinite`-sigma effect.
+- Independent confirmation (`7` components, seed `1729`, `1000` candidates): median/max error `0.1775721961553033/0.19998872518171068`; three equal repeats again give sigma `0` and an `infinite`-sigma effect. Both medians exceed `0.02` and maxima exceed `1e-12`.
+- Source result: pretraining specifications contain only coefficient weights, the proxy reader falls back to those weights as ratios, new probes contain `0.9` new-domain mass, and final training directly expands coefficients; the continual implementation's explicit effective ratios pass the negative control.
+- Job accounting: Slurm job `384365`, state `COMPLETED`, elapsed `00:00:01`, exit `0:0`, MI210 GPUs `0`, MI210 node-hours `0`.
+- Evidence: corrected `scripts/test_h003.py` and `slurm/h003_l0.sbatch`; source inputs listed in `/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json`; command `sbatch slurm/h003_l0.sbatch`; raw log `/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/h003-384365.out`; result `/work1/ruixiangtang/rw761/data_mix_artifacts/H003/result.json`; accounting command `sacct -j 384365 --format=JobID,State,Elapsed,ExitCode -n -P`.
