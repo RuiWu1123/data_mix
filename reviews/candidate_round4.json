@@ -1,0 +1,31 @@
+{
+  "reviewer_scope": "fresh context-free oral-level review with independent web search",
+  "calibration": {
+    "action": "no global score offset",
+    "CAL-RM": {"novelty": 8, "falsifiability": 9, "impact": 9},
+    "CAL-DG": {"novelty": 8, "falsifiability": 9, "impact": 8}
+  },
+  "reviews": [
+    {
+      "id": "H015",
+      "nearest_prior_work": [
+        "Olmix: same RQ2 swarms/domain-count/BPB setting, but no joint response spectrum, stable rank, or rank scaling exponent.",
+        "Gradient-Based Dimension Reduction of Multivariate Vector-Valued Functions (arXiv:1801.07922): vector Jacobian dimension reduction and codomain-norm dependence, but no Olmix affine measurement.",
+        "Shared Active Subspace for Multivariate Vector-Valued Functions (arXiv:2401.02735): common multi-output subspaces, but no LLM mixture benchmark or domain-count scaling.",
+        "RegMix: mixture-performance regression and transfer, but no joint downstream-response stable rank."
+      ],
+      "strongest_objections": [
+        "Stable rank is spectral concentration rather than the number of statistically distinguishable directions, so the sample-complexity interpretation does not follow.",
+        "Raw-BPB task scaling, duplication, and task granularity define the codomain norm and can change stable rank without changing mixture information.",
+        "A design-dependent global affine projection can look low-rank because of nonlinear misspecification, leverage, zero replacement, or changing top-m supports."
+      ],
+      "reviewer_raw_scores": {"novelty": 7, "falsifiability": 9, "impact": 6},
+      "scores": {"novelty": 6, "falsifiability": 7, "impact": 5},
+      "substantial_overlap": false,
+      "unresolved_fatal_objection": true,
+      "reviewer_relative_selection_eligible": false,
+      "raw_verdict": "REJECT",
+      "repairable_once": false
+    }
+  ]
+}
