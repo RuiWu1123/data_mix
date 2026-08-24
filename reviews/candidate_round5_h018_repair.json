@@ -1,0 +1,152 @@
+{
+  "calibration": {
+    "scale": "1-10 oral-level scale; 7 is the minimum acceptable score on each axis.",
+    "published_anchors": [
+      {
+        "work": "RegMix: Data Mixture as Regression for Language Model Pre-training",
+        "core_hypothesis_rewrite": "A regression model trained on many inexpensive small-model mixture runs can rank unseen mixtures well enough that its selected mixture transfers across orders of magnitude in model size and training tokens and outperforms human or existing automatic choices.",
+        "scores": {
+          "novelty": 8,
+          "falsifiability": 9,
+          "impact": 9
+        },
+        "calibration_basis": "It introduces a concrete offline regression paradigm and tests transfer using 512 proxy runs, a 1B-model comparison against 64 mixtures, and experiments up to 7B parameters and 100B tokens.",
+        "source": "[ICLR 2025 proceedings](https://proceedings.iclr.cc/paper_files/paper/2025/hash/5f67d864aae6115374fed7beddd119e0-Abstract-Conference.html)"
+      },
+      {
+        "work": "DoGE: Domain Reweighting with Generalization Estimation",
+        "core_hypothesis_rewrite": "Cross-domain proxy-gradient interactions provide a useful bilevel estimate of generalization, so weights learned during one proxy run can be transferred to a larger base model and improve universal and unseen-target-domain performance.",
+        "scores": {
+          "novelty": 8,
+          "falsifiability": 9,
+          "impact": 8
+        },
+        "calibration_basis": "It proposes a new optimization signal and evaluates transferred weights on SlimPajama, six reasoning tasks, and unseen target domains against explicit baselines.",
+        "source": "[ICML 2024 proceedings](https://proceedings.mlr.press/v235/fan24e.html)"
+      }
+    ],
+    "candidate_comparison": "Unlike both anchors, H018 introduces neither a new mixing mechanism nor a new response-model family and has no target-model intervention. Its contribution is a conditional diagnostic on one released benchmark."
+  },
+  "candidate": {
+    "id": "H018",
+    "version": 2,
+    "title": "Olmix's validated nonlinear surrogate preserves H015's concentrated response subspace",
+    "nearest_prior_work": [
+      {
+        "work": "Olmix: A Framework for Data Mixing Throughout LM Development",
+        "overlap": "Provides the exact per-task log-linear surrogate family, released swarms, held-out value-fit analysis, and the m in {6,12,18,24} experiments.",
+        "exact_difference": "H018 adds per-task chord gating, a Jacobian Gram spectrum, stable-rank summaries, and bootstrap comparison with a global affine fit; Olmix instead evaluates prediction and optimized-mixture performance.",
+        "source": "[arXiv](https://arxiv.org/abs/2602.12237)"
+      },
+      {
+        "work": "Data Mixing Laws: Optimizing Data Mixtures by Predicting Language Modeling Performance",
+        "overlap": "Introduces the exponential-of-affine mixture law later adapted by Olmix.",
+        "exact_difference": "H018 does not propose or validate a new law or scale extrapolation; it treats the existing law as fixed and measures its fitted derivative geometry in ilr coordinates.",
+        "source": "[ICLR 2025 paper](https://openreview.net/pdf?id=jjCB27TMK3)"
+      },
+      {
+        "work": "Gradient-based dimension reduction of multivariate vector-valued functions",
+        "overlap": "Establishes vector-valued active subspaces from an averaged weighted Jacobian Gram operator and explicitly studies dependence on the codomain norm.",
+        "exact_difference": "H018 applies that established operator to the Olmix surrogate on empirical simplex support, summarizes it by stable rank, and compares its leading two directions with an affine estimator; it supplies no new ridge-approximation theory.",
+        "source": "[arXiv](https://arxiv.org/abs/1801.07922)"
+      },
+      {
+        "work": "Shared active subspace for multivariate vector-valued functions",
+        "overlap": "Studies shared eigenspaces obtained by summing component gradient SPD matrices, including arbitrary empirical input distributions and output normalization.",
+        "exact_difference": "H018 specializes the sum to raw and task-standardized BPB metrics, adds task gates and paired affine comparison, and uses an Olmix application rather than proposing a new shared-subspace construction.",
+        "source": "[arXiv](https://arxiv.org/abs/2401.02735)"
+      },
+      {
+        "work": "Computing Active Subspaces with Monte Carlo",
+        "overlap": "Already develops bootstrap uncertainty assessment for eigenvalues and active subspaces estimated from gradient samples.",
+        "exact_difference": "H018 pairs bootstrap indices across two refitted surrogate families, whereas this prior work studies Monte Carlo gradient-sample uncertainty and subspace accuracy.",
+        "source": "[arXiv](https://arxiv.org/abs/1408.0545)"
+      },
+      {
+        "work": "Data Mixture Optimization: A Multi-fidelity Multi-scale Bayesian Framework",
+        "overlap": "Directly questions rigid deterministic mixture laws and models uncertainty over mixture, scale, and training steps.",
+        "exact_difference": "H018 is explicitly conditional on one deterministic law and observed support, performs no target-scale extrapolation, and asks only whether its fitted response geometry is concentrated.",
+        "source": "[arXiv](https://arxiv.org/abs/2503.21023)"
+      }
+    ],
+    "strongest_oral_level_objections": [
+      {
+        "rank": 1,
+        "objection": "The protocol is deterministically infeasible. Olmix Table 9 defines 51 standalone BPB outputs under its rule that subtasks are separate except that MMLU is averaged into four category outputs: 7+1+1+17+2+4+11+6+1+1=51. H018 requires at least 90 common validated tasks. It must therefore return inconclusive before any spectral test and cannot confirm or falsify its headline claim.",
+        "severity": "fatal"
+      },
+      {
+        "rank": 2,
+        "objection": "The validation and confirmation logic leaks. Tasks are selected using held-out correlations from all four m tables, including the designated m=18/24 confirmation tables, and the same rows are then reused for full-data operators and confirmation thresholds. Freezing the task vector before bootstrap conditions away selection uncertainty but does not undo selection bias. The chord gate also has no maximum neighbor-distance requirement, so in sparse d=m-1 spaces it may test long chords rather than local response behavior.",
+        "severity": "major"
+      },
+      {
+        "rank": 3,
+        "objection": "The oral-level contribution substantially overlaps established machinery. The exponential mixture law, vector-valued Jacobian Gram operator, codomain scaling, shared SPD eigenspace, canonical comparison tools, and active-subspace bootstrap all pre-exist. The remaining contribution is a single-benchmark diagnostic with no true-response, intrinsic-dimension, or target-scale claim, while key operational quantities and thresholds remain insufficiently justified.",
+        "severity": "major"
+      }
+    ],
+    "audit": {
+      "held_out_nearest_neighbor_chords": {
+        "status": "insufficient",
+        "finding": "A chord with one outer-held-out endpoint is legitimate evidence about finite differences on observed support and is stronger than value correlation alone. It does not validate a derivative. Without a distance cap or reported distance distribution, nearest neighbors in the m=18/24 sparse swarms need not be local, and pooled Pearson correlation can be dominated by long or repeated-neighbor chords. Thus it does not adequately validate the stated local conditional surrogate claim."
+      },
+      "task_gating_leakage": {
+        "status": "fail",
+        "finding": "Cross-fitting protects each gate prediction, but the gate consumes every discovery and confirmation row. The selected tasks are then analyzed on those same rows. Because selection for predictability can favor smoother, lower-noise tasks and alter rank and overlap, inference conditional on the frozen selected vector is not confirmatory inference for the advertised discovery/confirmation split."
+      },
+      "paired_bootstrap_inference": {
+        "status": "partial",
+        "finding": "Using identical row indices for nonlinear and affine refits correctly preserves covariance in their overlap comparison. However, the frozen gate omits selection variability; exchangeability of structured swarm rows and seeds is not established; it is unspecified whether Jacobians are averaged on original or resampled support; slope resampling across four separate tables is unspecified; and 200 replicates provide coarse tail quantiles. A 0.95 convergence filter can also bias intervals if failures are informative."
+      },
+      "stable_rank_functional": {
+        "status": "algebraically_correct_but_operationally_incomplete",
+        "finding": "For C=(R^(1/2)J)^T(R^(1/2)J), tr(C)/lambda_max(C) is exactly the stable rank of the weighted Jacobian or coefficient operator. tr(C^2)/lambda_max(C)^2 is instead the stable rank of C, so labeling it sensitivity is correct. The protocol never explicitly defines the denominator of active-rank fraction, presumably m-1, or how rank is handled under numerical degeneracy."
+      },
+      "derivative_formula": {
+        "status": "pass",
+        "finding": "Assuming inverse Helmert-ilr coordinates p(z)=softmax(Bz), dp/dz=(diag(p)-pp^T)B. Therefore d f_i/dz=exp(A_i^T p) A_i^T(diag(p)-pp^T)B. The formula is correct, and the proposed automatic-differentiation check is appropriate."
+      },
+      "codomain_metrics": {
+        "status": "underspecified",
+        "finding": "J^T R J is the correct weighted vector-output operator. However, train-task-standardized is ambiguous after the full-data refit and inside bootstrap resamples: the source rows for task means and variances, whether they are frozen, and the exact diagonal R are not defined."
+      },
+      "canonical_overlap": {
+        "status": "underspecified",
+        "finding": "Rank-two squared canonical overlap could mean the mean, sum, or minimum of the two squared singular values of U_nonlinear^T U_affine. Its normalization and treatment of tied or unstable eigenspaces are not stated, so the 0.80 and 0.60 thresholds are not uniquely executable."
+      },
+      "thresholds_and_minimum_detectable_effect": {
+        "status": "fail",
+        "finding": "The correlation, rank-fraction, overlap, and slope cutoffs have no empirical or theoretical calibration. The stated minimum detectable effect repeats acceptance bounds rather than deriving power from row counts and variability. The slope uses only four m values and spans the purported discovery and confirmation split."
+      },
+      "feasibility": {
+        "status": "fail",
+        "finding": "The 90-task requirement exceeds the 51 released task outputs documented by Olmix, making the test necessarily inconclusive. Independently, the claimed 30-minute single-CPU budget is unsupported for thousands of cross-fit task fits plus approximately 200 paired refits per table."
+      }
+    },
+    "scores": {
+      "novelty": 4,
+      "falsifiability": 2,
+      "impact": 5
+    },
+    "score_rationale": {
+      "novelty": "The application and affine comparison are new, but nearly every methodological component is established prior art.",
+      "falsifiability": "The thresholds are explicit, but the impossible 90-task gate prevents either confirmation or falsification, and several estimands are not uniquely specified.",
+      "impact": "A valid result could inform low-rank modeling on the Olmix benchmark, but the claim explicitly excludes the true response, intrinsic dimension, and target-scale behavior."
+    },
+    "unresolved_fatal_objection": {
+      "flag": true,
+      "reason": "The candidate requires 90 validated tasks although the cited released Olmix evaluation suite contains only 51 task outputs under its stated aggregation."
+    },
+    "substantial_overlap_veto": {
+      "flag": true,
+      "reason": "The central nonlinear law and the weighted vector-Jacobian active-subspace construction are prior art; raw versus standardized output metrics and bootstrap subspace uncertainty are also established. The remaining benchmark-specific measurement and affine comparison do not clear the calibrated oral-level novelty bar."
+    },
+    "verdict": "REJECT"
+  },
+  "decision": {
+    "verdict": "REJECT",
+    "acceptance_rule_satisfied": false,
+    "reason": "All three calibrated scores are below 7, and both the unresolved-fatal-objection flag and substantial-overlap veto are set."
+  }
+}
