@@ -1,0 +1,13 @@
+{
+  "already_admitted": ["H002", "H003", "H004", "H006", "H007", "H009", "H011", "H013", "H014"],
+  "eligible_ranked": [
+    {
+      "id": "H015",
+      "scores": {"falsifiability": 7, "impact": 5, "novelty": 6},
+      "source": "reviews/candidate_round4.json",
+      "total": 18
+    }
+  ],
+  "selected": ["H015"],
+  "tie_break": "total, impact, falsifiability, novelty, id descending"
+}
