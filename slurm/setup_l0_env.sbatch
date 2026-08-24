@@ -5,7 +5,6 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=16G
 #SBATCH --output=/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/setup_l0_env-%j.out
 #SBATCH --error=/work1/ruixiangtang/rw761/data_mix_artifacts/slurm/setup_l0_env-%j.err
 
