@@ -6,6 +6,12 @@ H015's affine response concentration survives `3` frozen output metrics on the s
 
 Evidence for every number: `scripts/test_h016.py`; the eight official inputs, `10000`-bootstrap spectra, overlaps, task mapping, and conditions are in `/work1/ruixiangtang/rw761/data_mix_artifacts/H016/result.json`; command `sbatch slurm/h016_l0.sbatch`; Slurm job `384588`.
 
+## H015 Continuation Verdict
+
+H015/H016 establishes one reproducible descriptive fact: the affine response spectrum in the released Olmix `30M` swarms remains concentrated under `3` frozen diagonal codomain metrics. It does not yet establish a paper-level predictive mechanism or a better data-mixing method. H016's review score is `4/6/4`; the predictive-rank repair H017 scored `6/4/6`; the nonlinear-mechanism repair H018 scored `4/2/5` and received an overlap veto; the RankShareMix method repair H019 scored `5/5/4`. All `3` downstream lines stopped before testing, so completed downstream test count is `0` and validated new-method count is `0`.
+
+The candidate-line extension used `0/60` MI210 node-hours. Evidence for the scores, veto, and zero submitted-test counts: `reviews/candidate_round5.json`, `reviews/candidate_round5_h017_repair.json`, `reviews/candidate_round5_h018_repair.json`, `reviews/candidate_round6_repair.json`, and the H017/H018/H019 stop entries in `EXPERIMENTS.md`; the `60`-node-hour ceiling is produced by `scripts/build_final_summary.py` from `protocol.json` and the candidate-line `30%` rule.
+
 ## CANDIDATE FINDING — H015
 
 Across Olmix's official nested top-`m` 30M RQ2 swarms, the centered raw-BPB affine response has stable rank near `1.23` while nominal ilr dimension grows from `5` to `23`. Discovery rank fractions at `m=6/12` are `0.24628975134617892/0.11203295581408268`; independent `m=18/24` confirmation gives `0.07280427145046091/0.05332770154720674`. The smallest confirmation rank-deficit effect is `342.73550076880593` bootstrap sigma, and the stable-rank log-log slope is `-0.0030170525337915827` with `95%` upper bound `0.03448212813935515`. This is a raw-BPB global-OLS spectral measurement, not evidence that only one mixture direction is statistically identifiable or that swarm size can be reduced.
@@ -51,12 +57,24 @@ Research status: closed. The theorem-audit result is retained, but this line rec
 | H015 | measurement | L0 | `6/7/5` | `supported` | `candidate` | `342.73550076880593` | `/work1/ruixiangtang/rw761/data_mix_artifacts/H015/result.json` |
 | H016 | measurement | L0 | `4/6/4` | `supported` | `candidate` | `37.71672810247446` | `/work1/ruixiangtang/rw761/data_mix_artifacts/H016/result.json` |
 
-Completion audit: `10` reviewed, pre-registered hypotheses completed at L0, comprising `5` supported, `3` falsified, and `2` inconclusive. Audit hypotheses are `5/10 = 0.5`, below the `0.60` ceiling; `5` completed hypotheses are measurement or constructive, above the required `2`. The assumption inventory passes with `27` assumptions across `13` methods and maximum method share `0.1111111111111111`. GPU use is `0/200` MI210 node-hours, and literature expansion is `13/15` papers.
+Completion audit: `10` reviewed, pre-registered hypotheses completed at L0, comprising `5` supported, `3` falsified, and `2` inconclusive. Audit hypotheses are `5/10 = 0.5`, below the `0.60` ceiling; `5` completed hypotheses are measurement or constructive, above the required `2`. The assumption inventory passes with `27` assumptions across `13` methods and maximum method share `0.1111111111111111`. GPU use is `0/200` MI210 node-hours, and literature expansion is `15/15` papers.
 
 Research portfolio: H003, H006, and H011 are closed; H015 is the primary candidate line and H016 is its codomain-norm robustness result. Closure changes research allocation, not the recorded experimental verdicts.
 
+## Stopped Continuation Gates
+
+| ID | Type | Final review N/F/I | Overlap veto | Submitted tests | Disposition | Evidence |
+|---|---|---:|---:|---:|---|---|
+| H017 v2 | measurement | `6/4/6` | no | `0` | repair exhausted; undefined zero handling and invalid nested uncertainty | `reviews/candidate_round5_h017_repair.json` |
+| H018 v2 | measurement | `4/2/5` | yes | `0` | repair exhausted; task-unit mismatch and prior-work overlap | `reviews/candidate_round5_h018_repair.json` |
+| H019 v2 | constructive | `5/5/4` | no | `0` | repair exhausted; reused evaluation set, miscalibrated inference, underdefined baselines/optimizer | `reviews/candidate_round6_repair.json` |
+
+Every score, veto, test count, and disposition in this table is recorded by the cited review JSON and the corresponding append-only H017/H018/H019 stop entry in `EXPERIMENTS.md`.
+
 ## Next Minimum Upgrade
 
-H015: remain at L0 and repeat the frozen spectrum analysis under `3` codomain norms: raw BPB, z-scored BPB, and task-family-aggregated BPB, using `10000` bootstraps per norm. Norm robustness requires every rank-fraction `95%` upper bound to be at most `0.60` and every slope `95%` upper bound to be at most `0.75`.
+H015: the minimum evidentiary upgrade is a newly reviewed L1 hypothesis using `20` newly trained mixtures, `14` fit mixtures, `6` untouched mixture coordinates, and `3` independent training seeds per mixture, for at most `60` jobs. Rank-`2` prediction must beat every frozen same-budget baseline on every untouched split by at least `2` training-seed sigma. This is a new hypothesis requirement, not permission to resubmit H017 or H019 after their `1/1` repairs.
 
-Evidence for every number in the final table, completion audit, line status, and upgrade design: `scripts/build_final_summary.py`; inputs `protocol.json`, `artifacts/assumptions_check.json`, `reviews/candidate_round1.json` through `reviews/candidate_round4.json`, and the nine result JSON files listed in `artifacts/final_summary.json`; command `sbatch slurm/final_summary.sbatch`; Slurm job `384549`, output `artifacts/final_summary.json`.
+H016: propagate item-level benchmark uncertainty on an untouched validation corpus with `3` codomain norms, `3` training seeds, and at least `100` untouched tasks. Every norm must retain a rank-fraction upper `95%` bound at most `0.60`, and the leading rank-`2` overlap lower `5%` bound must remain at least `0.60`.
+
+Evidence for every number in the final table, completion audit, line status, and upgrade design: `scripts/build_final_summary.py`; inputs `protocol.json`, `artifacts/assumptions_check.json`, `reviews/candidate_round1.json` through `reviews/candidate_round5.json`, and the `10` result JSON files listed in `artifacts/final_summary.json`; command `sbatch slurm/final_summary.sbatch`; output `artifacts/final_summary.json`.
