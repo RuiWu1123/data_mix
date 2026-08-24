@@ -42,6 +42,6 @@ Evidence for every count and score: `scripts/check_review.py`; input `reviews/ca
 
 ## Final State
 
-The autonomous loop is complete: `9` hypotheses finished reviewed, pre-registered L0 tests, with `4` supported, `3` falsified, and `2` inconclusive verdicts. The audit share is `5/9 = 0.5555555555555556`; `4` completed tests are measurement or constructive. All required documents exist, assumption and completion quotas pass, literature expansion is `10/15`, and GPU accounting is `0/200` MI210 node-hours.
+The autonomous loop is complete: `9` hypotheses finished reviewed, pre-registered L0 tests, with `4` supported, `3` falsified, and `2` inconclusive verdicts. The audit share is `5/9 = 0.5555555555555556`; `4` completed tests are measurement or constructive. H003, H006, and H011 are closed with their verdicts retained; H015 is the sole candidate research line. All required documents exist, assumption and completion quotas pass, literature expansion is `10/15`, and GPU accounting is `0/200` MI210 node-hours.
 
 Evidence for every number: `scripts/build_final_summary.py` and `scripts/check_final.py`; inputs `protocol.json`, `artifacts/assumptions_check.json`, `reviews/candidate_round1.json` through `reviews/candidate_round4.json`, the nine result JSON files listed in `artifacts/final_summary.json`, and the six required Markdown documents; commands `sbatch slurm/final_summary.sbatch` and `sbatch slurm/final_check.sbatch`; outputs `artifacts/final_summary.json` and `artifacts/final_check.json`.
