@@ -1,6 +1,7 @@
 {
   "checks": {
     "all_configs": true,
+    "checkpoint_mapping": true,
     "config_count": true,
     "fused_scope_absent": true,
     "manifest_hashes": true,
@@ -11,8 +12,8 @@
     "upstream_commit": true,
     "validation_prefixes": true
   },
-  "checks_passed": 10,
-  "checks_total": 10,
+  "checks_passed": 11,
+  "checks_total": 11,
   "config_count": 12,
   "failures": [],
   "id": "TWODIAL-E2E-V1-R2-INFRA-CHECK",

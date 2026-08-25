@@ -1,4 +1,6 @@
 {
+  "checkpoint_bytes": 54273072,
+  "checkpoint_roundtrip": true,
   "device": "AMD Instinct MI210",
   "finite_logits": 3227648,
   "id": "TWODIAL-E2E-V1-ROCM-FORWARD-CHECK",
@@ -16,7 +18,7 @@
   "optimizer_updates": 0,
   "parameters": 27133184,
   "passed": true,
-  "patch_sha256": "65ed03a23e064e4b067f8ae97e1920ee5d32a6fed29e694dc67ea44b4c8f1943",
+  "patch_sha256": "28fad2634436ddd45a11a122eef4f56d13d534b8cdb5b5f312f92631223ec979",
   "torch": "2.7.1+rocm6.3",
   "torch_hip": "6.3.42131-fa1d09cbd",
   "total_logits": 3227648,
