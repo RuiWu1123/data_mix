@@ -348,7 +348,7 @@ def dispatch(args: argparse.Namespace) -> None:
     q1 = protocol["questions"]["Q1"]
     designs = list(q1[args.phase]["olmix_designs"])
     replicates = int(q1[args.phase]["replicates_per_scenario"])
-    pipelines = args.pipelines.split(",")
+    pipelines = args.pipelines.split("+")
     if args.phase == "discovery" and pipelines != ["A", "B"]:
         raise ValueError("discovery dispatch must evaluate A,B in that order")
     if args.phase == "confirmation" and len(pipelines) != 1:
