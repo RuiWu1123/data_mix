@@ -1,0 +1,38 @@
+{
+  "check_count": 20,
+  "checks": {
+    "fifty_eval_batches": true,
+    "five_folds": true,
+    "formula_unique": true,
+    "four_arms": true,
+    "hellinger": true,
+    "job_counts": true,
+    "markdown_protocol_id": true,
+    "markdown_traceability": true,
+    "nonparametric_baseline": true,
+    "one_gpu": true,
+    "paired_seeds": true,
+    "protocol_id": true,
+    "r1_thresholds": true,
+    "r3_requirements": true,
+    "thirteen_tasks": true,
+    "three_attempts": true,
+    "three_seeds": true,
+    "token_arithmetic": true,
+    "unattended": true,
+    "upstream_pin": true
+  },
+  "command": "python scripts/check_rank2_protocol.py --protocol rank2_protocol.json --markdown RANK2_PROTOCOL.md --output artifacts/rank2_protocol_check.json",
+  "error_count": 0,
+  "errors": [],
+  "gpu_jobs_submitted": 0,
+  "id": "TWODIAL-E2E-V1-PROTOCOL-CHECK",
+  "inputs": [
+    "rank2_protocol.json",
+    "RANK2_PROTOCOL.md"
+  ],
+  "markdown_sha256": "dd6456e64a5111fc2a89b4ac0a8eddb2c3f0af87020d2fc2784990dfd8e6bb76",
+  "outcome_data_read": false,
+  "passed": true,
+  "protocol_sha256": "572a69be75b63927dcc62487b7cfaedb3ff3d707e7ab412c79d4d957a18b2f13"
+}
