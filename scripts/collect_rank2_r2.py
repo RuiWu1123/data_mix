@@ -59,6 +59,7 @@ def slurm_records(job_ids: list[str], configs: list[dict[str, object]]) -> list[
         return []
     command = [
         "sacct",
+        "-X",
         "-j",
         ",".join(job_ids),
         "--format=JobID,State,ElapsedRaw,ExitCode,NodeList,AllocTRES",
