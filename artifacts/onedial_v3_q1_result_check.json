@@ -1,0 +1,27 @@
+{
+  "cell_count": 20,
+  "command": "python scripts/check_onedial_q1_result.py --protocol protocol_onedial.json --shards /work1/ruixiangtang/rw761/data_mix_artifacts/ONEDIAL_V3/Q1/discovery/shards --result /work1/ruixiangtang/rw761/data_mix_artifacts/ONEDIAL_V3/Q1/discovery/result.json --confirmation-root /work1/ruixiangtang/rw761/data_mix_artifacts/ONEDIAL_V3/Q1/confirmation --output artifacts/onedial_v3_q1_result_check.json",
+  "confirmation_artifact_count": 0,
+  "early_stopped_record_count": 3988,
+  "error_count": 0,
+  "errors": [],
+  "expected_cell_count": 20,
+  "expected_synthetic_record_count": 4000,
+  "full_permutation_record_count": 12,
+  "id": "ONEDIAL-V3-Q1-RESULT-CHECK",
+  "inputs": [
+    "protocol_onedial.json",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/ONEDIAL_V3/Q1/discovery/shards",
+    "/work1/ruixiangtang/rw761/data_mix_artifacts/ONEDIAL_V3/Q1/discovery/result.json"
+  ],
+  "passed": true,
+  "phase_verdict": "inconclusive",
+  "pipeline_pass": {
+    "A": false,
+    "B": false
+  },
+  "protocol_sha256": "b8dc548618f38a74b00ca8027a7ca519ffa4e6fa0ecfdb7bee84a3d7a1b08791",
+  "real_outcome_table_count_read": 0,
+  "selected_pipeline": null,
+  "synthetic_record_count": 4000
+}
