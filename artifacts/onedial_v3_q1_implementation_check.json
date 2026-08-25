@@ -1,0 +1,32 @@
+{
+  "check_count": 15,
+  "checks": {
+    "coordinate_shapes": true,
+    "coordinates_finite": true,
+    "early_stop_null_envelope_agrees": true,
+    "fold0_training_rank": true,
+    "fold1_training_rank": true,
+    "global_design_rank": true,
+    "global_seed_serialization": true,
+    "hellinger_uniform_origin": true,
+    "holm_family_four": true,
+    "holm_stepdown_rejects_two": true,
+    "interior_seed_serialization": true,
+    "leading_dimension_stops_at_gap": true,
+    "leading_dimension_two": true,
+    "permutations_4999": true,
+    "protocol_id_v3": true
+  },
+  "command": "python scripts/check_onedial_q1_implementation.py --protocol protocol_onedial.json --output artifacts/onedial_v3_q1_implementation_check.json",
+  "error_count": 0,
+  "errors": [],
+  "id": "ONEDIAL-V3-Q1-IMPLEMENTATION-AUDIT",
+  "inputs": [
+    "protocol_onedial.json",
+    "scripts/onedial_core.py"
+  ],
+  "passed": true,
+  "protocol_sha256": "b8dc548618f38a74b00ca8027a7ca519ffa4e6fa0ecfdb7bee84a3d7a1b08791",
+  "real_outcomes_read": false,
+  "synthetic_outcomes_read": false
+}
