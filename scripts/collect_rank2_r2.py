@@ -57,16 +57,19 @@ def paired(left: dict[int, float], right: dict[int, float]) -> dict[str, object]
 def slurm_records(job_ids: list[str], configs: list[dict[str, object]]) -> list[dict[str, object]]:
     if not job_ids:
         return []
-    command = [
-        "sacct",
-        "-X",
-        "-j",
-        ",".join(job_ids),
-        "--format=JobID,State,ElapsedRaw,ExitCode,NodeList,AllocTRES",
-        "-n",
-        "-P",
-    ]
-    output = subprocess.run(command, check=True, text=True, capture_output=True).stdout
+    outputs = []
+    for job_id in job_ids:
+        command = [
+            "sacct",
+            "-X",
+            "-j",
+            job_id,
+            "--format=JobID,State,ElapsedRaw,ExitCode,NodeList,AllocTRES",
+            "-n",
+            "-P",
+        ]
+        outputs.append(subprocess.run(command, check=True, text=True, capture_output=True).stdout)
+    output = "\n".join(outputs)
     records = []
     for line in output.splitlines():
         fields = line.split("|")
