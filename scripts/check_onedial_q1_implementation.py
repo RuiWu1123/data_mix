@@ -71,13 +71,13 @@ def main() -> None:
     x = rng.normal(size=(48, 5))
     folds = np.arange(48) % 2
     cache = prepare_design(x, folds)
-    checks["global_design_rank"] = np.linalg.matrix_rank(cache.x - cache.global_x_mean) == 5
-    checks["fold0_training_rank"] = np.linalg.matrix_rank(
-        cache.x[cache.train_indices[0]] - cache.train_x_means[0]
-    ) == 5
-    checks["fold1_training_rank"] = np.linalg.matrix_rank(
-        cache.x[cache.train_indices[1]] - cache.train_x_means[1]
-    ) == 5
+    checks["global_design_rank"] = bool(np.linalg.matrix_rank(cache.x - cache.global_x_mean) == 5)
+    checks["fold0_training_rank"] = bool(
+        np.linalg.matrix_rank(cache.x[cache.train_indices[0]] - cache.train_x_means[0]) == 5
+    )
+    checks["fold1_training_rank"] = bool(
+        np.linalg.matrix_rank(cache.x[cache.train_indices[1]] - cache.train_x_means[1]) == 5
+    )
 
     p_two = np.asarray([0.0030, 0.0002, 0.8, 0.9])
     p_leading_gap = np.asarray([0.0034, 0.0002, 0.8, 0.9])
