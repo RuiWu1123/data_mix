@@ -1,0 +1,403 @@
+{
+  "errors": [],
+  "id": "TWODIAL-E2E-V1-PACKED-DATA",
+  "inventory": {
+    "train_the_pile_arxiv": {
+      "bytes": 2258738136,
+      "files": 2153,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_arxiv-10-74305611_7_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 1129343232
+    },
+    "train_the_pile_dm_mathematics": {
+      "bytes": 474198624,
+      "files": 452,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_dm_mathematics-27-68490094_6_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 237093888
+    },
+    "train_the_pile_enron_emails": {
+      "bytes": 30424248,
+      "files": 29,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_enron_emails-22-56910093_3_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 15211776
+    },
+    "train_the_pile_europarl": {
+      "bytes": 184643712,
+      "files": 176,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_europarl-24-92208778_8_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 92319744
+    },
+    "train_the_pile_freelaw": {
+      "bytes": 1236903048,
+      "files": 1179,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_freelaw-08-94579540_4_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 618437376
+    },
+    "train_the_pile_github": {
+      "bytes": 1077438024,
+      "files": 1027,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_github-05-63447122_11_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 538706688
+    },
+    "train_the_pile_gutenberg_pg_19": {
+      "bytes": 476296848,
+      "files": 454,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_gutenberg_pg_19-08-30556998_10_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 238142976
+    },
+    "train_the_pile_hackernews": {
+      "bytes": 136384560,
+      "files": 130,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_hackernews-02-75092654_13_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 68190720
+    },
+    "train_the_pile_nih_exporter": {
+      "bytes": 47210040,
+      "files": 45,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_nih_exporter-25-51672450_9_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 23604480
+    },
+    "train_the_pile_philpapers": {
+      "bytes": 77634288,
+      "files": 74,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_philpapers-02-97850012_12_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 38816256
+    },
+    "train_the_pile_pile_cc": {
+      "bytes": 602190288,
+      "files": 574,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_pile_cc-25-34422240_1_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 301088256
+    },
+    "train_the_pile_pubmed_abstracts": {
+      "bytes": 164710584,
+      "files": 157,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_pubmed_abstracts-09-29441724_0_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 82353408
+    },
+    "train_the_pile_pubmed_central": {
+      "bytes": 2233559448,
+      "files": 2129,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_pubmed_central-24-22292917_16_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 1116754176
+    },
+    "train_the_pile_stackexchange": {
+      "bytes": 104911200,
+      "files": 100,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_stackexchange-22-61237639_2_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 52454400
+    },
+    "train_the_pile_ubuntu_irc": {
+      "bytes": 228706416,
+      "files": 218,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_ubuntu_irc-00-18443087_15_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 114350592
+    },
+    "train_the_pile_uspto_backgrounds": {
+      "bytes": 514064880,
+      "files": 490,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_uspto_backgrounds-27-91711583_5_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 257026560
+    },
+    "train_the_pile_wikipedia_en": {
+      "bytes": 379778544,
+      "files": 362,
+      "first_header": {
+        "bytes": 1049112,
+        "chunk_tokens": 524544,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/train_the_pile_wikipedia_en-15-31680622_14_0000000000.bin",
+        "version": 1
+      },
+      "split": "train",
+      "tokens": 189884928
+    },
+    "valid_the_pile_arxiv": {
+      "bytes": 66623184,
+      "files": 254,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_arxiv-0-93015664_16_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 33308544
+    },
+    "valid_the_pile_dm_mathematics": {
+      "bytes": 14163984,
+      "files": 54,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_dm_mathematics-0-34933789_12_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 7081344
+    },
+    "valid_the_pile_freelaw": {
+      "bytes": 36983736,
+      "files": 141,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_freelaw-0-47906234_14_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 18490176
+    },
+    "valid_the_pile_github": {
+      "bytes": 64524816,
+      "files": 246,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_github-0-46879694_5_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 32259456
+    },
+    "valid_the_pile_gutenberg_pg_19": {
+      "bytes": 15213168,
+      "files": 58,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_gutenberg_pg_19-0-46286437_7_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 7605888
+    },
+    "valid_the_pile_hackernews": {
+      "bytes": 4196736,
+      "files": 16,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_hackernews-0-15369997_11_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 2098176
+    },
+    "valid_the_pile_pile_cc": {
+      "bytes": 107541360,
+      "files": 410,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_pile_cc-0-87769651_4_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 53765760
+    },
+    "valid_the_pile_pubmed_abstracts": {
+      "bytes": 16262352,
+      "files": 62,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_pubmed_abstracts-0-61011173_10_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 8130432
+    },
+    "valid_the_pile_pubmed_central": {
+      "bytes": 86295384,
+      "files": 329,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_pubmed_central-0-50789587_2_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 43143744
+    },
+    "valid_the_pile_stackexchange": {
+      "bytes": 37508328,
+      "files": 143,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_stackexchange-0-12054297_6_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 18752448
+    },
+    "valid_the_pile_ubuntu_irc": {
+      "bytes": 3934440,
+      "files": 15,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_ubuntu_irc-0-23934577_13_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 1967040
+    },
+    "valid_the_pile_uspto_backgrounds": {
+      "bytes": 18885312,
+      "files": 72,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_uspto_backgrounds-0-69053226_8_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 9441792
+    },
+    "valid_the_pile_wikipedia_en": {
+      "bytes": 24655824,
+      "files": 94,
+      "first_header": {
+        "bytes": 262296,
+        "chunk_tokens": 131136,
+        "dtype_code": 8,
+        "path": "/work1/ruixiangtang/rw761/rank2_regmix_packed/valid_the_pile_wikipedia_en-0-88494638_9_0000000000.bin",
+        "version": 1
+      },
+      "split": "valid",
+      "tokens": 12326784
+    }
+  },
+  "passed": true,
+  "present_prefixes": 30,
+  "required_train_prefixes": 17,
+  "required_valid_prefixes": 13,
+  "total_bytes": 10724581512,
+  "total_files": 11643,
+  "total_tokens": 5362151040
+}

@@ -1,0 +1,32 @@
+{
+  "checks": {
+    "all_configs": true,
+    "config_count": true,
+    "fused_scope_absent": true,
+    "manifest_hashes": true,
+    "no_preexisting_results": true,
+    "packed_audit": true,
+    "patch_file_scope": true,
+    "torch_rocm": true,
+    "upstream_commit": true,
+    "validation_prefixes": true
+  },
+  "checks_passed": 10,
+  "checks_total": 10,
+  "config_count": 12,
+  "failures": [],
+  "id": "TWODIAL-E2E-V1-R2-INFRA-CHECK",
+  "packed_total_files": 11643,
+  "packed_total_tokens": 5362151040,
+  "passed": true,
+  "patched_files": [
+    "model_training/lit_gpt/__init__.py",
+    "model_training/lit_gpt/config.py",
+    "model_training/lit_gpt/model.py",
+    "model_training/pretrain/tinyllama.py"
+  ],
+  "preexisting_results": 0,
+  "torch": "2.7.1+rocm6.3",
+  "torch_hip": "6.3.42131-fa1d09cbd",
+  "upstream_commit": "dd9d1c3b2d7c1756b1a90f0ad7603068e9856cc6"
+}
