@@ -19,7 +19,11 @@ EXPECTED_JSON_DIFF_PATHS = {
     "/common_estimator/significant_residual_dimension",
     "/act1_static_feasibility_audit",
 }
-ALLOWED_MARKDOWN_CHANGES = {"Claim and estimand", "Frozen common pipeline"}
+ALLOWED_MARKDOWN_CHANGES = {
+    "Claim and estimand",
+    "Frozen common pipeline",
+    "Q4 - Do optimum mixtures lie on a one-dimensional dial curve?",
+}
 NEW_MARKDOWN_SECTION = "Permanent Act I feasibility obligation"
 VERBATIM_RATIONALE = '覆盖注册判定空间的完备集：维度 1-3 的支持判定与"超过 3"的证伪判定各自只依赖这 4 个指标'
 

@@ -1,0 +1,598 @@
+{
+  "command": "python scripts/check_onedial_feasibility.py --protocol protocol_onedial.json --olmix-data /work1/ruixiangtang/rw761/data_mix_public/olmix_rq2 --output artifacts/onedial_v3_feasibility_check.json",
+  "constraint_category_count": 3,
+  "constraint_category_counts": {
+    "p_reachability": 7,
+    "quantile_resolution": 21,
+    "rank_or_count_reachability": 30
+  },
+  "constraint_pair_count": 58,
+  "constraints": [
+    {
+      "available": 0.0002,
+      "category": "p_reachability",
+      "id": "holm_direction_1",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.0025,
+      "resolution_margin": 12.5,
+      "source": "/common_estimator/significant_residual_dimension"
+    },
+    {
+      "available": 0.0002,
+      "category": "p_reachability",
+      "id": "holm_direction_2",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.0033333333333333335,
+      "resolution_margin": 16.666666666666668,
+      "source": "/common_estimator/significant_residual_dimension"
+    },
+    {
+      "available": 0.0002,
+      "category": "p_reachability",
+      "id": "holm_direction_3",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.005,
+      "resolution_margin": 25.0,
+      "source": "/common_estimator/significant_residual_dimension"
+    },
+    {
+      "available": 0.0002,
+      "category": "p_reachability",
+      "id": "holm_direction_4",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.01,
+      "resolution_margin": 50.0,
+      "source": "/common_estimator/significant_residual_dimension"
+    },
+    {
+      "available": 0.0002,
+      "category": "p_reachability",
+      "id": "registered_p_gate:/questions/Q2/support/h_permutation_p_max",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.01,
+      "resolution_margin": 50.0,
+      "source": "/questions/Q2/support/h_permutation_p_max"
+    },
+    {
+      "available": 0.0002,
+      "category": "p_reachability",
+      "id": "registered_p_gate:/questions/Q3/support/external_h_permutation_p_max",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.01,
+      "resolution_margin": 50.0,
+      "source": "/questions/Q3/support/external_h_permutation_p_max"
+    },
+    {
+      "available": 0.0002,
+      "category": "p_reachability",
+      "id": "registered_p_gate:/questions/Q4/support/shuffle_p_max",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.01,
+      "resolution_margin": 50.0,
+      "source": "/questions/Q4/support/shuffle_p_max"
+    },
+    {
+      "available": 125,
+      "category": "rank_or_count_reachability",
+      "id": "olmix_m6_rows_vs_affine_rank",
+      "passed": true,
+      "relation": ">=",
+      "required": 6,
+      "source": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m6_ratios.csv"
+    },
+    {
+      "available": 125,
+      "category": "rank_or_count_reachability",
+      "id": "olmix_m6_rows_vs_two_fold_affine_capacity",
+      "passed": true,
+      "relation": ">=",
+      "required": 12,
+      "source": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m6_ratios.csv; /common_estimator/crossfit_folds"
+    },
+    {
+      "available": 6,
+      "category": "rank_or_count_reachability",
+      "id": "olmix_m6_domain_columns",
+      "passed": true,
+      "relation": "==",
+      "required": 6,
+      "source": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m6_ratios.csv"
+    },
+    {
+      "available": 130,
+      "category": "rank_or_count_reachability",
+      "id": "olmix_m12_rows_vs_affine_rank",
+      "passed": true,
+      "relation": ">=",
+      "required": 12,
+      "source": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m12_ratios.csv"
+    },
+    {
+      "available": 130,
+      "category": "rank_or_count_reachability",
+      "id": "olmix_m12_rows_vs_two_fold_affine_capacity",
+      "passed": true,
+      "relation": ">=",
+      "required": 24,
+      "source": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m12_ratios.csv; /common_estimator/crossfit_folds"
+    },
+    {
+      "available": 12,
+      "category": "rank_or_count_reachability",
+      "id": "olmix_m12_domain_columns",
+      "passed": true,
+      "relation": "==",
+      "required": 12,
+      "source": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m12_ratios.csv"
+    },
+    {
+      "available": 129,
+      "category": "rank_or_count_reachability",
+      "id": "olmix_m18_rows_vs_affine_rank",
+      "passed": true,
+      "relation": ">=",
+      "required": 18,
+      "source": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m18_ratios.csv"
+    },
+    {
+      "available": 129,
+      "category": "rank_or_count_reachability",
+      "id": "olmix_m18_rows_vs_two_fold_affine_capacity",
+      "passed": true,
+      "relation": ">=",
+      "required": 36,
+      "source": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m18_ratios.csv; /common_estimator/crossfit_folds"
+    },
+    {
+      "available": 18,
+      "category": "rank_or_count_reachability",
+      "id": "olmix_m18_domain_columns",
+      "passed": true,
+      "relation": "==",
+      "required": 18,
+      "source": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m18_ratios.csv"
+    },
+    {
+      "available": 127,
+      "category": "rank_or_count_reachability",
+      "id": "olmix_m24_rows_vs_affine_rank",
+      "passed": true,
+      "relation": ">=",
+      "required": 24,
+      "source": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m24_ratios.csv"
+    },
+    {
+      "available": 127,
+      "category": "rank_or_count_reachability",
+      "id": "olmix_m24_rows_vs_two_fold_affine_capacity",
+      "passed": true,
+      "relation": ">=",
+      "required": 48,
+      "source": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m24_ratios.csv; /common_estimator/crossfit_folds"
+    },
+    {
+      "available": 24,
+      "category": "rank_or_count_reachability",
+      "id": "olmix_m24_domain_columns",
+      "passed": true,
+      "relation": "==",
+      "required": 24,
+      "source": "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m24_ratios.csv"
+    },
+    {
+      "available": 5,
+      "category": "rank_or_count_reachability",
+      "id": "q1_discovery_m6_coordinate_rank_vs_truth_rank",
+      "passed": true,
+      "relation": ">=",
+      "required": 5,
+      "source": "/questions/Q1/discovery/olmix_designs; /questions/Q1/truth/singular_values"
+    },
+    {
+      "available": 11,
+      "category": "rank_or_count_reachability",
+      "id": "q1_discovery_m12_coordinate_rank_vs_truth_rank",
+      "passed": true,
+      "relation": ">=",
+      "required": 5,
+      "source": "/questions/Q1/discovery/olmix_designs; /questions/Q1/truth/singular_values"
+    },
+    {
+      "available": 17,
+      "category": "rank_or_count_reachability",
+      "id": "q1_confirmation_m18_coordinate_rank_vs_truth_rank",
+      "passed": true,
+      "relation": ">=",
+      "required": 5,
+      "source": "/questions/Q1/confirmation/olmix_designs; /questions/Q1/truth/singular_values"
+    },
+    {
+      "available": 23,
+      "category": "rank_or_count_reachability",
+      "id": "q1_confirmation_m24_coordinate_rank_vs_truth_rank",
+      "passed": true,
+      "relation": ">=",
+      "required": 5,
+      "source": "/questions/Q1/confirmation/olmix_designs; /questions/Q1/truth/singular_values"
+    },
+    {
+      "available": 4,
+      "category": "rank_or_count_reachability",
+      "id": "holm_family_vs_registered_dimension_decision_space",
+      "passed": true,
+      "relation": ">=",
+      "required": 4,
+      "source": "/common_estimator/significant_residual_dimension; /questions/Q2/support/significant_residual_dimension_max"
+    },
+    {
+      "available": 8,
+      "category": "rank_or_count_reachability",
+      "id": "q3_exact_bridge_size",
+      "passed": true,
+      "relation": "==",
+      "required": 8,
+      "source": "/questions/Q3/exact_task_bridge"
+    },
+    {
+      "available": 5,
+      "category": "rank_or_count_reachability",
+      "id": "q3_macro_bridge_size",
+      "passed": true,
+      "relation": "==",
+      "required": 5,
+      "source": "/questions/Q3/macro_target_bridge/names"
+    },
+    {
+      "available": 8,
+      "category": "rank_or_count_reachability",
+      "id": "q3_exact_sign_agreement_attainable",
+      "passed": true,
+      "relation": ">=",
+      "required": 6,
+      "source": "/questions/Q3/support"
+    },
+    {
+      "available": 5,
+      "category": "rank_or_count_reachability",
+      "id": "q3_macro_sign_agreement_attainable",
+      "passed": true,
+      "relation": ">=",
+      "required": 4,
+      "source": "/questions/Q3/support"
+    },
+    {
+      "available": 512,
+      "category": "rank_or_count_reachability",
+      "id": "q4_objective_components_sum",
+      "passed": true,
+      "relation": "==",
+      "required": 512,
+      "source": "/questions/Q4/validation_objectives"
+    },
+    {
+      "available": 512,
+      "category": "rank_or_count_reachability",
+      "id": "q4_two_objective_halves",
+      "passed": true,
+      "relation": ">=",
+      "required": 400,
+      "source": "/questions/Q4/validation_objectives"
+    },
+    {
+      "available": 200,
+      "category": "rank_or_count_reachability",
+      "id": "q4_half_size_vs_spline_parameter_count",
+      "passed": true,
+      "relation": ">=",
+      "required": 11,
+      "source": "/questions/Q4/validation_objectives; /questions/Q4/curve"
+    },
+    {
+      "available": 26,
+      "category": "rank_or_count_reachability",
+      "id": "q5_discovery_onedial_budget_vs_affine_rank",
+      "passed": true,
+      "relation": ">=",
+      "required": 12,
+      "source": "/questions/Q5/discovery/onedial_budget"
+    },
+    {
+      "available": 39,
+      "category": "rank_or_count_reachability",
+      "id": "q5_discovery_three_x_budget_vs_affine_rank",
+      "passed": true,
+      "relation": ">=",
+      "required": 12,
+      "source": "/questions/Q5/discovery/three_x_budget"
+    },
+    {
+      "available": 104,
+      "category": "rank_or_count_reachability",
+      "id": "q5_discovery_nonpilot_candidates",
+      "passed": true,
+      "relation": ">=",
+      "required": 50,
+      "source": "/questions/Q5/discovery; /work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m12_ratios.csv"
+    },
+    {
+      "available": 50,
+      "category": "rank_or_count_reachability",
+      "id": "q5_confirmation_onedial_budget_vs_affine_rank",
+      "passed": true,
+      "relation": ">=",
+      "required": 24,
+      "source": "/questions/Q5/confirmation/onedial_budget"
+    },
+    {
+      "available": 75,
+      "category": "rank_or_count_reachability",
+      "id": "q5_confirmation_three_x_budget_vs_affine_rank",
+      "passed": true,
+      "relation": ">=",
+      "required": 24,
+      "source": "/questions/Q5/confirmation/three_x_budget"
+    },
+    {
+      "available": 77,
+      "category": "rank_or_count_reachability",
+      "id": "q5_confirmation_nonpilot_candidates",
+      "passed": true,
+      "relation": ">=",
+      "required": 50,
+      "source": "/questions/Q5/confirmation; /work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m24_ratios.csv"
+    },
+    {
+      "available": 0.0005,
+      "category": "quantile_resolution",
+      "id": "bootstrap_95_resolution:/questions/Q2/support/h_total_operator_energy_bootstrap_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/randomness/bootstrap_replicates; /questions/Q2/support/h_total_operator_energy_bootstrap_lower95_min"
+    },
+    {
+      "available": 0.0005,
+      "category": "quantile_resolution",
+      "id": "bootstrap_95_resolution:/questions/Q2/support/h_residual_energy_bootstrap_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/randomness/bootstrap_replicates; /questions/Q2/support/h_residual_energy_bootstrap_lower95_min"
+    },
+    {
+      "available": 0.0005,
+      "category": "quantile_resolution",
+      "id": "bootstrap_95_resolution:/questions/Q2/support/within_split_h_cosine_bootstrap_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/randomness/bootstrap_replicates; /questions/Q2/support/within_split_h_cosine_bootstrap_lower95_min"
+    },
+    {
+      "available": 0.0005,
+      "category": "quantile_resolution",
+      "id": "bootstrap_95_resolution:/questions/Q2/agent_added_exact_one/h_residual_energy_bootstrap_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/randomness/bootstrap_replicates; /questions/Q2/agent_added_exact_one/h_residual_energy_bootstrap_lower95_min"
+    },
+    {
+      "available": 0.0005,
+      "category": "quantile_resolution",
+      "id": "bootstrap_95_resolution:/questions/Q2/agent_added_g_quality_audit/hellinger_to_h015_g_cosine_bootstrap_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/randomness/bootstrap_replicates; /questions/Q2/agent_added_g_quality_audit/hellinger_to_h015_g_cosine_bootstrap_lower95_min"
+    },
+    {
+      "available": 0.0005,
+      "category": "quantile_resolution",
+      "id": "bootstrap_95_resolution:/questions/Q3/support/bridge_cosine_bootstrap_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/randomness/bootstrap_replicates; /questions/Q3/support/bridge_cosine_bootstrap_lower95_min"
+    },
+    {
+      "available": 0.0005,
+      "category": "quantile_resolution",
+      "id": "bootstrap_95_resolution:/questions/Q4/support/heldout_curve_r2_bootstrap_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/randomness/bootstrap_replicates; /questions/Q4/support/heldout_curve_r2_bootstrap_lower95_min"
+    },
+    {
+      "available": 0.0005,
+      "category": "quantile_resolution",
+      "id": "bootstrap_95_resolution:/questions/Q5/support/top_decile_rate_bootstrap_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/randomness/bootstrap_replicates; /questions/Q5/support/top_decile_rate_bootstrap_lower95_min"
+    },
+    {
+      "available": 0.0005,
+      "category": "quantile_resolution",
+      "id": "bootstrap_95_resolution:/questions/Q5/support/median_iqr_regret_bootstrap_upper95_max",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/randomness/bootstrap_replicates; /questions/Q5/support/median_iqr_regret_bootstrap_upper95_max"
+    },
+    {
+      "available": 0.0005,
+      "category": "quantile_resolution",
+      "id": "bootstrap_95_resolution:/questions/Q5/support/same_budget_regret_difference_bootstrap_upper95_max",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/randomness/bootstrap_replicates; /questions/Q5/support/same_budget_regret_difference_bootstrap_upper95_max"
+    },
+    {
+      "available": 0.0005,
+      "category": "quantile_resolution",
+      "id": "bootstrap_95_resolution:/questions/Q5/support/three_x_budget_regret_difference_bootstrap_upper95_max",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/randomness/bootstrap_replicates; /questions/Q5/support/three_x_budget_regret_difference_bootstrap_upper95_max"
+    },
+    {
+      "available": 0.0005,
+      "category": "quantile_resolution",
+      "id": "bootstrap_95_resolution:/questions/Q5/support/scrambled_loading_regret_improvement_bootstrap_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/randomness/bootstrap_replicates; /questions/Q5/support/scrambled_loading_regret_improvement_bootstrap_lower95_min"
+    },
+    {
+      "available": 0.005,
+      "category": "quantile_resolution",
+      "id": "q1_discovery_wilson95_resolution:/questions/Q1/support/null_false_positive_wilson_upper95_max",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/questions/Q1/discovery/replicates_per_scenario; /questions/Q1/support/null_false_positive_wilson_upper95_max"
+    },
+    {
+      "available": 0.005,
+      "category": "quantile_resolution",
+      "id": "q1_discovery_wilson95_resolution:/questions/Q1/support/rank2_detection_wilson_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/questions/Q1/discovery/replicates_per_scenario; /questions/Q1/support/rank2_detection_wilson_lower95_min"
+    },
+    {
+      "available": 0.005,
+      "category": "quantile_resolution",
+      "id": "q1_discovery_wilson95_resolution:/questions/Q1/support/rank5_gt3_detection_wilson_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/questions/Q1/discovery/replicates_per_scenario; /questions/Q1/support/rank5_gt3_detection_wilson_lower95_min"
+    },
+    {
+      "available": 0.005,
+      "category": "quantile_resolution",
+      "id": "q1_discovery_q05_resolution:/questions/Q1/support/rank2_h_cosine_q05_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.05,
+      "source": "/questions/Q1/discovery/replicates_per_scenario; /questions/Q1/support/rank2_h_cosine_q05_min"
+    },
+    {
+      "available": 0.0025,
+      "category": "quantile_resolution",
+      "id": "q1_confirmation_wilson95_resolution:/questions/Q1/support/null_false_positive_wilson_upper95_max",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/questions/Q1/confirmation/replicates_per_scenario; /questions/Q1/support/null_false_positive_wilson_upper95_max"
+    },
+    {
+      "available": 0.0025,
+      "category": "quantile_resolution",
+      "id": "q1_confirmation_wilson95_resolution:/questions/Q1/support/rank2_detection_wilson_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/questions/Q1/confirmation/replicates_per_scenario; /questions/Q1/support/rank2_detection_wilson_lower95_min"
+    },
+    {
+      "available": 0.0025,
+      "category": "quantile_resolution",
+      "id": "q1_confirmation_wilson95_resolution:/questions/Q1/support/rank5_gt3_detection_wilson_lower95_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.025,
+      "source": "/questions/Q1/confirmation/replicates_per_scenario; /questions/Q1/support/rank5_gt3_detection_wilson_lower95_min"
+    },
+    {
+      "available": 0.0025,
+      "category": "quantile_resolution",
+      "id": "q1_confirmation_q05_resolution:/questions/Q1/support/rank2_h_cosine_q05_min",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.05,
+      "source": "/questions/Q1/confirmation/replicates_per_scenario; /questions/Q1/support/rank2_h_cosine_q05_min"
+    },
+    {
+      "available": 0.00020004000800160032,
+      "category": "quantile_resolution",
+      "id": "q4_shuffle_q99_resolution",
+      "passed": true,
+      "relation": "<=",
+      "required": 0.01,
+      "source": "/randomness/permutation_replicates; /questions/Q4/support/margin_over_shuffle_q99_min"
+    }
+  ],
+  "errors": [],
+  "failed_constraint_count": 0,
+  "failed_constraint_ids": [],
+  "holm_first_threshold": 0.0025,
+  "holm_first_threshold_resolution_margin": 12.5,
+  "id": "ONEDIAL-V3-ACT1-FEASIBILITY-CHECK",
+  "inputs": [
+    "protocol_onedial.json",
+    "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m6_ratios.csv",
+    "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m12_ratios.csv",
+    "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m18_ratios.csv",
+    "/work1/ruixiangtang/rw761/data_mix_public/olmix_rq2/m24_ratios.csv"
+  ],
+  "minimum_attainable_permutation_p": 0.0002,
+  "olmix_domain_column_counts": {
+    "12": 12,
+    "18": 18,
+    "24": 24,
+    "6": 6
+  },
+  "olmix_finite_row_counts": {
+    "12": 130,
+    "18": 129,
+    "24": 127,
+    "6": 125
+  },
+  "outcome_columns_read": false,
+  "passed": true,
+  "protocol_id": "ONEDIAL-V3",
+  "registered_p_threshold_paths": [
+    "/questions/Q2/support/h_permutation_p_max",
+    "/questions/Q3/support/external_h_permutation_p_max",
+    "/questions/Q4/support/shuffle_p_max"
+  ],
+  "registered_quantile_paths": [
+    "/questions/Q2/agent_added_exact_one/h_residual_energy_bootstrap_lower95_min",
+    "/questions/Q2/agent_added_g_quality_audit/hellinger_to_h015_g_cosine_bootstrap_lower95_min",
+    "/questions/Q2/support/h_residual_energy_bootstrap_lower95_min",
+    "/questions/Q2/support/h_total_operator_energy_bootstrap_lower95_min",
+    "/questions/Q2/support/within_split_h_cosine_bootstrap_lower95_min",
+    "/questions/Q3/support/bridge_cosine_bootstrap_lower95_min",
+    "/questions/Q4/support/heldout_curve_r2_bootstrap_lower95_min",
+    "/questions/Q4/support/margin_over_shuffle_q99_min",
+    "/questions/Q5/support/median_iqr_regret_bootstrap_upper95_max",
+    "/questions/Q5/support/same_budget_regret_difference_bootstrap_upper95_max",
+    "/questions/Q5/support/scrambled_loading_regret_improvement_bootstrap_lower95_min",
+    "/questions/Q5/support/three_x_budget_regret_difference_bootstrap_upper95_max",
+    "/questions/Q5/support/top_decile_rate_bootstrap_lower95_min",
+    "confirmation:/questions/Q1/support/null_false_positive_wilson_upper95_max",
+    "confirmation:/questions/Q1/support/rank2_detection_wilson_lower95_min",
+    "confirmation:/questions/Q1/support/rank2_h_cosine_q05_min",
+    "confirmation:/questions/Q1/support/rank5_gt3_detection_wilson_lower95_min",
+    "discovery:/questions/Q1/support/null_false_positive_wilson_upper95_max",
+    "discovery:/questions/Q1/support/rank2_detection_wilson_lower95_min",
+    "discovery:/questions/Q1/support/rank2_h_cosine_q05_min",
+    "discovery:/questions/Q1/support/rank5_gt3_detection_wilson_lower95_min"
+  ]
+}

@@ -1,6 +1,6 @@
 # One-Dial Confirmatory Protocol
 
-Protocol ID: `ONEDIAL-V2`. Second-act execution status: NOT AUTHORIZED. This document and `protocol_onedial.json` freeze the first-act design; after confirmation, every method and threshold is immutable. The authoritative source for every numerical choice in this document is `protocol_onedial.json`; the static reproduction command is `sbatch slurm/check_onedial_protocol.sbatch`, implemented by `scripts/check_onedial_protocol.py` with inputs `protocol_onedial.json`, this file, and `EXPERIMENTS.md`.
+Protocol ID: `ONEDIAL-V3`. Second-act execution status: NOT AUTHORIZED. This document and `protocol_onedial.json` freeze the first-act design; after confirmation, every method and threshold is immutable. The authoritative source for every numerical choice in this document is `protocol_onedial.json`; the static reproduction command is `sbatch slurm/check_onedial_protocol.sbatch`, implemented by `scripts/check_onedial_protocol.py` with inputs `protocol_onedial.json`, this file, and `EXPERIMENTS.md`.
 
 ## Claim and estimand
 
@@ -12,17 +12,21 @@ loss(w,t) = mu_t + g(w) a_t + h(w) b_t + epsilon(w,t).
 
 The H015/H016 first task singular vector is the total-quality loading `a`; the current claim is that cross-fitted removal of this rank-`1` component leaves one reproducible tradeoff loading `b`. The strict thesis claim requires exactly `1` residual factor. The user-requested Q2 acceptance envelope permits between `1` and `3` significant residual factors, but the wider result can produce only `PARTIAL`, never `SURVIVED`.
 
-All computation is L0 with `0` GPUs and `0` GPU node-hours. Real-data uncertainty uses exactly `2000` single-layer row or target-vector bootstrap replicates. No bootstrap is nested inside another bootstrap. Null tests use `999` permutations and are not reused as confidence intervals. Seeds are derived from the first `8` SHA256 bytes of the protocol ID plus an analysis label. Evidence for all numbers and formulas: `scripts/check_onedial_protocol.py`; input `protocol_onedial.json`; command `sbatch slurm/check_onedial_protocol.sbatch`.
+All computation is L0 with `0` GPUs and `0` GPU node-hours. Real-data uncertainty uses exactly `2000` single-layer row or target-vector bootstrap replicates. No bootstrap is nested inside another bootstrap. Null tests use `4999` permutations and are not reused as confidence intervals. Seeds are derived from the first `8` SHA256 bytes of the protocol ID plus an analysis label. Evidence for all numbers and formulas: `scripts/check_onedial_protocol.py`; input `protocol_onedial.json`; command `sbatch slurm/check_onedial_protocol.sbatch`.
 
 ## Frozen common pipeline
 
 Rows are assigned to `2` cross-fitting folds by SHA256 of dataset, scale, and immutable row ID. Task standardization is learned only from the fit fold, uses `ddof=1`, and fails if a task standard deviation is below `1e-8`. Rank-`1` is fit on the opposite fold and subtracted only from held-out rows; held-out residuals are then stacked to estimate `h`. The response operator is unregularized OLS with an intercept, followed by SVD of the task-by-coordinate coefficient matrix.
 
-For residual singular value index `j`, its permutation p-value is `(1 + count(s_j_perm >= s_j_obs))/(1 + 999)`. Holm correction controls familywise alpha `0.01` over all residual indices; significant dimension is the longest leading sequence for which every adjusted test rejects. A bootstrap resamples rows once within each original hash fold, refits the complete cross-fitted estimator, and sign-aligns `h` to the point estimate. It never bootstraps a bootstrap result.
+For only the first `4` residual singular directions, the permutation p-value is `(1 + count(s_j_perm >= s_j_obs))/(1 + 4999)`. Holm correction controls familywise alpha `0.01` over exactly these `4` directions; significant dimension is the longest leading sequence for which every adjusted test rejects. 最小可达 p=0.0002，为 0.0025 的首道门槛留出 12.5 倍分辨率余量。覆盖注册判定空间的完备集：维度 1-3 的支持判定与"超过 3"的证伪判定各自只依赖这 4 个指标。A bootstrap resamples rows once within each original hash fold, refits the complete cross-fitted estimator, and sign-aligns `h` to the point estimate. It never bootstraps a bootstrap result.
 
 Q1 chooses exactly one coordinate pipeline before any real outcome analysis. Pipeline A is the H015-compatible Helmert ilr map with multiplicative zero replacement `1e-6`; its frozen audits use `1e-8` and `1e-4`. Pipeline B is the zero-safe Hellinger map `sqrt(w)` followed by the Helmert basis and uses replacement `0`. If both pass synthetic discovery, A wins; if only B passes, B is frozen for Q2-Q5. No real outcome may influence this choice.
 
 Discovery and confirmation are separate scale blocks or independent synthetic seed namespaces for every question. A discovery failure quarantines that question's confirmation unless the question specifies an independent external audit. Evidence for every number: `scripts/check_onedial_protocol.py`; inputs `protocol_onedial.json`, `scripts/test_h015.py`, and `scripts/test_h016.py`; command `sbatch slurm/check_onedial_protocol.sbatch`.
+
+## Permanent Act I feasibility obligation
+
+Before any future protocol freeze or Act II authorization, `scripts/check_onedial_feasibility.py` must enumerate and pass all `3` reachability-pair categories: minimum attainable p-value versus every corrected or registered p threshold; available rows or counts versus every required rank or minimum count; and sample or resample count versus every registered quantile-tail resolution. Any failed or unenumerated pair blocks freezing and execution. The mandatory artifact is `artifacts/onedial_v3_feasibility_check.json`; inputs are `protocol_onedial.json` and the four official Olmix ratio tables; command `sbatch slurm/check_onedial_feasibility.sbatch`.
 
 ## Q1 - Synthetic calibration with true zeros
 
@@ -72,7 +76,7 @@ Discovery freezes `a,b` from `m=6` and evaluates oracle choices only in `m=12`; 
 
 For each objective `v`, the registered dial coordinate is `theta_v = atan2(v dot b, v dot a)`. Its actual oracle mixture is the finite released row minimizing `v dot loss(w)`. In zero-safe Hellinger mixture coordinates, each coordinate is fit as a cubic spline of theta with degree `3` and `7` interior theta-quantile knots determined without outcomes. The spline is fit on one objective half and scored by multivariate held-out `R^2` on the other.
 
-The null holds `g` fixed, independently permutes every task residual across target mixtures, recomputes oracle selections, and repeats the same frozen-form curve for `999` permutations. Support requires held-out `R^2 >= 0.80` with single-layer target-bootstrap lower `95%` bound at least `0.70`, shuffle `p <= 0.01`, observed `R^2` at least `0.10` above the shuffle `99%` quantile, at least `10` distinct oracle mixtures, and theta span at least `0.75` radians, in both discovery and confirmation.
+The null holds `g` fixed, independently permutes every task residual across target mixtures, recomputes oracle selections, and repeats the same frozen-form curve for `4999` permutations. Support requires held-out `R^2 >= 0.80` with single-layer target-bootstrap lower `95%` bound at least `0.70`, shuffle `p <= 0.01`, observed `R^2` at least `0.10` above the shuffle `99%` quantile, at least `10` distinct oracle mixtures, and theta span at least `0.75` radians, in both discovery and confirmation.
 
 Falsify Q4 if a valid split misses any conjunction. Return `inconclusive` for undersized objective halves, an unresolved oracle tie above tolerance `1e-10`, or an unavailable Q2 dial. A tie within tolerance is broken only by SHA256 row ID.
 

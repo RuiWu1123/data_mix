@@ -35,7 +35,7 @@ def main() -> None:
     ledger = args.ledger.read_text(encoding="utf-8")
     errors: list[str] = []
 
-    fail_if(protocol.get("protocol_id") != "ONEDIAL-V2", "wrong protocol id", errors)
+    fail_if(protocol.get("protocol_id") != "ONEDIAL-V3", "wrong protocol id", errors)
     compute = protocol.get("compute", {})
     fail_if(compute.get("level") != "L0", "compute level is not L0", errors)
     fail_if(compute.get("gpu_count") != 0, "GPU count is not zero", errors)
@@ -46,9 +46,11 @@ def main() -> None:
     fail_if(randomness.get("bootstrap_layers") != 1, "bootstrap is not single-layer", errors)
     fail_if(randomness.get("nested_bootstrap") is not False, "nested bootstrap is enabled", errors)
     fail_if(randomness.get("bootstrap_replicates", 0) < 1000, "too few bootstraps", errors)
-    fail_if(randomness.get("permutation_replicates", 0) < 999, "too few permutations", errors)
+    fail_if(randomness.get("permutation_replicates") != 4999, "permutation count is not 4999", errors)
     estimator = protocol.get("common_estimator", {})
     fail_if("Holm" not in estimator.get("significant_residual_dimension", ""), "Holm dimension rule missing", errors)
+    fail_if("first 4" not in estimator.get("significant_residual_dimension", ""), "Holm family is not the first four directions", errors)
+    fail_if("12.5" not in estimator.get("significant_residual_dimension", ""), "Holm resolution margin missing", errors)
     fail_if("no result of a bootstrap replicate is bootstrapped again" not in estimator.get("bootstrap_alignment", ""), "single-layer bootstrap implementation missing", errors)
 
     questions = protocol.get("questions", {})
@@ -98,6 +100,18 @@ def main() -> None:
 
     for label in ("SURVIVED", "PARTIAL", "KILLED"):
         fail_if(label not in protocol.get("overall_verdict", {}), f"overall verdict {label} missing", errors)
+    feasibility = protocol.get("act1_static_feasibility_audit", {})
+    fail_if(feasibility.get("required_before_freeze") is not True, "Act I feasibility audit is not mandatory", errors)
+    fail_if(len(feasibility.get("constraint_pair_categories", [])) != 3, "Act I feasibility categories are incomplete", errors)
+    feasibility_path = args.root / feasibility.get("artifact", "missing")
+    if not feasibility_path.is_file():
+        errors.append("Act I feasibility artifact is missing")
+        feasibility_result = {}
+    else:
+        feasibility_result = json.loads(feasibility_path.read_text(encoding="utf-8"))
+        fail_if(feasibility_result.get("passed") is not True, "Act I feasibility audit failed", errors)
+        fail_if(feasibility_result.get("failed_constraint_count") != 0, "Act I feasibility audit has failed pairs", errors)
+        fail_if(feasibility_result.get("constraint_category_count") != 3, "Act I feasibility result omitted a category", errors)
     fail_if(markdown.count("[agent-added]") < 5, "fewer than five agent-added checks", errors)
     fail_if("Second-act execution status: NOT AUTHORIZED" not in markdown, "execution pause marker missing", errors)
 
@@ -115,10 +129,13 @@ def main() -> None:
         "nested_bootstrap": randomness.get("nested_bootstrap"),
         "gpu_count": compute.get("gpu_count"),
         "preexisting_outcome_artifact_count": len(preexisting_results),
+        "feasibility_constraint_pair_count": feasibility_result.get("constraint_pair_count"),
+        "feasibility_failed_constraint_count": feasibility_result.get("failed_constraint_count"),
+        "feasibility_constraint_category_count": feasibility_result.get("constraint_category_count"),
         "protocol_sha256": digest(args.protocol),
         "markdown_sha256": digest(args.markdown),
         "ledger_sha256": digest(args.ledger),
-        "inputs": [str(args.protocol), str(args.markdown), str(args.ledger)],
+        "inputs": [str(args.protocol), str(args.markdown), str(args.ledger), str(feasibility_path)],
         "command": (
             f"python scripts/check_onedial_protocol.py --root {args.root} "
             f"--protocol {args.protocol} --markdown {args.markdown} "
