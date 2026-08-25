@@ -9,6 +9,7 @@ import json
 import math
 import re
 import subprocess
+import time
 from pathlib import Path
 
 import matplotlib
@@ -92,6 +93,28 @@ def slurm_records(job_ids: list[str], configs: list[dict[str, object]]) -> list[
     return records
 
 
+def await_slurm_records(
+    job_ids: list[str], configs: list[dict[str, object]], expected_current_jobs: int
+) -> list[dict[str, object]]:
+    current_job_id = job_ids[-1]
+    terminal_states = {"COMPLETED", "FAILED", "CANCELLED", "TIMEOUT", "OUT_OF_MEMORY", "PREEMPTED"}
+    for attempt in range(12):
+        records = slurm_records(job_ids, configs)
+        current_terminal = {
+            record["array_index"]
+            for record in records
+            if record["array_job_id"] == current_job_id
+            and str(record["state"]).split("+", 1)[0] in terminal_states
+        }
+        if len(current_terminal) == expected_current_jobs:
+            return records
+        if attempt < 11:
+            time.sleep(10)
+    raise RuntimeError(
+        f"Slurm accounting exposed {len(current_terminal)}/{expected_current_jobs} terminal current-array jobs"
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--protocol", type=Path, required=True)
@@ -109,7 +132,7 @@ def main() -> None:
     task_names = arms["tasks"]
     records = sorted(manifest["records"], key=lambda item: item["path"])
     job_ids = [value for value in args.job_ids.split(",") if value]
-    jobs = slurm_records(job_ids, records)
+    jobs = await_slurm_records(job_ids, records, protocol["R2"]["target_job_count"])
     successful_jobs = {
         (str(record["arm"]), int(record["seed"]))
         for record in jobs

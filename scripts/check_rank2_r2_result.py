@@ -52,6 +52,25 @@ def main() -> None:
     checks["completed_count"] = len(complete) == result["completed_jobs"]
     checks["job_gate"] = len(complete) >= protocol["R2"]["minimum_completed_job_count"]
     checks["arm_counts"] = complete.groupby("arm").size().to_dict() == result["arm_completed_counts"]
+    scientific_columns = {f"ce/{task}" for task in tasks} | {f"bpb/{task}" for task in tasks}
+    checks["scientific_columns"] = scientific_columns.issubset(complete.columns)
+    if not checks["job_gate"] or not checks["scientific_columns"]:
+        failures = sorted(name for name, passed in checks.items() if not passed)
+        payload = {
+            "id": "TWODIAL-E2E-V1-R2-CHECK",
+            "passed": False,
+            "checks_passed": sum(checks.values()),
+            "checks_total": len(checks),
+            "failures": failures,
+            "independent_verdict": "incomplete",
+            "completed_jobs": len(complete),
+            "result_sha256": sha256(args.result),
+            "csv_sha256": sha256(args.csv),
+        }
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        print(json.dumps(payload, indent=2, sort_keys=True))
+        raise SystemExit(1)
     checks["all_tasks_finite"] = all(
         np.all(np.isfinite(complete[f"ce/{task}"].to_numpy(float))) for task in tasks
     )
