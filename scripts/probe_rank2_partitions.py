@@ -25,11 +25,10 @@ def main() -> None:
     args = parser.parse_args()
     snapshots = {}
     for partition in PARTITIONS:
-        states = Counter(
-            line.strip().lower()
-            for line in capture(["sinfo", "-h", "-p", partition, "-o", "%T"]).splitlines()
-            if line.strip()
-        )
+        states: Counter[str] = Counter()
+        for line in capture(["sinfo", "-h", "-p", partition, "-o", "%D|%T"]).splitlines():
+            count, state = line.strip().split("|", 1)
+            states[state.lower()] += int(count)
         queue_states = Counter(
             line.strip()
             for line in capture(["squeue", "-h", "-p", partition, "-o", "%t"]).splitlines()
@@ -65,7 +64,7 @@ def main() -> None:
         "selected_partition": selected,
         "selection_rule": "minimum estimated wait plus registered runtime; break ties by more idle nodes then name",
         "commands": [
-            "sinfo -h -p <partition> -o %T",
+            "sinfo -h -p <partition> -o %D|%T",
             "squeue -h -p <partition> -o %t",
         ],
     }
