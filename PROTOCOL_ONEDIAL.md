@@ -1,6 +1,6 @@
 # One-Dial Confirmatory Protocol
 
-Protocol ID: `ONEDIAL-V1`. Second-act execution status: NOT AUTHORIZED. This document and `protocol_onedial.json` freeze the first-act design; after confirmation, every method and threshold is immutable. The authoritative source for every numerical choice in this document is `protocol_onedial.json`; the static reproduction command is `sbatch slurm/check_onedial_protocol.sbatch`, implemented by `scripts/check_onedial_protocol.py` with inputs `protocol_onedial.json`, this file, and `EXPERIMENTS.md`.
+Protocol ID: `ONEDIAL-V2`. Second-act execution status: NOT AUTHORIZED. This document and `protocol_onedial.json` freeze the first-act design; after confirmation, every method and threshold is immutable. The authoritative source for every numerical choice in this document is `protocol_onedial.json`; the static reproduction command is `sbatch slurm/check_onedial_protocol.sbatch`, implemented by `scripts/check_onedial_protocol.py` with inputs `protocol_onedial.json`, this file, and `EXPERIMENTS.md`.
 
 ## Claim and estimand
 
@@ -26,7 +26,7 @@ Discovery and confirmation are separate scale blocks or independent synthetic se
 
 ## Q1 - Synthetic calibration with true zeros
 
-Discovery uses the public Olmix `m=6/12` weight designs and `200` independent synthetic replicates per truth scenario. Confirmation uses `m=18/24` and a disjoint SHA namespace with `400` replicates per scenario. Each response has `110` orthonormal task loadings, noise sigma `1.0`, and singular values `2.0/0.5/0.35/0.30/0.25`. The five scenarios are interior rank-`1`, interior rank-`2`, interior rank-`5`, structural-zero rank-`1`, and structural-zero rank-`2`. Structural-zero responses are generated from the unmodified design in the zero-safe Hellinger coordinates, so success cannot be obtained by defining the truth in terms of the `1e-6` replacement.
+Discovery uses `m=6/12` and `200` independent synthetic replicates per truth scenario; confirmation uses `m=18/24`, a disjoint SHA namespace, and `400` replicates per scenario. For every phase, `m`, interior scenario, and zero-based replicate index, the interior generator draws a fresh `n_m` by `m` weight matrix from symmetric Dirichlet alpha `1.0`, where `n_m` is the finite weight-row count of the corresponding unmodified Olmix ratio table. It uses NumPy PCG64 with the little-endian uint64 formed from the first `8` bytes of SHA256 over `ONEDIAL-V2:Q1-interior-weights:` plus the phase seed namespace, `m`, scenario, and replicate index in the exact serialization frozen in `protocol_onedial.json`. Each response has `110` orthonormal task loadings, noise sigma `1.0`, and singular values `2.0/0.5/0.35/0.30/0.25`. The five scenarios are interior rank-`1`, interior rank-`2`, interior rank-`5`, structural-zero rank-`1`, and structural-zero rank-`2`. Structural-zero scenarios continue to use the unmodified real Olmix design and generate responses in its zero-safe Hellinger coordinates, so success cannot be obtained by defining the truth in terms of the `1e-6` replacement.
 
 Every synthetic replicate uses the exact Q2 permutation p-value and Holm dimension detector. The independent synthetic replicates, rather than a bootstrap around a bootstrap, provide calibration uncertainty.
 

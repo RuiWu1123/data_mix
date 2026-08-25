@@ -9,12 +9,12 @@
     "/work1/ruixiangtang/rw761/awesome-pretraining/data_mix/PROTOCOL_ONEDIAL.md",
     "/work1/ruixiangtang/rw761/awesome-pretraining/data_mix/EXPERIMENTS.md"
   ],
-  "ledger_sha256": "59552dc1475d20d6ba8ce541ad685cad3226a5700c1b8bec22d942a34806462c",
-  "markdown_sha256": "10ec812d2feebdb33a336a819c62fcdc550e6bb2ddeb221ebbecc59d98a34659",
+  "ledger_sha256": "69debf7b21c8ebc6830d6513d9796ac5cd38985fc810667c764d5dfb47048bb7",
+  "markdown_sha256": "c936d9196cfd5f078c233fc58e2c1b022f47149306503715eae879eabc247dd1",
   "nested_bootstrap": false,
   "passed": true,
   "preexisting_outcome_artifact_count": 0,
-  "protocol_id": "ONEDIAL-V1",
-  "protocol_sha256": "43a05296625f725b091b7e0a8a2003987e23b7879cc0ac019a2f4581f11bf494",
+  "protocol_id": "ONEDIAL-V2",
+  "protocol_sha256": "e7cca5e5c0e8ef7405af03f8ff9bd458c33f0bcf6a9f3278ddad65e7565f414b",
   "question_count": 5
 }

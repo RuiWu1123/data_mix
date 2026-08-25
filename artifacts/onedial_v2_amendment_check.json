@@ -1,0 +1,152 @@
+{
+  "base_ref": "a456c6e",
+  "command": "python scripts/check_onedial_v2_amendment.py --root /work1/ruixiangtang/rw761/awesome-pretraining/data_mix --base-ref a456c6e --output /work1/ruixiangtang/rw761/awesome-pretraining/data_mix/artifacts/onedial_v2_amendment_check.json --diff-output /work1/ruixiangtang/rw761/awesome-pretraining/data_mix/artifacts/onedial_v1_to_v2.diff",
+  "diff_added_line_count": 13,
+  "diff_removed_line_count": 3,
+  "diff_sha256": "025eddf302e709d6059398edb1e27c9038e03b8a2cc186ed524dcaed5f27d3e8",
+  "errors": [],
+  "expected_json_difference_paths": [
+    "/protocol_id",
+    "/questions/Q1/truth/interior_weight_generator"
+  ],
+  "id": "ONEDIAL-V2-AMENDMENT-CHECK",
+  "inputs": [
+    "git:a456c6e:protocol_onedial.json",
+    "git:a456c6e:PROTOCOL_ONEDIAL.md",
+    "/work1/ruixiangtang/rw761/awesome-pretraining/data_mix/protocol_onedial.json",
+    "/work1/ruixiangtang/rw761/awesome-pretraining/data_mix/PROTOCOL_ONEDIAL.md"
+  ],
+  "json_difference_paths": [
+    "/protocol_id",
+    "/questions/Q1/truth/interior_weight_generator"
+  ],
+  "passed": true,
+  "protected_json_section_count": 16,
+  "protected_json_section_hashes": {
+    "questions/Q1_without_interior_generator": {
+      "unchanged": true,
+      "v1": "a5c68a2332d6a42f39919fe87b93daaea395eae96535a1e62c3ae4f95dfe2876",
+      "v2": "a5c68a2332d6a42f39919fe87b93daaea395eae96535a1e62c3ae4f95dfe2876"
+    },
+    "questions/Q2": {
+      "unchanged": true,
+      "v1": "c4c9d4d20ca4037e73664e442dfc9ce41661ab0e716783763398ae415bdc2e85",
+      "v2": "c4c9d4d20ca4037e73664e442dfc9ce41661ab0e716783763398ae415bdc2e85"
+    },
+    "questions/Q3": {
+      "unchanged": true,
+      "v1": "ae6c525f3c66a23b5519fdade864e5a67a41dedf15a96c00cf699800edc1ad5c",
+      "v2": "ae6c525f3c66a23b5519fdade864e5a67a41dedf15a96c00cf699800edc1ad5c"
+    },
+    "questions/Q4": {
+      "unchanged": true,
+      "v1": "b35cc305e9fd1755010c45b324b67fb3f41a020e268c6b50c902a53faa085e85",
+      "v2": "b35cc305e9fd1755010c45b324b67fb3f41a020e268c6b50c902a53faa085e85"
+    },
+    "questions/Q5": {
+      "unchanged": true,
+      "v1": "59406f8476482103d29ffeac8c823f41bdac03b7db567b9cf07ded6de2c11b4b",
+      "v2": "59406f8476482103d29ffeac8c823f41bdac03b7db567b9cf07ded6de2c11b4b"
+    },
+    "top_level/claim": {
+      "unchanged": true,
+      "v1": "69a76d0497d3b3303e4847297ffe473e9f0b347e0bc07f339f73956782359b78",
+      "v2": "69a76d0497d3b3303e4847297ffe473e9f0b347e0bc07f339f73956782359b78"
+    },
+    "top_level/commands": {
+      "unchanged": true,
+      "v1": "ef01aaed4cace4f08526880014e0e24dc01df526287367f646d7f36b73fdfa14",
+      "v2": "ef01aaed4cace4f08526880014e0e24dc01df526287367f646d7f36b73fdfa14"
+    },
+    "top_level/common_estimator": {
+      "unchanged": true,
+      "v1": "09135299f46f55db53c0601cdb8196d9dcc40912262e4f8dcc8b3b4e7b2d9441",
+      "v2": "09135299f46f55db53c0601cdb8196d9dcc40912262e4f8dcc8b3b4e7b2d9441"
+    },
+    "top_level/compute": {
+      "unchanged": true,
+      "v1": "0b23f48fb18437780031db4324f4a55f0ac2aeeb1718ee8ef6857f53adcbf1f1",
+      "v2": "0b23f48fb18437780031db4324f4a55f0ac2aeeb1718ee8ef6857f53adcbf1f1"
+    },
+    "top_level/execution_order": {
+      "unchanged": true,
+      "v1": "544d5bfa2225342e82aaf42206680ad778c8e0aa25596c5760e18825c3b01c47",
+      "v2": "544d5bfa2225342e82aaf42206680ad778c8e0aa25596c5760e18825c3b01c47"
+    },
+    "top_level/inputs": {
+      "unchanged": true,
+      "v1": "d2a4591dfa99cf18936309c1fe7bb14f8517dc614ea896338482c559c8a5263a",
+      "v2": "d2a4591dfa99cf18936309c1fe7bb14f8517dc614ea896338482c559c8a5263a"
+    },
+    "top_level/mutation_policy": {
+      "unchanged": true,
+      "v1": "4e5aa1e2bf5d4b572b32988f6e56943ad16c85fda9be651ac4bf6584abe9c97c",
+      "v2": "4e5aa1e2bf5d4b572b32988f6e56943ad16c85fda9be651ac4bf6584abe9c97c"
+    },
+    "top_level/overall_verdict": {
+      "unchanged": true,
+      "v1": "be9f02b1a34d35d6ee97c96d1c919a5497105d5aa62b92b4d3f1abb16aef652e",
+      "v2": "be9f02b1a34d35d6ee97c96d1c919a5497105d5aa62b92b4d3f1abb16aef652e"
+    },
+    "top_level/randomness": {
+      "unchanged": true,
+      "v1": "7caa5cb6f811f6289783aeef814020adbe46fa3d0c222e929e3751d150cd6ee8",
+      "v2": "7caa5cb6f811f6289783aeef814020adbe46fa3d0c222e929e3751d150cd6ee8"
+    },
+    "top_level/scope": {
+      "unchanged": true,
+      "v1": "3a0061075ac23ce03468d65a6daab48e71936675465047a67b7233694f9d1c4f",
+      "v2": "3a0061075ac23ce03468d65a6daab48e71936675465047a67b7233694f9d1c4f"
+    },
+    "top_level/stage": {
+      "unchanged": true,
+      "v1": "a2d9c9b91ad15660f27ffb008290520e266f8656fd176edcc2e9e19cfc599a0a",
+      "v2": "a2d9c9b91ad15660f27ffb008290520e266f8656fd176edcc2e9e19cfc599a0a"
+    }
+  },
+  "protected_json_sections_all_unchanged": true,
+  "protected_markdown_section_count": 7,
+  "protected_markdown_section_hashes": {
+    "Claim and estimand": {
+      "unchanged": true,
+      "v1": "79b0e6cf51332d652b9e3aec0468d79a3f5193545943afd12996472cf9305a7f",
+      "v2": "79b0e6cf51332d652b9e3aec0468d79a3f5193545943afd12996472cf9305a7f"
+    },
+    "Frozen common pipeline": {
+      "unchanged": true,
+      "v1": "cb0bc26a7252dcd2b608c2daf51fceb124a29a2c65d5b77b33d0344477add98a",
+      "v2": "cb0bc26a7252dcd2b608c2daf51fceb124a29a2c65d5b77b33d0344477add98a"
+    },
+    "Overall verdict and immutable execution policy": {
+      "unchanged": true,
+      "v1": "89555652862a64445c881c58da0f11a3ffe35512673358554a6f5a85e0a5437b",
+      "v2": "89555652862a64445c881c58da0f11a3ffe35512673358554a6f5a85e0a5437b"
+    },
+    "Q2 - Does Olmix contain a residual h of dimension at most three?": {
+      "unchanged": true,
+      "v1": "b5b1fcc58f03cb218fb04b26c6bcc0762b5cc429dee3553af0522e6c80229746",
+      "v2": "b5b1fcc58f03cb218fb04b26c6bcc0762b5cc429dee3553af0522e6c80229746"
+    },
+    "Q3 - Do task loadings replicate in RegMix and DataDecide?": {
+      "unchanged": true,
+      "v1": "8cc2a5f88447bf09a56f04a84264659ee44fa9c7365d09008d77d7b40b459dc8",
+      "v2": "8cc2a5f88447bf09a56f04a84264659ee44fa9c7365d09008d77d7b40b459dc8"
+    },
+    "Q4 - Do optimum mixtures lie on a one-dimensional dial curve?": {
+      "unchanged": true,
+      "v1": "6c71a4ce2714443bb2c6108a757876587a17b82c3c538a610acb007c78d8ee37",
+      "v2": "6c71a4ce2714443bb2c6108a757876587a17b82c3c538a610acb007c78d8ee37"
+    },
+    "Q5 - Can frozen g,h select near-optimal mixtures from fewer points?": {
+      "unchanged": true,
+      "v1": "ce9d5b43a80c0b65a22a63ab97572d982f5d58626fd46b76a1cb3efaca34056c",
+      "v2": "ce9d5b43a80c0b65a22a63ab97572d982f5d58626fd46b76a1cb3efaca34056c"
+    }
+  },
+  "protected_markdown_sections_all_unchanged": true,
+  "q1_structural_zero_generator_unchanged": true,
+  "v1_markdown_sha256": "10ec812d2feebdb33a336a819c62fcdc550e6bb2ddeb221ebbecc59d98a34659",
+  "v1_protocol_sha256": "43a05296625f725b091b7e0a8a2003987e23b7879cc0ac019a2f4581f11bf494",
+  "v2_markdown_sha256": "c936d9196cfd5f078c233fc58e2c1b022f47149306503715eae879eabc247dd1",
+  "v2_protocol_sha256": "e7cca5e5c0e8ef7405af03f8ff9bd458c33f0bcf6a9f3278ddad65e7565f414b"
+}

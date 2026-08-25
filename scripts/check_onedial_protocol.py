@@ -35,7 +35,7 @@ def main() -> None:
     ledger = args.ledger.read_text(encoding="utf-8")
     errors: list[str] = []
 
-    fail_if(protocol.get("protocol_id") != "ONEDIAL-V1", "wrong protocol id", errors)
+    fail_if(protocol.get("protocol_id") != "ONEDIAL-V2", "wrong protocol id", errors)
     compute = protocol.get("compute", {})
     fail_if(compute.get("level") != "L0", "compute level is not L0", errors)
     fail_if(compute.get("gpu_count") != 0, "GPU count is not zero", errors)
@@ -67,6 +67,14 @@ def main() -> None:
     fail_if("structural_zero_rank1" not in q1.get("truth", {}).get("scenarios", []), "Q1 zero null missing", errors)
     fail_if("structural_zero_rank2" not in q1.get("truth", {}).get("scenarios", []), "Q1 zero signal missing", errors)
     fail_if("Q2 permutation" not in q1.get("detector", ""), "Q1 detector differs from Q2", errors)
+    interior_generator = q1.get("truth", {}).get("interior_weight_generator", {})
+    fail_if(interior_generator.get("distribution") != "symmetric_dirichlet", "Q1 interior distribution mismatch", errors)
+    fail_if(interior_generator.get("alpha") != 1.0, "Q1 interior alpha mismatch", errors)
+    fail_if(interior_generator.get("alpha_vector") != "ones(m)", "Q1 interior alpha vector mismatch", errors)
+    fail_if("finite weight-row count n_m" not in interior_generator.get("row_count", ""), "Q1 interior row matching missing", errors)
+    fail_if("fresh independent n_m-by-m matrix" not in interior_generator.get("draw_scope", ""), "Q1 interior independence missing", errors)
+    fail_if("ONEDIAL-V2:Q1-interior-weights:" not in interior_generator.get("seed_rule", ""), "Q1 interior seed rule mismatch", errors)
+    fail_if("unmodified design" not in q1.get("truth", {}).get("structural_zero_generator", ""), "Q1 structural-zero design changed", errors)
 
     q2_support = questions.get("Q2", {}).get("support", {})
     fail_if(q2_support.get("significant_residual_dimension_min") != 1, "Q2 lower dimension is not one", errors)

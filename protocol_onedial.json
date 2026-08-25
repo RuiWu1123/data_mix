@@ -1,5 +1,5 @@
 {
-  "protocol_id": "ONEDIAL-V1",
+  "protocol_id": "ONEDIAL-V2",
   "stage": "act1_preregistered_not_executed",
   "claim": "After removing one total-quality factor g, pretraining-mixture response has exactly one reproducible tradeoff factor h, and validation objectives select mixtures along the resulting one-dimensional dial.",
   "scope": "LLM pretraining data mixing; public-result L0 analysis only",
@@ -95,6 +95,16 @@
           "structural_zero_rank1",
           "structural_zero_rank2"
         ],
+        "interior_weight_generator": {
+          "distribution": "symmetric_dirichlet",
+          "alpha": 1.0,
+          "alpha_vector": "ones(m)",
+          "domain_count": "m from the corresponding Olmix swarm",
+          "row_count": "finite weight-row count n_m from the corresponding unmodified Olmix ratios table",
+          "draw_scope": "fresh independent n_m-by-m matrix for each phase, m, interior scenario, and zero-based synthetic replicate; never used by structural-zero scenarios",
+          "rng": "numpy.random.Generator(numpy.random.PCG64(seed)).dirichlet(ones(m), size=n_m)",
+          "seed_rule": "little-endian uint64 from the first 8 bytes of SHA256('ONEDIAL-V2:Q1-interior-weights:' + phase_seed_namespace + ':m=' + decimal(m) + ':scenario=' + scenario + ':replicate=' + decimal(zero_based_replicate_index))"
+        },
         "structural_zero_generator": "g and h are linear in the zero-safe Hellinger coordinates of the unmodified design"
       },
       "pipeline_selection": "Evaluate A and B on discovery only; choose A if it passes every discovery condition, otherwise choose B if B passes every condition; do not inspect confirmation until selection is frozen. Confirmation evaluates only the selected pipeline.",
