@@ -1,0 +1,15 @@
+{
+  "checks_passed": 16,
+  "checks_total": 16,
+  "completed_gpu_jobs": 12,
+  "conclusion_words": 116,
+  "failures": [],
+  "id": "TWODIAL-E2E-V1-FINAL-CHECK",
+  "passed": true,
+  "protocol_sha256": "572a69be75b63927dcc62487b7cfaedb3ff3d707e7ab412c79d4d957a18b2f13",
+  "r1_sha256": "bec65c57c0ab7c5af072c98de306f048933a93e9547c988795d993fbaaa3ad8e",
+  "r1_verdict": "rank3+-sufficient",
+  "r2_sha256": "3dab2af839fab41626608422f10138f4893e6605c3e066c8be02e981e7cd82cd",
+  "r2_verdict": "falsified",
+  "result_sha256": "2a1a325a18575b8f434888978f105a62647c4fefef411824e595f43672a216f8"
+}

@@ -1,5 +1,68 @@
 # Results
 
+## TWODIAL-E2E-V1 Verdict - FALSIFIED
+
+R1 returns `rank3+-sufficient`: rank `2` beats rank `1` in all `3` sources but fails both the best-baseline and rank-`3` marginality gates in all `3`. The held-out metric is pooled task-standardized RMSE; the DataDecide multi-seed noise floor is `0.009521085`. Values below are produced by `scripts/build_rank2_r3_summary.py`; inputs `artifacts/rank2_r1_result.json`, `artifacts/rank2_r2_result.json`, `artifacts/rank2_r2_check.json`, and `artifacts/rank2_r2_jobs.csv`; command `sbatch slurm/build_rank2_r3_summary.sbatch`; output `artifacts/rank2_r3_summary.json`.
+
+### Held-out error vs rank
+
+| Source | Rank 1 | Rank 2 | Rank 3 | Rank 4 | Rank 5 | Rank 6 | Full linear | ExtraTrees |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Olmix | 0.859763 | 0.744424 | 0.679759 | 0.643566 | 0.614534 | 0.596423 | 0.584808 | 0.595049 |
+| RegMix | 1.045725 | 0.959292 | 0.910766 | 0.858065 | 0.793127 | 0.710267 | 0.504774 | 0.669302 |
+| DataDecide | 0.374847 | 0.320550 | 0.308837 | 0.301692 | 0.298746 | 0.298157 | 0.297821 | 0.351327 |
+
+The curve plot is `artifacts/rank2_r1_curve.png`; exact unrounded cells and the `5` held-out folds are in `artifacts/rank2_r1_result.json`, produced by `scripts/run_rank2_r1.py` from the public Olmix, RegMix, and DataDecide tables with command `sbatch slurm/run_rank2_r1.sbatch`.
+
+### GPU duel
+
+All `12/12` registered runs completed `954` optimizer steps, `1000341504` tokens, and `13` task evaluations. Aggregate loss is the frozen mean of task-standardized validation CE; mean BPB is descriptive because its `13` task scales differ. The values are produced by `scripts/build_rank2_r3_summary.py` with the inputs, command, and output above; exact per-task/run values are in `artifacts/rank2_r2_jobs.csv`, produced by `scripts/collect_rank2_r2.py` with command `env RANK2_JOB_IDS=385435,385436,385478 sbatch --export=ALL,RANK2_JOB_IDS slurm/collect_rank2_r2.sbatch`.
+
+| Arm | Seed | Aggregate standardized loss | Mean BPB | Status |
+|---|---:|---:|---:|---|
+| ExtraTrees/full nonparametric | 3406 | -0.251318 | 7.556964 | complete |
+| ExtraTrees/full nonparametric | 3407 | -0.243606 | 7.572186 | complete |
+| ExtraTrees/full nonparametric | 3408 | -0.254006 | 7.579789 | complete |
+| Rank-selected | 3406 | -0.071098 | 7.856169 | complete |
+| Rank-selected | 3407 | 0.121044 | 7.956989 | complete |
+| Rank-selected | 3408 | -0.056177 | 7.896565 | complete |
+| h-probe | 3406 | 0.135294 | 8.076130 | complete |
+| h-probe | 3407 | 0.075539 | 8.076453 | complete |
+| h-probe | 3408 | 0.028140 | 8.060925 | complete |
+| Official RegMix | 3406 | 0.206980 | 8.297375 | complete |
+| Official RegMix | 3407 | 0.167362 | 8.298964 | complete |
+| Official RegMix | 3408 | 0.141846 | 8.305978 | complete |
+
+Seed-mean BPB for every registered domain is shown below. Values are rounded to `4` decimals from `artifacts/rank2_r3_summary.json`, produced by `scripts/build_rank2_r3_summary.py` with the inputs and command above.
+
+| Arm | arXiv | FreeLaw | PMC | Wiki | Math | GitHub | StackEx | Gutenberg | Pile-CC | Ubuntu | HN | PubMed Abs | USPTO |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| ExtraTrees | 7.0203 | 7.6459 | 7.7629 | 8.7043 | 3.3898 | 8.4447 | 7.3048 | 7.9985 | 7.9426 | 8.3455 | 7.8726 | 8.6770 | 7.2965 |
+| Rank-selected | 9.2127 | 7.3222 | 7.7050 | 7.8852 | 4.0701 | 9.3327 | 8.4447 | 7.0967 | 8.0600 | 9.5617 | 7.5463 | 8.7377 | 7.7671 |
+| h-probe | 7.2094 | 8.3189 | 9.0078 | 8.6839 | 8.3224 | 7.5445 | 7.9679 | 7.4316 | 7.9228 | 8.2771 | 7.2665 | 8.6660 | 8.3063 |
+| Official RegMix | 8.9992 | 8.1449 | 8.4095 | 8.2557 | 7.4851 | 9.7181 | 8.8977 | 7.8410 | 7.8300 | 8.4208 | 7.4254 | 8.3702 | 8.1125 |
+
+The frozen effects and independent reproduction are:
+
+| Contrast/metric | Point | Paired sigma | Effect (sigma) | 95% interval (sigma) | Registered reading |
+|---|---:|---:|---:|---:|---|
+| Rank-selected minus ExtraTrees loss | 0.247567 | 0.101779 | 2.432389 | [-0.051749, 4.916526] | falsifies at >1.0 |
+| Official minus rank-selected loss | 0.174139 | 0.117712 | 1.479374 | [-1.004763, 3.963512] | support component passes at >=1.0 |
+| h-probe minus selected, code/math | -0.058944 | 0.007947 | -7.417299 | [-9.901437, -4.933161] | magnitude passes at >=1.0 |
+| h-probe minus selected, Pile-CC/Wiki | 0.422025 | 0.165824 | 2.545025 | [0.060887, 5.029163] | magnitude passes at >=1.0 |
+
+The predicted-versus-observed h vector has cosine `0.277150` against the `>=0.70` support gate and sign agreement `8/13` against `>=10/13`. `scripts/check_rank2_r2_result.py` independently reproduces every effect and reports `31/31` checks passing in `artifacts/rank2_r2_check.json`; command `sbatch slurm/check_rank2_r2_result.sbatch`. The effect plot is `artifacts/rank2_r2_effects.png`. Successful and failed terminal-save attempts consumed `13.276667/13.241389`, totaling `26.518056` MI210 node-hours, as produced by `scripts/build_rank2_r3_summary.py` in `artifacts/rank2_r3_summary.json`.
+
+<!-- RANK2_CONCLUSION_START -->
+R1 does not support rank 2 as sufficient: all three public sources prefer rank 3 or higher under the frozen held-out gates. R2 then falsifies the registered end-to-end selection claim at the 27,133,184-parameter, 1,000,341,504-token anchor. The rank-selected mixture is worse than ExtraTrees by 2.432 sigma, although it beats the official RegMix mixture by 1.479 sigma. The h probe produces the predicted opposite code/math versus Pile-CC/Wikipedia family movement at -7.417 and +2.545 sigma, but its full 13-task direction has cosine 0.277 and only 8/13 matching signs. Thus a tradeoff axis is measurable, while the frozen two-dial law does not select a competitive mixture at this anchor. This is one model scale and does not establish scale invariance.
+<!-- RANK2_CONCLUSION_END -->
+
+Parameter/token counts and verdict thresholds in the conclusion are produced by `scripts/check_rank2_rocm_model.py`, `scripts/generate_rank2_r2_configs.py`, and `scripts/check_rank2_r2_result.py`; inputs `rank2_protocol.json`, `artifacts/rank2_r2_config_manifest.json`, and `artifacts/rank2_r2_jobs.csv`; commands `sbatch slurm/check_rank2_rocm_model.sbatch`, `sbatch slurm/generate_rank2_r2_configs.sbatch`, and `sbatch slurm/check_rank2_r2_result.sbatch`; outputs `artifacts/rank2_rocm_model_check.json`, `artifacts/rank2_r2_config_manifest.json`, and `artifacts/rank2_r2_check.json`.
+
+### Minimum upgrade
+
+The minimum scale-stability test is a new preregistration of the same `4` arms at RegMix `tinyllama_60M` with `3` new paired seeds, hence `12` successful jobs, the same `13` tasks, and at least the current `1000341504` tokens per job. A rank-2 scale-rescue claim must require rank-selected minus ExtraTrees at most `0.5` paired sigma, direction cosine at least `0.70`, and sign agreement at least `10/13`; recurrence above `1.0` sigma falsifies scale rescue. These numerical gates are unchanged fields of `rank2_protocol.json`, validated by `scripts/check_rank2_protocol.py` with command `sbatch slurm/check_rank2_protocol.sbatch`; the `tinyllama_60M` branch is the registered R2 power-rule scale in the same input. This is a future protocol, not a rescue analysis of the present data.
+
 ## ONEDIAL-V3 Act II Verdict - PARTIAL
 
 ONEDIAL-V3 completes synthetic discovery and terminates `PARTIAL`. Both registered coordinate pipelines fail Q1 discovery, so Q1 is `inconclusive`, its confirmation split remains unread, and Q2-Q5 follow the frozen `inconclusive_by_Q1` death branch. The execution contains `4000` synthetic discovery records across `20` cells, `0` confirmation records, `0` real outcome tables, and `0` downstream scientific jobs. Every count and branch is produced by `scripts/check_onedial_q1_result.py` and `scripts/resolve_onedial_v3_dependencies.py`; inputs `protocol_onedial.json`, `/work1/ruixiangtang/rw761/data_mix_artifacts/ONEDIAL_V3/Q1/discovery/shards`, `/work1/ruixiangtang/rw761/data_mix_artifacts/ONEDIAL_V3/Q1/discovery/result.json`, and `artifacts/onedial_v3_q1_result_check.json`; commands `sbatch slurm/check_onedial_q1_result.sbatch` and `sbatch slurm/resolve_onedial_v3_dependencies.sbatch`; outputs `artifacts/onedial_v3_q1_result_check.json` and `/work1/ruixiangtang/rw761/data_mix_artifacts/ONEDIAL_V3/dependency_resolution.json`.
