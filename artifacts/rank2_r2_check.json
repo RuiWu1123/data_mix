@@ -1,0 +1,16 @@
+{
+  "checks_passed": 31,
+  "checks_total": 31,
+  "csv_sha256": "2281ee59645eb5e7d8343e19526509228f277e978ee9c5f921b4a38723df913d",
+  "failures": [],
+  "id": "TWODIAL-E2E-V1-R2-CHECK",
+  "independent_code_math_sigma": -7.417299062071512,
+  "independent_direction_cosine": 0.2771500199033366,
+  "independent_official_minus_selected_sigma": 1.4793744955639496,
+  "independent_pilecc_wikipedia_sigma": 2.545025131567313,
+  "independent_selected_minus_full_sigma": 2.43238851322003,
+  "independent_sign_agreement": 8,
+  "independent_verdict": "falsified",
+  "passed": true,
+  "result_sha256": "3dab2af839fab41626608422f10138f4893e6605c3e066c8be02e981e7cd82cd"
+}
