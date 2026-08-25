@@ -47,7 +47,7 @@ def main() -> None:
         "real_outcome_table_count_read": 0,
         "submitted_downstream_test_job_count": 0,
         "overall_verdict": "PARTIAL",
-        "overall_rule": protocol["overall_decision"]["PARTIAL"],
+        "overall_rule": protocol["overall_verdict"]["PARTIAL"],
         "inputs": [str(args.protocol), str(args.q1_audit)],
         "command": (
             "python scripts/resolve_onedial_dependencies.py "
