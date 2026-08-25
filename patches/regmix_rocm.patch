@@ -197,11 +197,12 @@ diff --git a/model_training/pretrain/tinyllama.py b/model_training/pretrain/tiny
              fabric.backward(loss / gradient_accumulation_steps)
  
          if not is_accumulating:
-@@ -405,6 +398,7 @@ def train(fabric, state, train_dataloader, val_dataloaders, monitor, resume, out
+@@ -405,6 +398,8 @@ def train(fabric, state, train_dataloader, val_dataloaders, monitor, resume, out
              for i in range(len(val_dataloaders)):
                  t0 = time.perf_counter()
                  val_loss = validate(fabric, model, val_dataloaders[i], val_names[i])
-+                validation_results[val_names[i]] = val_loss.item()
++                result_name = val_names[i].removeprefix("the_pile_")
++                validation_results[result_name] = val_loss.item()
                  t1 = time.perf_counter() - t0
                  monitor.eval_end(t1)
                  fabric.print(f"step {state['iter_num']}: {val_names[i]} val loss {val_loss:.4f}, val time: {t1 * 1000:.2f}ms")
