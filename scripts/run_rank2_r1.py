@@ -210,10 +210,14 @@ def load_regmix(data: Path) -> list[tuple[str, np.ndarray, np.ndarray, list[str]
 
 
 def parse_datadecide_group(value: str) -> tuple[str, str, str, int]:
-    parts = value.rsplit("-", 3)
-    if len(parts) != 4 or parts[1] not in MODEL_PARAMS or parts[2] != "5xC" or not parts[3].isdigit():
+    seeded = re.fullmatch(r"(.+)-([^-]+)-(5xC)-([0-9]+)", value)
+    unseeded = re.fullmatch(r"(.+)-([^-]+)-(5xC)", value)
+    match = seeded or unseeded
+    if match is None or match.group(2) not in MODEL_PARAMS:
         raise ValueError(f"cannot parse official DataDecide group: {value}")
-    return parts[0], parts[1], parts[2], int(parts[3])
+    raw_seed = int(match.group(4)) if seeded else 6198
+    normalized_seed = 6198 if raw_seed == 2 else raw_seed
+    return match.group(1), match.group(2), match.group(3), normalized_seed
 
 
 def load_datadecide(path: Path) -> tuple[np.ndarray, np.ndarray, list[str], list[str], float, dict[str, object]]:
