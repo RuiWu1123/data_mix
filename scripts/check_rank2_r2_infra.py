@@ -66,11 +66,13 @@ def main() -> None:
     tiny_1m_block = config_text.split('name="tinyllama_1M"', 1)[1].split("),", 1)[0]
     model_text = (args.regmix_worktree / "model_training/lit_gpt/model.py").read_text(encoding="utf-8")
     train_text = (args.regmix_worktree / "model_training/pretrain/tinyllama.py").read_text(encoding="utf-8")
+    model_code = "\n".join(line for line in model_text.splitlines() if not line.lstrip().startswith("#"))
+    train_code = "\n".join(line for line in train_text.splitlines() if not line.lstrip().startswith("#"))
     checks["fused_scope_absent"] = (
         '_norm_class="FusedRMSNorm"' not in tiny_1m_block
-        and "from xformers.ops import SwiGLU" not in model_text
-        and "apply_rotary_emb_func(q" not in model_text
-        and "FusedCrossEntropyLoss()" not in train_text
+        and "from xformers.ops import SwiGLU" not in model_code
+        and "apply_rotary_emb_func(q" not in model_code
+        and "FusedCrossEntropyLoss()" not in train_code
     )
     checks["packed_audit"] = packed["passed"] and packed["required_train_prefixes"] == 17
     checks["validation_prefixes"] = packed["required_valid_prefixes"] == 13

@@ -14,7 +14,7 @@ readonly REGMIX=/work1/ruixiangtang/rw761/rank2_regmix_rocm
 readonly PACKED=/work1/ruixiangtang/rw761/rank2_regmix_packed
 readonly RESULT_ROOT=/work1/ruixiangtang/rw761/data_mix_artifacts/TWODIAL/R2
 
-module load rocm/6.3.1
+module --ignore_cache load rocm/6.3.1
 mapfile -t CONFIGS < <(find "${REPO}/configs/rank2_r2" -maxdepth 1 -type f -name '*.yaml' | sort)
 if [[ "${#CONFIGS[@]}" -ne 12 ]]; then
   echo "expected 12 configs, found ${#CONFIGS[@]}" >&2
