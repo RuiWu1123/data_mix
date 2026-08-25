@@ -70,6 +70,7 @@ def main() -> None:
     train_code = "\n".join(line for line in train_text.splitlines() if not line.lstrip().startswith("#"))
     checks["fused_scope_absent"] = (
         '_norm_class="FusedRMSNorm"' not in tiny_1m_block
+        and "return torch.nn.RMSNorm" in config_text
         and "from xformers.ops import SwiGLU" not in model_code
         and "apply_rotary_emb_func(q" not in model_code
         and "FusedCrossEntropyLoss()" not in train_code

@@ -12,7 +12,18 @@ diff --git a/model_training/lit_gpt/__init__.py b/model_training/lit_gpt/__init_
 diff --git a/model_training/lit_gpt/config.py b/model_training/lit_gpt/config.py
 --- a/model_training/lit_gpt/config.py
 +++ b/model_training/lit_gpt/config.py
-@@ -114,7 +114,7 @@ regmix_llama = [
+@@ -89,9 +89,7 @@ class Config:
+     def norm_class(self) -> Type:
+         # `self._norm_class` cannot be the type to keep the config json serializable
+         if self._norm_class == "RMSNorm":
+-            from lit_gpt.rmsnorm import RMSNorm
+-
+-            return RMSNorm
++            return torch.nn.RMSNorm
+         elif self._norm_class == "FusedRMSNorm":
+             from lit_gpt.rmsnorm import FusedRMSNorm
+             return FusedRMSNorm
+@@ -114,7 +112,7 @@ regmix_llama = [
          rotary_percentage=1.0,
          parallel_residual=False,
          bias=False,
