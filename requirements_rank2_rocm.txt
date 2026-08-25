@@ -1,6 +1,7 @@
 --extra-index-url https://download.pytorch.org/whl/rocm6.3
 torch==2.7.1+rocm6.3
 lightning==2.1.2
+pytorch-lightning==2.1.2
 jsonargparse[signatures]==4.41.0
 huggingface-hub==0.34.4
 tokenizers==0.13.3
