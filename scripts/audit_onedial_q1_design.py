@@ -52,7 +52,7 @@ def main() -> None:
     args = parser.parse_args()
 
     protocol = json.loads(args.protocol.read_text(encoding="utf-8"))
-    dgp = protocol["questions"]["Q1"]["dgp"]
+    dgp = protocol["questions"]["Q1"]["truth"]
     tables = {
         str(domains): audit_table(args.data / f"m{domains}_ratios.csv", domains)
         for domains in DOMAIN_COUNTS
