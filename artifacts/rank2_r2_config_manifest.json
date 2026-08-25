@@ -1,0 +1,131 @@
+{
+  "arm_count": 4,
+  "arms_sha256": "609fa2beee147a9be350eed6b391d24166c69bf2886c840dc319968062bd5f88",
+  "command": "scripts/generate_rank2_r2_configs.py --protocol rank2_protocol.json --arms artifacts/rank2_r2_arms.json --output-dir configs/rank2_r2 --manifest artifacts/rank2_r2_config_manifest.json",
+  "config_count": 12,
+  "id": "TWODIAL-E2E-V1-R2-CONFIGS",
+  "protocol_sha256": "572a69be75b63927dcc62487b7cfaedb3ff3d707e7ab412c79d4d957a18b2f13",
+  "records": [
+    {
+      "arm": "full_nonparametric",
+      "effective_weight_sum_after_official_sampler_normalization": 1.0,
+      "path": "configs/rank2_r2/full_nonparametric_seed3406.yaml",
+      "raw_weight_sum": 1.0010000000000001,
+      "seed": 3406,
+      "sha256": "5621d5314febf6b5b50fed6506d630a6e023d1a7b43e1b25ac0dcd10fd40a1b2",
+      "training_tokens": 1000341504,
+      "validation_domains": 13
+    },
+    {
+      "arm": "full_nonparametric",
+      "effective_weight_sum_after_official_sampler_normalization": 1.0,
+      "path": "configs/rank2_r2/full_nonparametric_seed3407.yaml",
+      "raw_weight_sum": 1.0010000000000001,
+      "seed": 3407,
+      "sha256": "8e7e32ba1a1a5b8c1824aad08e20bec45acd0c6030795399d84dc11a81c3ce92",
+      "training_tokens": 1000341504,
+      "validation_domains": 13
+    },
+    {
+      "arm": "full_nonparametric",
+      "effective_weight_sum_after_official_sampler_normalization": 1.0,
+      "path": "configs/rank2_r2/full_nonparametric_seed3408.yaml",
+      "raw_weight_sum": 1.0010000000000001,
+      "seed": 3408,
+      "sha256": "6fed045c18fefa24a00feca58e523f3f0dd056f3f05cf161b424d6186462ec0f",
+      "training_tokens": 1000341504,
+      "validation_domains": 13
+    },
+    {
+      "arm": "h_probe",
+      "effective_weight_sum_after_official_sampler_normalization": 1.0,
+      "path": "configs/rank2_r2/h_probe_seed3406.yaml",
+      "raw_weight_sum": 1.0010000000000001,
+      "seed": 3406,
+      "sha256": "f41e17ea56202fd6a838033ba7531467a5b02a151fcdb870d1490d994297922e",
+      "training_tokens": 1000341504,
+      "validation_domains": 13
+    },
+    {
+      "arm": "h_probe",
+      "effective_weight_sum_after_official_sampler_normalization": 1.0,
+      "path": "configs/rank2_r2/h_probe_seed3407.yaml",
+      "raw_weight_sum": 1.0010000000000001,
+      "seed": 3407,
+      "sha256": "63326650fffe09a5cd4680469e044ab13d6b6fdcf7b7130dc4a30d20fe56b695",
+      "training_tokens": 1000341504,
+      "validation_domains": 13
+    },
+    {
+      "arm": "h_probe",
+      "effective_weight_sum_after_official_sampler_normalization": 1.0,
+      "path": "configs/rank2_r2/h_probe_seed3408.yaml",
+      "raw_weight_sum": 1.0010000000000001,
+      "seed": 3408,
+      "sha256": "063ab8dc956ab90d27749cbec8611dacfdfb3289193570847bb942a6537470fa",
+      "training_tokens": 1000341504,
+      "validation_domains": 13
+    },
+    {
+      "arm": "official_regmix",
+      "effective_weight_sum_after_official_sampler_normalization": 1.0,
+      "path": "configs/rank2_r2/official_regmix_seed3406.yaml",
+      "raw_weight_sum": 1.0,
+      "seed": 3406,
+      "sha256": "5af3710f0a3a97bd071771fe0dac5be5dc2a9e0460ec154affacc1dbcf50d36d",
+      "training_tokens": 1000341504,
+      "validation_domains": 13
+    },
+    {
+      "arm": "official_regmix",
+      "effective_weight_sum_after_official_sampler_normalization": 1.0,
+      "path": "configs/rank2_r2/official_regmix_seed3407.yaml",
+      "raw_weight_sum": 1.0,
+      "seed": 3407,
+      "sha256": "f2775a63adc87ee63f58e0446ec4ca9dd57ac01126facb07059891e8d171d2a3",
+      "training_tokens": 1000341504,
+      "validation_domains": 13
+    },
+    {
+      "arm": "official_regmix",
+      "effective_weight_sum_after_official_sampler_normalization": 1.0,
+      "path": "configs/rank2_r2/official_regmix_seed3408.yaml",
+      "raw_weight_sum": 1.0,
+      "seed": 3408,
+      "sha256": "17f9d24692f7576c6977f2eae8f511a63d82184b650638c3bd657ab98fe5293b",
+      "training_tokens": 1000341504,
+      "validation_domains": 13
+    },
+    {
+      "arm": "rank_selected",
+      "effective_weight_sum_after_official_sampler_normalization": 1.0,
+      "path": "configs/rank2_r2/rank_selected_seed3406.yaml",
+      "raw_weight_sum": 0.999,
+      "seed": 3406,
+      "sha256": "d333051cad3933cd382da049a5b8bcec814b7481a754210aefbd6a3fcc8a4b4b",
+      "training_tokens": 1000341504,
+      "validation_domains": 13
+    },
+    {
+      "arm": "rank_selected",
+      "effective_weight_sum_after_official_sampler_normalization": 1.0,
+      "path": "configs/rank2_r2/rank_selected_seed3407.yaml",
+      "raw_weight_sum": 0.999,
+      "seed": 3407,
+      "sha256": "a5ef9a6f4ef5f89564073fe2aab37a1869993368acdfd8957d1ed8cc0afbdae8",
+      "training_tokens": 1000341504,
+      "validation_domains": 13
+    },
+    {
+      "arm": "rank_selected",
+      "effective_weight_sum_after_official_sampler_normalization": 1.0,
+      "path": "configs/rank2_r2/rank_selected_seed3408.yaml",
+      "raw_weight_sum": 0.999,
+      "seed": 3408,
+      "sha256": "3adc4b35ebc7acc5e31e16adff4b2dd32f4688731d9c88b2254a4000d52b72f3",
+      "training_tokens": 1000341504,
+      "validation_domains": 13
+    }
+  ],
+  "seeds_per_arm": 3
+}

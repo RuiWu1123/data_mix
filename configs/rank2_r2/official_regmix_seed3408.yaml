@@ -1,0 +1,53 @@
+train:
+  train_the_pile_arxiv: 0.0012046169821426883
+  train_the_pile_freelaw: 0.001454510048554701
+  train_the_pile_nih_exporter: 0.001231640306882902
+  train_the_pile_pubmed_central: 0.003108561825532002
+  train_the_pile_wikipedia_en: 0.01593264140324679
+  train_the_pile_dm_mathematics: 0.00031106907908634156
+  train_the_pile_github: 0.00022861228152440253
+  train_the_pile_philpapers: 1.329107360676338e-05
+  train_the_pile_stackexchange: 0.00029547405933203174
+  train_the_pile_enron_emails: 0.0016691646199353991
+  train_the_pile_gutenberg_pg_19: 0.001612531300038395
+  train_the_pile_pile_cc: 0.8701291419934237
+  train_the_pile_ubuntu_irc: 0.06417728505869834
+  train_the_pile_europarl: 2.9166170357771267e-06
+  train_the_pile_hackernews: 0.011925517591888925
+  train_the_pile_pubmed_abstracts: 0.02424425081714838
+  train_the_pile_uspto_backgrounds: 0.0024587749419225434
+valid:
+  valid_the_pile_arxiv: 1.0
+  valid_the_pile_freelaw: 1.0
+  valid_the_pile_pubmed_central: 1.0
+  valid_the_pile_wikipedia_en: 1.0
+  valid_the_pile_dm_mathematics: 1.0
+  valid_the_pile_github: 1.0
+  valid_the_pile_stackexchange: 1.0
+  valid_the_pile_gutenberg_pg_19: 1.0
+  valid_the_pile_pile_cc: 1.0
+  valid_the_pile_ubuntu_irc: 1.0
+  valid_the_pile_hackernews: 1.0
+  valid_the_pile_pubmed_abstracts: 1.0
+  valid_the_pile_uspto_backgrounds: 1.0
+data_seed: 3408
+model_name: tinyllama_1M
+total_devices: 1
+num_of_devices: 1
+num_of_nodes: 1
+global_batch_size: 512
+micro_batch_size: 16
+max_step: 954
+warmup_steps: 100
+log_step_interval: 10
+eval_iters: 50
+save_step_interval: 954
+eval_step_interval: 954
+only_save_model: true
+learning_rate: 0.0004
+min_lr: 1.0e-05
+decay_lr: true
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.95
+grad_clip: 1.0
