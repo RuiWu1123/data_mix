@@ -1,0 +1,24 @@
+{
+  "device": "AMD Instinct MI210",
+  "finite_logits": 3227648,
+  "id": "TWODIAL-E2E-V1-ROCM-FORWARD-CHECK",
+  "input_shape": [
+    2,
+    32
+  ],
+  "logit_dtype": "torch.bfloat16",
+  "logit_shape": [
+    2,
+    32,
+    50432
+  ],
+  "model": "tinyllama_1M",
+  "optimizer_updates": 0,
+  "parameters": 27133184,
+  "passed": true,
+  "patch_sha256": "65ed03a23e064e4b067f8ae97e1920ee5d32a6fed29e694dc67ea44b4c8f1943",
+  "torch": "2.7.1+rocm6.3",
+  "torch_hip": "6.3.42131-fa1d09cbd",
+  "total_logits": 3227648,
+  "training_tokens": 0
+}

@@ -1,0 +1,46 @@
+{
+  "commands": [
+    "sinfo -h -p <partition> -o %D|%T",
+    "squeue -h -p <partition> -o %t"
+  ],
+  "id": "TWODIAL-E2E-V1-R2-PARTITION-PROBE",
+  "partitions": {
+    "mi2101x": {
+      "compatibility": "native MI210 target for torch 2.7.1+rocm6.3",
+      "estimated_completion_hours": 4.0,
+      "estimated_wait_hours": 0.0,
+      "idle_nodes": 13,
+      "node_count": 24,
+      "node_states": {
+        "allocated": 9,
+        "completing": 2,
+        "idle": 13
+      },
+      "pending_jobs": 11,
+      "queue_states": {
+        "CG": 2,
+        "PD": 11,
+        "R": 9
+      }
+    },
+    "mi2104x": {
+      "compatibility": "native MI210 target for torch 2.7.1+rocm6.3",
+      "estimated_completion_hours": 10.476190476190476,
+      "estimated_wait_hours": 6.476190476190476,
+      "idle_nodes": 0,
+      "node_count": 21,
+      "node_states": {
+        "allocated": 21
+      },
+      "pending_jobs": 34,
+      "queue_states": {
+        "PD": 34,
+        "R": 21
+      }
+    }
+  },
+  "registered_runtime_hours": 4.0,
+  "selected_partition": "mi2101x",
+  "selection_rule": "minimum estimated wait plus registered runtime; break ties by more idle nodes then name",
+  "timestamp_utc": "2026-08-25T13:54:35.848925+00:00"
+}
