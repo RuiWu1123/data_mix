@@ -1,0 +1,225 @@
+diff --git a/model_training/lit_gpt/__init__.py b/model_training/lit_gpt/__init__.py
+--- a/model_training/lit_gpt/__init__.py
++++ b/model_training/lit_gpt/__init__.py
+@@ -1,7 +1,6 @@
+ from lit_gpt.model import GPT
+ from lit_gpt.config import Config
+ from lit_gpt.tokenizer import Tokenizer
+-from lit_gpt.fused_cross_entropy import FusedCrossEntropyLoss
+ from lightning_utilities.core.imports import RequirementCache
+ 
+ if not bool(RequirementCache("torch>=2.1.0dev")):
+diff --git a/model_training/lit_gpt/config.py b/model_training/lit_gpt/config.py
+--- a/model_training/lit_gpt/config.py
++++ b/model_training/lit_gpt/config.py
+@@ -114,7 +114,7 @@ regmix_llama = [
+         rotary_percentage=1.0,
+         parallel_residual=False,
+         bias=False,
+-        _norm_class="FusedRMSNorm",
++        _norm_class="RMSNorm",
+         norm_eps=1e-5,
+         _mlp_class="LLaMAMLP",
+         intermediate_size=512
+diff --git a/model_training/lit_gpt/model.py b/model_training/lit_gpt/model.py
+--- a/model_training/lit_gpt/model.py
++++ b/model_training/lit_gpt/model.py
+@@ -11,7 +11,6 @@ import torch.nn as nn
+ from lightning_utilities.core.imports import RequirementCache
+ from typing_extensions import Self
+ from lit_gpt.config import Config
+-from xformers.ops import SwiGLU
+ 
+ RoPECache = Tuple[torch.Tensor, torch.Tensor]
+ KVCache = Tuple[torch.Tensor, torch.Tensor]
+@@ -51,7 +50,7 @@ class GPT(nn.Module):
+                 torch.nn.init.zeros_(module.bias)
+         # GPT-NeoX       
+         for name, p in module.named_parameters():
+-            if (name == "proj.weight" and isinstance(module, LLaMAMLP)) or (name == "w3.weight" and isinstance(module, SwiGLU)):  #if use xformer swiglu, fc2 layer will be renamed to w3
++            if name == "proj.weight" and isinstance(module, LLaMAMLP):
+                 nn.init.normal_(p, mean=0.0, std=1 / math.sqrt(p.shape[-1])  /  n_layer)
+         
+ 
+@@ -212,8 +211,6 @@ class CausalSelfAttention(nn.Module):
+         input_pos: Optional[torch.Tensor] = None,
+         kv_cache: Optional[KVCache] = None,
+     ) -> Tuple[torch.Tensor, Optional[KVCache]]:
+-        from .fused_rotary_embedding import apply_rotary_emb_func
+-
+         B, T, C = x.size()  # batch size, sequence length, embedding dimensionality (n_embd)
+ 
+         qkv = self.attn(x)
+@@ -240,18 +237,11 @@ class CausalSelfAttention(nn.Module):
+ 
+         cos, sin = rope
+ 
+-        # apply rope in fp32 significanly stabalize training
+-        # fused rope expect (batch_size, seqlen, nheads, headdim)
+-        q = apply_rotary_emb_func(q, cos, sin, False, True)
+-        k = apply_rotary_emb_func(k, cos, sin, False, True)
+-        
+-        # n_elem = int(self.config.rotary_percentage * self.config.head_size)
+-    
+-        # q_roped = apply_rope(q[..., :n_elem], cos.repeat(1,2), sin.repeat(1,2))
+-        # k_roped = apply_rope(k[..., :n_elem], cos.repeat(1,2), sin.repeat(1,2))
+-        # print( (q_roped - q).sum())
+-        # q = torch.cat((q_roped, q[..., n_elem:]), dim=-1)
+-        # k = torch.cat((k_roped, k[..., n_elem:]), dim=-1)
++        n_elem = int(self.config.rotary_percentage * self.config.head_size)
++        repeated_cos = cos.repeat(1, 2)[None, :, None, :]
++        repeated_sin = sin.repeat(1, 2)[None, :, None, :]
++        q = torch.cat((apply_rope(q[..., :n_elem], repeated_cos, repeated_sin), q[..., n_elem:]), dim=-1)
++        k = torch.cat((apply_rope(k[..., :n_elem], repeated_cos, repeated_sin), k[..., n_elem:]), dim=-1)
+ 
+         if kv_cache is not None:
+             cache_k, cache_v = kv_cache
+@@ -317,16 +307,12 @@ class GptNeoxMLP(nn.Module):
+ class LLaMAMLP(nn.Module):
+     def __init__(self, config: Config) -> None:
+         super().__init__()
+-        # self.fc_1 = nn.Linear(config.n_embd, config.intermediate_size, bias=config.bias)
+-        # self.fc_2 = nn.Linear(config.n_embd, config.intermediate_size, bias=config.bias)
+-        # self.proj = nn.Linear(config.intermediate_size, config.n_embd, bias=config.bias)
+-        self.swiglu = SwiGLU(config.n_embd,config.intermediate_size, bias=False, _pack_weights=False)
++        self.fc_1 = nn.Linear(config.n_embd, config.intermediate_size, bias=config.bias)
++        self.fc_2 = nn.Linear(config.n_embd, config.intermediate_size, bias=config.bias)
++        self.proj = nn.Linear(config.intermediate_size, config.n_embd, bias=config.bias)
++
+     def forward(self, x: torch.Tensor) -> torch.Tensor:
+-        # x_fc_1 = self.fc_1(x)
+-        # x_fc_2 = self.fc_2(x)
+-        # x = torch.nn.functional.silu(x_fc_1) * x_fc_2
+-        # return self.proj(x)
+-        return self.swiglu(x)
++        return self.proj(torch.nn.functional.silu(self.fc_1(x)) * self.fc_2(x))
+ 
+ 
+ def build_rope_cache(
+diff --git a/model_training/pretrain/tinyllama.py b/model_training/pretrain/tinyllama.py
+--- a/model_training/pretrain/tinyllama.py
++++ b/model_training/pretrain/tinyllama.py
+@@ -1,4 +1,5 @@
+ import glob
++import json
+ import math
+ import sys
+ import time
+@@ -20,8 +21,6 @@ from lit_gpt.packed_dataset import CombinedDataset, PackedDataset
+ from lit_gpt.speed_monitor import SpeedMonitorFabric as Monitor
+ from lit_gpt.speed_monitor import estimate_flops, measure_flops
+ from lit_gpt.utils import chunked_cross_entropy, get_default_supported_precision, num_parameters, step_csv_logger, lazy_load
+-from pytorch_lightning.loggers import WandbLogger
+-from lit_gpt import FusedCrossEntropyLoss
+ import random
+ import yaml
+ import os
+@@ -80,9 +79,6 @@ hparams = {k: v for k, v in locals().items() if isinstance(v, (int, float, str))
+ # get a random name
+ random_name = ''.join(random.choices('abcdefghijklmnopqrstuvwxyz', k=10))
+ logger = step_csv_logger("out", random_name, flush_logs_every_n_steps=log_iter_interval)
+-# log hyper-parameters into wandb
+-wandb_logger = WandbLogger()
+-
+ def setup(
+     data_seed: int = 3406,
+     devices: int = num_of_devices,
+@@ -94,7 +90,8 @@ def setup(
+     resume: Union[bool, Path] = False,
+     out_name: str = "default_model",
+     load_from: Optional[Path] = None,
+-    gpu_memory: Optional[int] = None
++    gpu_memory: Optional[int] = None,
++    result_json: Optional[Path] = None,
+ ) -> None:
+     # may modify the global train_data_config
+     global train_data_config
+@@ -170,7 +167,7 @@ def setup(
+     fabric = L.Fabric(devices=devices, 
+                       strategy=strategy, 
+                       precision=precision, 
+-                      loggers=[logger, wandb_logger],
++                      loggers=[logger],
+                       num_nodes=num_of_nodes)
+ 
+     fabric.print("precision: {}".format(precision))
+@@ -178,14 +175,11 @@ def setup(
+ 
+     hparams = {k: v for k, v in globals().items() if isinstance(v, (int, float, str)) and not k.startswith("_")}
+     fabric.print(hparams)
+-    wandb_logger.log_hyperparams(hparams)
+-    # log the train & val data config
+-    wandb_logger.log_hyperparams({"train_data_config": train_data_config, "val_data_config": val_data_config})
+     #fabric.launch(main, train_data_dir, val_data_dir, resume)
+-    main(fabric, data_seed, train_data_dir, val_data_dir, resume, out_name, load_from)
++    main(fabric, data_seed, train_data_dir, val_data_dir, resume, out_name, load_from, result_json)
+ 
+ 
+-def main(fabric, data_seed, train_data_dir, val_data_dir, resume, out_name, load_from):
++def main(fabric, data_seed, train_data_dir, val_data_dir, resume, out_name, load_from, result_json):
+     monitor = Monitor(fabric, window_size=2, time_unit="seconds", log_iter_interval=log_iter_interval)
+     out_dir = Path("checkpoints") / out_name
+ 
+@@ -262,7 +256,7 @@ def main(fabric, data_seed, train_data_dir, val_data_dir, resume, out_name, load
+         fabric.load(resume, state)
+ 
+     train_time = time.perf_counter()
+-    train(fabric, state, train_dataloader, val_dataloaders, monitor, resume, out_dir)
++    train(fabric, state, train_dataloader, val_dataloaders, monitor, resume, out_dir, result_json)
+     fabric.print(f"Training time: {(time.perf_counter()-train_time):.2f}s")
+     if fabric.device.type == "cuda":
+         fabric.print(f"Memory used: {torch.cuda.max_memory_allocated() / 1e9:.02f} GB")
+@@ -282,7 +276,7 @@ def delete_all_except_last(folder_path, file_extension=".pth"):
+         print("Not enough files to delete.")
+ 
+ 
+-def train(fabric, state, train_dataloader, val_dataloaders, monitor, resume, out_dir):
++def train(fabric, state, train_dataloader, val_dataloaders, monitor, resume, out_dir, result_json):
+     model = state["model"]
+     optimizer = state["optimizer"]
+ 
+@@ -317,7 +311,7 @@ def train(fabric, state, train_dataloader, val_dataloaders, monitor, resume, out
+     initial_iter = state["iter_num"]
+     curr_iter = 0
+             
+-    loss_func = FusedCrossEntropyLoss()
++    validation_results = {}
+     for  train_data in train_dataloader:
+         # resume loader state. This is not elegant but it works. Should rewrite it in the future.
+         if resume:
+@@ -358,8 +352,7 @@ def train(fabric, state, train_dataloader, val_dataloaders, monitor, resume, out
+         is_accumulating = (state["iter_num"] + 1) % gradient_accumulation_steps != 0
+         with fabric.no_backward_sync(model, enabled=is_accumulating):
+             logits = model(input_ids)
+-            loss = loss_func(logits, targets)
+-            # loss = chunked_cross_entropy(logits, targets, chunk_size=0)
++            loss = chunked_cross_entropy(logits, targets, chunk_size=0)
+             fabric.backward(loss / gradient_accumulation_steps)
+ 
+         if not is_accumulating:
+@@ -405,6 +398,7 @@ def train(fabric, state, train_dataloader, val_dataloaders, monitor, resume, out
+             for i in range(len(val_dataloaders)):
+                 t0 = time.perf_counter()
+                 val_loss = validate(fabric, model, val_dataloaders[i], val_names[i])
++                validation_results[val_names[i]] = val_loss.item()
+                 t1 = time.perf_counter() - t0
+                 monitor.eval_end(t1)
+                 fabric.print(f"step {state['iter_num']}: {val_names[i]} val loss {val_loss:.4f}, val time: {t1 * 1000:.2f}ms")
+@@ -425,6 +419,17 @@ def train(fabric, state, train_dataloader, val_dataloaders, monitor, resume, out
+                 saved_state = state
+             fabric.save(checkpoint_path, saved_state)
+ 
++    if result_json is not None and fabric.global_rank == 0:
++        result_json = Path(result_json)
++        result_json.parent.mkdir(parents=True, exist_ok=True)
++        payload = {
++            "iter_num": state["iter_num"],
++            "optimizer_steps": state["step_count"],
++            "training_tokens": model.config.block_size * state["iter_num"] * micro_batch_size * fabric.world_size,
++            "validation_cross_entropy": validation_results,
++        }
++        result_json.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
++
+         
+ @torch.no_grad()
+ def validate(fabric: L.Fabric, model: torch.nn.Module, val_dataloader: DataLoader, name: str = None) -> torch.Tensor:
