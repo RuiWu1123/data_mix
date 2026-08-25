@@ -108,6 +108,13 @@ def main() -> None:
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
     task_names = arms["tasks"]
     records = sorted(manifest["records"], key=lambda item: item["path"])
+    job_ids = [value for value in args.job_ids.split(",") if value]
+    jobs = slurm_records(job_ids, records)
+    successful_jobs = {
+        (str(record["arm"]), int(record["seed"]))
+        for record in jobs
+        if record["state"] == "COMPLETED"
+    }
     rows = []
     result_hashes = {}
     for record in records:
@@ -126,6 +133,7 @@ def main() -> None:
             and payload.get("training_tokens") == 1000341504
             and set(losses) == set(task_names)
             and all(math.isfinite(float(losses[task])) for task in task_names)
+            and (arm, seed) in successful_jobs
         )
         row["status"] = "complete" if complete else "missing"
         row["optimizer_steps"] = payload.get("optimizer_steps")
@@ -231,8 +239,6 @@ def main() -> None:
             and direction_unresolved
         )
 
-    job_ids = [value for value in args.job_ids.split(",") if value]
-    jobs = slurm_records(job_ids, records)
     frame.to_csv(args.csv, index=False)
     if completed_count:
         fig, axes = plt.subplots(1, 2, figsize=(12, 4.8))

@@ -6,8 +6,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import tempfile
 from pathlib import Path
 
+import lightning as L
 import torch
 
 from lit_gpt.config import Config
@@ -34,6 +36,14 @@ def main() -> None:
     inputs = torch.randint(0, config.vocab_size, (2, 32), device=device)
     with torch.no_grad():
         logits = model(inputs)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=args.output.parent) as directory:
+        checkpoint = Path(directory) / "checkpoint.pth"
+        fabric = L.Fabric(devices=1, precision="bf16-mixed")
+        fabric.save(checkpoint, {"model": model})
+        saved = torch.load(checkpoint, map_location="cpu", weights_only=True)
+        checkpoint_bytes = checkpoint.stat().st_size
+        checkpoint_roundtrip = "model" in saved and len(saved["model"]) == len(model.state_dict())
     payload = {
         "id": "TWODIAL-E2E-V1-ROCM-FORWARD-CHECK",
         "passed": bool(torch.isfinite(logits).all()),
@@ -47,14 +57,15 @@ def main() -> None:
         "logit_dtype": str(logits.dtype),
         "finite_logits": int(torch.isfinite(logits).sum()),
         "total_logits": logits.numel(),
+        "checkpoint_roundtrip": checkpoint_roundtrip,
+        "checkpoint_bytes": checkpoint_bytes,
         "patch_sha256": sha256(args.patch),
         "optimizer_updates": 0,
         "training_tokens": 0,
     }
-    args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(payload, indent=2, sort_keys=True))
-    if not payload["passed"]:
+    if not payload["passed"] or not payload["checkpoint_roundtrip"]:
         raise SystemExit(1)
 
 

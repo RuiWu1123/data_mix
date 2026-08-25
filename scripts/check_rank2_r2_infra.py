@@ -75,6 +75,7 @@ def main() -> None:
         and "apply_rotary_emb_func(q" not in model_code
         and "FusedCrossEntropyLoss()" not in train_code
     )
+    checks["checkpoint_mapping"] = 'saved_state = {"model": state["model"]}' in train_code
     checks["packed_audit"] = packed["passed"] and packed["required_train_prefixes"] == 17
     checks["validation_prefixes"] = packed["required_valid_prefixes"] == 13
     checks["config_count"] = manifest["config_count"] == 12 and len(manifest["records"]) == 12

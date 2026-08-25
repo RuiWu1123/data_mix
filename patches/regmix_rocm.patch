@@ -217,6 +217,11 @@ diff --git a/model_training/pretrain/tinyllama.py b/model_training/pretrain/tiny
                  t1 = time.perf_counter() - t0
                  monitor.eval_end(t1)
                  fabric.print(f"step {state['iter_num']}: {val_names[i]} val loss {val_loss:.4f}, val time: {t1 * 1000:.2f}ms")
+@@ -422,3 +416,3 @@ def train(fabric, state, train_dataloader, val_dataloaders, monitor, resume, out
+             if only_save_model:
+-                saved_state = state["model"]
++                saved_state = {"model": state["model"]}
+             else:
 @@ -425,6 +419,17 @@ def train(fabric, state, train_dataloader, val_dataloaders, monitor, resume, out
                  saved_state = state
              fabric.save(checkpoint_path, saved_state)
